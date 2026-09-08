@@ -227,11 +227,11 @@
 
         <div class="component-results">
           <h4>Music understanding on MARBLE</h4>
-          <p>Across its two evaluated encoders, MERT2 has the highest observed score on <strong>14 of 15 metrics</strong> in this comparison, spanning tagging, key, genre, rhythm, and emotion.</p>
+          <p>MERT2-30s and MERT2-FS (full-song) together have the highest observed score on <strong>14 of 15 metrics</strong> in this comparison, spanning tagging, key, genre, rhythm, and emotion.</p>
           <dl class="component-highlights" aria-label="MERT2 benchmark highlights">
-            <div><dt>Highest observed metrics<small>MERT2-30s &amp; MERT2-300s</small></dt><dd>14<span> / 15</span></dd></div>
+            <div><dt>Highest observed metrics<small>MERT2-30s &amp; MERT2-FS</small></dt><dd>14<span> / 15</span></dd></div>
             <div><dt>Genre accuracy · GTZAN<small>MERT2-30s · score × 100</small></dt><dd>91.72</dd></div>
-            <div><dt>Key refined accuracy · GiantSteps<small>MERT2-300s · score × 100</small></dt><dd>67.05</dd></div>
+            <div><dt>Key refined accuracy · GiantSteps<small>MERT2-FS · score × 100</small></dt><dd>67.05</dd></div>
           </dl>
         </div>
 
@@ -239,7 +239,7 @@
           <summary>Explore MERT2 benchmark scores <span>MARBLE · 15 metrics · 2 encoders</span></summary>
           <div class="benchmark-detail-content">
             <div class="comparison-scroll" tabindex="0" role="region" aria-label="MERT2 MARBLE comparison; scroll horizontally on small screens">
-              <table><caption>Scores × 100 · higher is better · bold marks the highest displayed score.</caption><thead><tr><th scope="col">Benchmark / metric</th><th scope="col">Best published baseline</th><th scope="col" class="model-value">MERT2-30s</th><th scope="col" class="model-value">MERT2-300s</th></tr></thead><tbody>
+              <table><caption>Scores × 100 · higher is better · bold marks the highest displayed score.</caption><thead><tr><th scope="col">Benchmark / metric</th><th scope="col">Best published baseline</th><th scope="col" class="model-value">MERT2-30s</th><th scope="col" class="model-value">MERT2-FS</th></tr></thead><tbody>
                 <tr><th scope="row">MTT · Tagging<small>ROC-AUC</small></th><td class="score-value">91.70<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>91.91</strong></td><td class="score-value model-value">91.74</td></tr>
                 <tr><th scope="row">MTT · Tagging<small>Average precision</small></th><td class="score-value">40.80<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>41.29</strong></td><td class="score-value model-value">41.20</td></tr>
                 <tr><th scope="row">GiantSteps · Key<small>Refined accuracy</small></th><td class="score-value">66.10<small>PupuJEPA-Large</small></td><td class="score-value model-value">66.97</td><td class="score-value model-value"><strong>67.05</strong></td></tr>
@@ -257,8 +257,8 @@
                 <tr><th scope="row">MTG-Jamendo · Top 50<small>Average precision</small></th><td class="score-value">31.10<small>AudioMAE++</small></td><td class="score-value model-value"><strong>32.17</strong></td><td class="score-value model-value">31.62</td></tr>
               </tbody></table>
             </div>
-            <p class="component-protocol">Both encoders have 632M parameters; 30s and 300s denote their training context. These are full-context representation benchmarks. MERT2 reports the best observed results across representations selected using test scores; each ROC-AUC / AP pair uses the same representation.</p>
-            <div class="benchmark-bottom"><p><a href="https://arxiv.org/html/2606.25713v2" target="_blank" rel="noopener">Published baseline comparison ↗</a></p><a href="data/mert2-marble-results.csv" download>Download all 11 models <span aria-hidden="true">↓</span></a></div>
+            <p class="component-protocol">Both encoders have 632M parameters. MERT2-30s uses a 30-second training context; MERT2-FS uses 300 seconds. These are full-context representation benchmarks. MERT2 reports the best observed results across representations selected using test scores; each ROC-AUC / AP pair uses the same representation.</p>
+            <div class="benchmark-bottom"><p><a href="https://arxiv.org/html/2606.25713v2" target="_blank" rel="noopener">Published baseline comparison ↗</a></p><a href="data/mert2-marble-results.csv?v=20260909-fs21" download>Download all 11 models <span aria-hidden="true">↓</span></a></div>
           </div>
         </details>
       </section>
