@@ -56,6 +56,24 @@ h1 { margin: 0; font-family: var(--editorial); font-size: clamp(2.15rem, 4.8vw, 
 .hero-subtitle { max-width: 720px; color: #695749; font-size: 1.0625rem; line-height: 1.85; margin: 18px 0 0; }
 .hero-subtitle a { color: var(--accent); text-decoration: underline; text-decoration-color: #d7b29c; text-underline-offset: 4px; }
 .hero-subtitle a:hover { text-decoration-color: currentColor; }
+.institution-strip { margin: 26px 0 4px; }
+.institution-primary { display: flex; align-items: center; justify-content: center; gap: 64px; }
+.institution-logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 0; }
+.institution-logo img { display: block; width: 100%; max-width: 100%; height: auto; object-fit: contain; }
+a.institution-logo { border-radius: 3px; min-height: 44px; }
+.institution-hkust { width: 208px; }
+.institution-map { gap: 13px; color: #17202b; }
+.institution-map img { width: 60px; }
+.institution-map span { font-family: var(--display); font-size: 2.45rem; font-weight: 600; letter-spacing: -.045em; line-height: 1; white-space: nowrap; }
+.institution-secondary { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px 28px; margin-top: 16px; }
+.institution-secondary > .institution-logo { min-height: 40px; }
+.institution-nyu { width: 76px; }
+.institution-stanford { width: 118px; }
+.institution-tokenwave { width: 146px; }
+.institution-ace { gap: 7px; color: #1c1b1b; }
+.institution-ace img { width: 29px; filter: brightness(0); }
+.institution-ace span { font-size: .8rem; font-weight: 750; letter-spacing: -.035em; white-space: nowrap; }
+.institution-noiz { width: 98px; }
 .article-contents { display: flex; flex-wrap: wrap; gap: 0 24px; border-bottom: 1px solid var(--line); margin-top: 22px; padding-bottom: 15px; font-size: .8125rem; }
 .article-contents a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
 .article-contents a:first-child, .article-contents a:hover { color: var(--accent); }
@@ -328,6 +346,23 @@ audio { display: block; width: 100%; height: 46px; }
   .protocol-copy { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
+  .institution-strip { margin-top: 22px; }
+  .institution-primary { gap: 22px; }
+  .institution-hkust { width: min(46%, 154px); }
+  .institution-map { gap: 8px; }
+  .institution-map img { width: 36px; }
+  .institution-map span { font-size: 1.75rem; }
+  .institution-secondary { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px 14px; margin-top: 12px; justify-items: center; }
+  .institution-secondary > .institution-logo { grid-column: span 2; max-width: 100%; min-height: 38px; }
+  .institution-secondary > :nth-child(4) { grid-column: 2 / span 2; }
+  .institution-secondary > :nth-child(5) { grid-column: 4 / span 2; }
+  .institution-nyu { width: 66px; }
+  .institution-stanford { width: 104px; }
+  .institution-tokenwave { width: 122px; }
+  .institution-ace { gap: 5px; }
+  .institution-ace img { width: 23px; }
+  .institution-ace span { font-size: .67rem; }
+  .institution-noiz { width: 82px; }
   .benchmark-controls { flex-direction: column; align-items: stretch; gap: 14px; margin-bottom: 24px; }
   .metric-select { justify-content: space-between; }
   .metric-select select { flex: 1; max-width: 200px; }
