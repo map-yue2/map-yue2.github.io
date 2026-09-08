@@ -9,7 +9,7 @@
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260908-warm5">
+  <link rel="stylesheet" href="static/styles.css?v=20260908-wsb6">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -38,10 +38,9 @@
       <aside class="hero-result" aria-labelledby="heroResultTitle">
         <div class="result-topline"><span class="result-badge">SOTA · SongBench</span><span>05 SEP 2026</span></div>
         <h2 id="heroResultTitle">At the frontier<br>of song generation.</h2>
-        <p>Competitive with the evaluated proprietary systems. The highest observed SongBench mean on both test sets.</p>
+        <p>Competitive with the evaluated proprietary systems. The highest observed SongBench mean on WildSongBench.</p>
         <div class="headline-results">
           <div><span>WildSongBench</span><strong>6.9632</strong><small>192 prompts</small></div>
-          <div><span>Old98</span><strong>6.9667</strong><small>98 prompts</small></div>
         </div>
         <p class="result-scope">YuE2 (best-of-8) · Seven-dimension average.<br>SOTA here means highest among the 15 evaluated settings under the recorded selection protocols.</p>
         <a class="result-link" href="#model-overview">See the comparison &amp; protocol <span aria-hidden="true">↗</span></a>
@@ -85,10 +84,7 @@
         </div>
         <section id="performancePanel" class="overview-panel" role="tabpanel" aria-labelledby="performanceTab">
           <div class="benchmark-controls">
-            <div class="segmented" role="group" aria-label="Evaluation dataset">
-              <button type="button" data-dataset="WSB" aria-pressed="true">WildSongBench <span>192</span></button>
-              <button type="button" data-dataset="Old98" aria-pressed="false">Old98 <span>98</span></button>
-            </div>
+            <div class="benchmark-dataset"><strong>WildSongBench</strong><span>192 prompts</span></div>
             <label class="metric-select"><span>Compare by</span><select id="benchmarkMetric" aria-label="Evaluation metric"><option value="songbench_global_avg">SongBench</option></select></label>
           </div>
           <div class="benchmark-layout">
@@ -106,11 +102,11 @@
               <p class="chart-note">Top five, both YuE2 settings, and YuE 1. Bars start at zero. All 15 settings are available below.</p>
             </figure>
           </div>
-          <div class="benchmark-bottom"><p>September 5, 2026 evaluation · rankings vary by metric · generation and selection compute are not matched.</p><a href="data/benchmark-results.csv" download>Download results <span aria-hidden="true">↓</span></a></div>
-          <details class="full-comparison"><summary>Full comparison <span>15 evaluated settings · current dataset and metric</span></summary><div class="comparison-scroll"><table><caption id="comparisonCaption">WildSongBench · SongBench</caption><thead><tr><th scope="col">Rank</th><th scope="col">System / setting</th><th scope="col">Prompts</th><th scope="col" id="comparisonMetric">SongBench ↑</th></tr></thead><tbody id="comparisonRows"></tbody></table></div></details>
+          <div class="benchmark-bottom"><p>September 5, 2026 evaluation · rankings vary by metric · generation and selection compute are not matched.</p><a href="data/benchmark-results.csv?v=20260908-wsb6" download>Download results <span aria-hidden="true">↓</span></a></div>
+          <details class="full-comparison"><summary>Full comparison <span>15 evaluated settings · current metric</span></summary><div class="comparison-scroll"><table><caption id="comparisonCaption">WildSongBench · SongBench</caption><thead><tr><th scope="col">Rank</th><th scope="col">System / setting</th><th scope="col">Prompts</th><th scope="col" id="comparisonMetric">SongBench ↑</th></tr></thead><tbody id="comparisonRows"></tbody></table></div></details>
           <details class="evaluation-protocol" id="evaluation-protocol"><summary>How to read these results</summary><div class="protocol-copy">
-            <p><strong>Scope.</strong> Each dataset compares 13 other systems and two YuE2 settings. “Frontier quality” describes competitiveness with the evaluated proprietary systems under this automatic evaluation. The SOTA headline refers specifically to the highest observed SongBench mean on both datasets; it does not imply a lead on every metric, statistical significance, or established human preference.</p>
-            <p><strong>Selection.</strong> YuE2 uses the lower phoneme error rate (PER) of two candidates. YuE2 (best-of-8) selects from eight using Musicality → Control → PER. SongBench Musicality participates in this selection, so the reported best-of-8 quality includes evaluator-based selection. ASR evaluation uses the lowest PER of four repeats per candidate. Control weights can differ between selected settings (10/192 WildSongBench records; 5/98 Old98 records).</p>
+            <p><strong>Scope.</strong> WildSongBench compares 13 other systems and two YuE2 settings on 192 prompts. “Frontier quality” describes competitiveness with the evaluated proprietary systems under this automatic evaluation. The SOTA headline refers specifically to the highest observed SongBench mean in this comparison; it does not imply a lead on every metric, statistical significance, or established human preference.</p>
+            <p><strong>Selection.</strong> YuE2 uses the lower phoneme error rate (PER) of two candidates. YuE2 (best-of-8) selects from eight using Musicality → Control → PER. SongBench Musicality participates in this selection, so the reported best-of-8 quality includes evaluator-based selection. ASR evaluation uses the lowest PER of four repeats per candidate. Control weights differ between selected settings in 10 of the 192 WildSongBench records.</p>
             <p><strong>Metrics.</strong> SongBench averages Arrangement, Instrumental, Melody, Mixing, Musicality, Structure, and Vocal. SongEval averages five quality dimensions. AudioBox PQ uses length-weighted 10-second windows, then equal song weights. MuLan and AllMusicCaps measure similarity to style text, not percentages. Control is prompt-weighted; PER is lower-is-better. All displayed aggregate metrics have complete coverage.</p>
             <p><strong>Scores and listening.</strong> Both evaluated YuE2 settings generate with melody-and-chord symbolic planning and use the verified new VAE for scoring. The curated Genre Explorer audio below uses the legacy VAE for listening; these previews are separate from the benchmark audio.</p>
           </div></details>
@@ -275,8 +271,8 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script defer src="data/cases.js?v=20260908-selection1"></script>
-  <script defer src="data/benchmarks.js?v=20260908-warm5"></script>
-  <script defer src="static/overview.js?v=20260908-warm5"></script>
+  <script defer src="data/benchmarks.js?v=20260908-wsb6"></script>
+  <script defer src="static/overview.js?v=20260908-wsb6"></script>
   <script defer src="static/audio-player.js?v=20260908-design3"></script>
   <script defer src="static/app.js?v=20260908-cover-editing4"></script>
 </body>

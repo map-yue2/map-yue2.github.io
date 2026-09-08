@@ -47,7 +47,7 @@
     $("benchmarkChart").textContent = "The interactive comparison could not load. Download the complete results below.";
     return;
   }
-  let dataset = "WSB";
+  const dataset = "WSB";
   function node(tag, text, className) {
     const result = document.createElement(tag);
     if (text !== undefined) result.textContent = text;
@@ -108,13 +108,6 @@
       return tr;
     }));
   }
-  document.querySelectorAll("[data-dataset]").forEach(button => {
-    button.addEventListener("click", () => {
-      dataset = button.dataset.dataset;
-      document.querySelectorAll("[data-dataset]").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
-      render();
-    });
-  });
   $("benchmarkMetric").addEventListener("change", render);
   render();
 })();
