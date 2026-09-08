@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>YuE2 · Frontier Music, with a Plan</title>
-  <meta name="description" content="Frontier-quality song generation with an editable symbolic plan. Listen to songs, covers, and edits, then explore the paper figures, model architecture, and leading SongBench results in the September 5 evaluation.">
+  <title>YuE2 · Frontier Music with Symbolic Planning</title>
+  <meta name="description" content="YuE2 unifies symbolic and audio music generation at frontier quality. Symbolic planning turns lyrics and style into an editable score, then a full song with vocals and accompaniment.">
   <meta name="theme-color" content="#faf6ef">
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -25,8 +25,8 @@
 
     <section class="hero" aria-labelledby="heroTitle">
       <p class="article-meta">Research &amp; demos <span aria-hidden="true">·</span> September 2026</p>
-      <h1 id="heroTitle">YuE2: <span>music, with a plan.</span></h1>
-      <p class="hero-subtitle">Frontier-quality song generation, with an editable musical plan. <a href="#model-overview">SongBench SOTA on WildSongBench</a> with YuE2 (best-of-8).</p>
+      <h1 id="heroTitle">Frontier quality. <span>Music, with a plan.</span></h1>
+      <p class="hero-subtitle">YuE2 unifies symbolic and audio music generation in one model. Through symbolic planning, it writes an editable score, then brings the composition to life with vocals and accompaniment.</p>
       <nav class="article-contents" aria-label="On this page">
         <a href="#abc-cot-gen">Listen</a>
         <a href="#cover">Cover &amp; Editing</a>
@@ -39,8 +39,8 @@
   <main>
     <section class="module-section showcase" id="abc-cot-gen" aria-labelledby="showcaseTitle">
       <div class="section-head">
-        <h2 id="showcaseTitle">Listen to YuE2</h2>
-        <p>Choose a song, then listen to its score and follow the notes.</p>
+        <h2 id="showcaseTitle">From score to song</h2>
+        <p>Listen to a song, then explore the melody, rhythm, and chords in its symbolic plan.</p>
       </div>
 
       <div class="showcase-layout">
@@ -196,7 +196,7 @@
         </div>
       </details>
       <details class="evaluation-protocol" id="evaluation-protocol"><summary>How to read these results</summary><div class="protocol-copy">
-            <p><strong>WildSongBench.</strong> 192 prompts and 15 system settings. The headline reports the highest observed SongBench mean in this automatic evaluation. Best-of-8 selects one of eight generations by musicality, prompt control, and lyric accuracy.</p>
+            <p><strong>WildSongBench.</strong> 192 prompts and 15 system settings. The table reports automatic evaluation scores. Best-of-8 selects one of eight generations by musicality, prompt control, and lyric accuracy.</p>
             <p><strong>Figure 1.</strong> Song quality combines SongBench and SongEval; text alignment combines MuLan, AllMusicCaps, and prompt control. Both axes show normalized comparison indices. Bubble area represents AudioBox production quality.</p>
           </div></details>
     </section>

@@ -1,6 +1,6 @@
 # YuE2 · Frontier music, with a plan
 
-YuE2 generates full songs with vocals and accompaniment, using an editable musical score to connect creation, covering, and editing.
+YuE2 unifies symbolic and audio music generation through symbolic planning. It writes an editable score, then realizes it as a full song with vocals and accompaniment.
 
 **[Explore YuE2 →](https://map-yue2.github.io/)**
 
