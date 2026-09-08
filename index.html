@@ -1,61 +1,222 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="YuE2 project website. More details coming soon.">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#ffffff">
-    <title>YuE2</title>
-    <style>
-      :root {
-        color-scheme: light;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: #15171c;
-        background: #fff;
-      }
-      * { box-sizing: border-box; }
-      body { margin: 0; }
-      .page {
-        max-width: 76rem;
-        min-height: 100vh;
-        min-height: 100svh;
-        margin: 0 auto;
-        padding: clamp(1.5rem, 5vw, 4rem);
-        display: flex;
-        flex-direction: column;
-      }
-      header, footer { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-      .wordmark { font-size: 1.25rem; font-weight: 750; letter-spacing: -.05em; }
-      .label { color: #5c616c; font-size: .875rem; line-height: 1.5; }
-      main { flex: 1; padding: clamp(4rem, 14vh, 10rem) 0; }
-      .eyebrow { margin: 0 0 1.75rem; color: #244bdb; font-size: 1rem; font-weight: 600; }
-      h1 { margin: 0; font-size: clamp(5rem, 18vw, 13rem); line-height: .95; letter-spacing: -.085em; font-weight: 750; }
-      .description { margin: 2rem 0 2.5rem; font-size: clamp(1.125rem, 3vw, 1.5rem); line-height: 1.6; color: #5c616c; }
-      a { color: #15171c; font-size: 1rem; line-height: 1.5; text-underline-offset: .3em; }
-      a:hover { color: #244bdb; }
-      a:focus-visible { outline: 3px solid #244bdb; outline-offset: 6px; border-radius: 2px; }
-      footer { border-top: 1px solid #e3e5ea; padding-top: 1.5rem; }
-      @media (max-width: 30rem) {
-        header, footer { align-items: flex-start; flex-wrap: wrap; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <header>
-        <span class="wordmark">YuE2</span>
-        <span class="label">Music generation research</span>
-      </header>
-      <main>
-        <p class="eyebrow">Coming soon</p>
-        <h1>YuE2</h1>
-        <p class="description">Our project page is being prepared.</p>
-        <a href="https://map-yue.github.io/">Explore YuE <span aria-hidden="true">↗</span></a>
-      </main>
-      <footer>
-        <span class="label">YuE2 · Project website</span>
-      </footer>
-    </div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YuE2 · Music Generation with Symbolic Planning</title>
+  <meta name="description" content="Explore YuE2 through 98 selected songs and 8 covers. Listen to generated music, inspect ABC scores, and browse lyrics, styles, and languages.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="vendor/abcjs-audio.css">
+  <link rel="stylesheet" href="static/styles.css?v=20260908-selection1">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="YuE2 home">
+      <span class="brand-mark">Y2</span>
+      <span>
+        <strong>YuE2</strong>
+        <small>Symbolic-to-Audio Music Generation</small>
+      </span>
+    </a>
+    <nav class="top-nav" aria-label="Modules">
+      <a href="#abc-cot-gen">ABC Planning</a>
+      <a href="#cover">Cover</a>
+      <a href="#special-prompt-control">Genre Explorer</a>
+      <a class="nav-locked" href="#abc-editing" aria-disabled="true">ABC Editing</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">Music generation with symbolic planning</p>
+        <h1 id="heroTitle">From symbolic music planning to expressive song generation.</h1>
+        <p class="hero-subtitle">
+          YuE2 turns lyrics and style prompts into songs, with an explicit musical plan in ABC notation.
+          Read the melody and chords, listen to the score, and hear the generated performance.
+          Explore selected songs across genres and languages, alongside covers made with edited scores and lyrics.
+        </p>
+        <div class="hero-facts" id="collectionSummary" aria-label="Collection overview"></div>
+      </div>
+    </section>
+
+    <section class="module-index" aria-label="YuE2 modules">
+      <a class="module-card active" href="#abc-cot-gen">
+        <strong>ABC Planning</strong>
+        <span>Open-ended lyrics and tags become a symbolic ABC plan before song synthesis.</span>
+        <em id="plannedCount">Selected scores</em>
+      </a>
+      <a class="module-card" href="#cover">
+        <strong>Cover</strong>
+        <span>Familiar songs reimagined with edited scores, lyrics, and arrangements.</span>
+        <em id="coverCount">Selected covers</em>
+      </a>
+      <a class="module-card" href="#special-prompt-control">
+        <strong>Genre Explorer</strong>
+        <span>A listening selection across genres, languages, and generation settings.</span>
+        <em id="genreCount">Selected songs</em>
+      </a>
+      <a class="module-card locked" href="#abc-editing" aria-disabled="true">
+        <strong>ABC Editing</strong>
+        <span>Edit symbolic controls and compare regenerated audio.</span>
+        <em>Coming soon</em>
+      </a>
+    </section>
+
+    <section class="module-section showcase" id="abc-cot-gen" aria-labelledby="showcaseTitle">
+      <div class="section-head">
+        <p class="eyebrow">Module 1</p>
+        <h2 id="showcaseTitle">ABC Planning</h2>
+        <p>Listen to the symbolic score, then compare it with the generated vocal song.</p>
+      </div>
+
+      <div class="showcase-layout">
+        <aside class="case-rail" aria-label="Featured cases">
+          <div class="filter-panel">
+            <label>
+              <span>Search</span>
+              <input id="searchInput" type="search" placeholder="Genre, tags, lyrics">
+            </label>
+            <label>
+              <span>Language</span>
+              <select id="languageFilter"></select>
+            </label>
+            <label>
+              <span>Genre</span>
+              <select id="genreFilter"></select>
+            </label>
+            <label>
+              <span>Sort</span>
+              <select id="sortSelect">
+                <option value="curated">Curated order</option>
+                <option value="genre">Genre A–Z</option>
+                <option value="language">Language</option>
+                <option value="pages">Score pages</option>
+              </select>
+            </label>
+          </div>
+          <div id="caseRail" class="case-list"></div>
+        </aside>
+
+        <article class="case-stage" aria-live="polite">
+          <div class="stage-head">
+            <div>
+              <p id="selectedKicker" class="eyebrow">Selected Case</p>
+              <h2 id="selectedTitle">Loading selected song…</h2>
+            </div>
+            <button id="copyAbc" class="ghost-button" type="button">Copy ABC</button>
+          </div>
+
+          <div class="audio-pair">
+            <div class="player-block score-player-block">
+              <span>ABC Score Playback</span>
+              <div id="abcSynth" class="abc-synth" aria-live="polite"></div>
+              <details class="recorded-score">
+                <summary>Original score recording</summary>
+                <audio id="recordedScore" controls preload="none" aria-label="Original instrumental score recording"></audio>
+              </details>
+            </div>
+            <div class="player-block">
+              <span>Generated Song</span>
+              <audio id="musicAudio" controls preload="none" aria-label="Selected generated song"></audio>
+            </div>
+          </div>
+
+          <div class="abc-plan-summary" id="abcPlanSummary" aria-label="ABC plan summary"></div>
+
+          <div class="tabs" role="tablist" aria-label="Case views">
+            <button id="scoreTab" class="tab active" data-tab="score" role="tab" aria-selected="true" aria-controls="scorePanel" type="button">Rendered Score</button>
+            <button id="abcTab" class="tab" data-tab="abc" role="tab" aria-selected="false" aria-controls="abcPanel" tabindex="-1" type="button">Raw ABC</button>
+            <button id="lyricsTab" class="tab" data-tab="lyrics" role="tab" aria-selected="false" aria-controls="lyricsPanel" tabindex="-1" type="button">Lyrics</button>
+            <button id="promptTab" class="tab" data-tab="prompt" role="tab" aria-selected="false" aria-controls="promptPanel" tabindex="-1" type="button">Tags</button>
+          </div>
+
+          <section id="scorePanel" class="tab-panel active" role="tabpanel" aria-labelledby="scoreTab">
+            <div class="sheet-toolbar">
+              <strong id="sheetLabel">Interactive ABC score</strong>
+              <span>Red notes follow the ABC playback.</span>
+            </div>
+            <div id="sheetFrame" class="sheet-frame">
+              <div id="abcRenderedScore" class="abc-rendered-score"></div>
+            </div>
+            <details id="originalScoreDetails" class="original-score">
+              <summary>View original score pages</summary>
+              <div id="originalScorePages" class="original-score-pages"></div>
+            </details>
+          </section>
+
+          <section id="abcPanel" class="tab-panel" role="tabpanel" aria-labelledby="abcTab" hidden>
+            <pre id="abcText"></pre>
+          </section>
+
+          <section id="lyricsPanel" class="tab-panel" role="tabpanel" aria-labelledby="lyricsTab" hidden>
+            <pre id="lyricsText"></pre>
+          </section>
+
+          <section id="promptPanel" class="tab-panel" role="tabpanel" aria-labelledby="promptTab" hidden>
+            <p id="promptText" class="prompt-text"></p>
+          </section>
+        </article>
+      </div>
+    </section>
+
+    <section class="module-section case-browser compact-gallery" aria-label="More selected ABC generations">
+      <details>
+        <summary>
+          <span>Browse more selected ABC cases</span>
+          <small id="caseSummary"></small>
+        </summary>
+        <div id="caseGrid" class="case-grid"></div>
+      </details>
+    </section>
+
+    <section class="module-section" id="cover" aria-labelledby="coverTitle">
+      <div class="section-head">
+        <p class="eyebrow">Module 2</p>
+        <h2 id="coverTitle">Cover</h2>
+        <p>Eight familiar songs, reinterpreted through changes to the score, lyrics, tempo, and arrangement.</p>
+      </div>
+      <div id="coverGrid" class="cover-grid"></div>
+    </section>
+
+    <section class="module-section" id="special-prompt-control" aria-labelledby="specialPromptTitle">
+      <div class="section-head">
+        <p class="eyebrow">Module 3</p>
+        <h2 id="specialPromptTitle">Genre Explorer</h2>
+        <p id="genreDescription">The listening selection, gathered across genres and languages.</p>
+      </div>
+      <div class="explorer-filters filter-panel">
+        <label><span>Search</span><input id="explorerSearch" type="search" placeholder="Genre, tags, lyrics"></label>
+        <label><span>Language</span><select id="explorerLanguage"></select></label>
+        <label><span>Genre</span><select id="explorerGenre"></select></label>
+        <label><span>Generation</span><select id="explorerMode"><option value="all">All songs</option><option value="planned">With symbolic planning</option><option value="direct">Direct generation</option></select></label>
+      </div>
+      <p id="explorerStatus" class="results-status" role="status"></p>
+      <div id="explorerGrid" class="explorer-grid"></div>
+      <button id="loadMore" class="load-more ghost-button" type="button">Show more songs</button>
+    </section>
+
+    <section class="module-section module-empty" id="abc-editing" aria-labelledby="abcEditingTitle">
+      <div class="section-head">
+        <p class="eyebrow">Module 4</p>
+        <h2 id="abcEditingTitle">ABC Editing</h2>
+        <p>Selected ABC editing cases will be added here.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <strong>YuE2</strong>
+    <p>Listening selection · Genre Explorer audio: legacy VAE. Cover audio: original supplied previews; decoder metadata was not included.</p>
+    <p>Score rendering and interactive playback use <a href="https://github.com/paulrosen/abcjs">abcjs</a>. <a href="https://github.com/map-yue2/map-yue2.github.io">Website source</a></p>
+  </footer>
+
+  <noscript><p class="no-script">Enable JavaScript to browse the selected songs, scores, lyrics, and prompts.</p></noscript>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/abcjs-basic-min.js"></script>
+  <script src="data/cases.js?v=20260908-selection1"></script>
+  <script src="static/app.js?v=20260908-selection1"></script>
+</body>
 </html>

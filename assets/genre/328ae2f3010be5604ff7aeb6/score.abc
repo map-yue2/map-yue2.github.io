@@ -1,0 +1,110 @@
+X:1
+T:
+M:4/4
+L:1/16
+Q:1/4=88
+V: Vocal clef=treble name="Vocal Melody" snm="Vocal"
+V: Ins clef=treble name="Ins Melody" snm="Inst."
+K:Eb
+% intro
+V: Vocal
+Z|"Eb"z16|"Bb/D"z16|"Cm7"z16|
+V: Ins
+z12z2Bc|e2eeezccc2BBB2G2|F3G3B4z4Bc|e2eee2ccc2BBB2G2|
+V: Vocal
+"Bb7sus4"z4"Eb"z12|"Abmaj7"z16|"Gm7"z4"Cm7"z12|"Fm7"z16|
+V: Ins
+F3G3E4z2EFGB|c3cz2e4z2efec|B3Bz2e6z2Bc|ezezezczc2BzB2G2|
+V: Vocal
+"Bb"z8zBBBBGGF|
+V: Ins
+F8z8|
+% verse
+V: Vocal
+"Eb"F2G2GF2G2BBBBGGF|"Bb/D"F2G2GF2G2BBBBGGF|"Cm7"F2G2GF2G2zBBBGGF|"Bb7sus4"F2G2FE2E3z2Bcec|
+V: Ins
+Z4|
+% pre-chorus
+V: Vocal
+"Abmaj7"e2ce2c2e3z2Bcec|"Gm7"d3d-"Cm7"dB2B3z3BBB|"Fm7"c2ee2c2e3z2ecec|"Bb7sus4"g3g3f8z2|
+V: Ins
+Z4|
+V: Vocal
+"Bb7sus4"z6zBg2g2f2e2|
+V: Ins
+Z|
+% chorus
+V: Vocal
+"Eb"e2z2e2e2e2B2g2f2-|"Bb/D"f2z2d2d2d2B2f2e2|"Cm7"z2e2e2e2e2G4c2|"Gm7"B4z6BBBce2|
+V: Ins
+Z4|
+V: Vocal
+"Abmaj7"e2BBBce2e2zBBcec|"Gm7"e2BB"Cm7"Bf2e3zBgfgf|"Fm7"g2BBgfgfg2zBBcec|"Bb7sus4"ecece2eceg2f3e2|
+V: Ins
+Z4|
+V: Vocal
+"Eb"e2e2e2Bce2g2f2e2|"Bb/D"d2d2d2Bcd2g2f2e2|"Cm7"e3cz4e2f2g2ec'-|"Bbsus4"c'6b6g2fe|
+V: Ins
+Z4|
+% interlude
+V: Vocal
+"Abmaj7"z16|"Gm7"z4"Cm7"z12|"Fm7"z16|"Bb"z16|
+V: Ins
+ezbc'e'c'bc'bgbgf2e2|z2bc'e'c'bc'bgbgf2e2|z2Bcecefgfgbc'bc'e'|f'12z4|
+% verse
+V: Vocal
+"Eb"EEEEEEEEE2EF2G3|"Bb/D"DDDDD2DCD2F2E2zB,|"Cm7"EEEEEEEEE2F2G3G|"Bbsus4"BGGFGFGFG2F2z2EE|
+V: Ins
+Z4|
+V: Vocal
+"Abmaj7"BGG2BGGFGFF2zEEE|"Gm7"BGGF"Cm7"GFGFG2F2z2EC|"Fm7"ECECECECECECECEC|"Bbsus4"ECECECECECECG2G2|
+V: Ins
+Z4|
+V: Vocal
+"Bbsus4"F2E4zBg2g2f2e2|
+V: Ins
+Z|
+% chorus
+V: Vocal
+"Eb"e2z2e2e2e2B2g2f2-|"Bb/D"f2z2d2d2d2B2f2e2|"Cm7"z2e2e2e2e2G4c2|"Gm7"B4z6BBBce2|
+V: Ins
+Z4|
+V: Vocal
+"Abmaj7"e2BBBce2e2zBBcec|"Cm7"e2BBBf2e3zBgfgf|"Fm7"g2BBgfgfg2zBBcec|"Bb7sus4"ecece2eceg2f3e2|
+V: Ins
+Z4|
+V: Vocal
+"Eb"e2e2e2Bce2g2f2e2|"Bb/D"d2d2d2Bcd2g2f2e2|"Cm7"e3cz4e2f2g2ec'-|"Bbsus4"c'6b6g2fe|
+V: Ins
+Z4|
+% bridge
+V: Vocal
+"Abmaj7"e3c3e2e3c3ee|"Gm7"dedededed2B4c2|"Fm7"e3c3e2e3c3ee|"Bb7sus4"b2bb2g3g2f6-|
+V: Ins
+Z4|
+V: Vocal
+"Bb7sus4"f6zBg2g2f2e2|
+V: Ins
+Z|
+% chorus
+V: Vocal
+"Eb"e2z2e2e2e2B2g2f2-|"Bb/D"f2z2d2d2d2B2f2e2|"Cm7"z2e2e2e2e2G4c2|"Gm7"B4z6BBBce2|
+V: Ins
+Z4|
+V: Vocal
+"Abmaj7"e2BBBce2e2zBBcec|"Gm7"e2BB"Cm7"Bf2e3zBgfgf|"Fm7"g2BBgfgfg2zBBcec|"Bb7sus4"ecece2eceg2f3e2|
+V: Ins
+Z4|
+V: Vocal
+"Eb"e2e2e2Bce2g2f2e2|"Bb/D"d2d2d2Bcd2g2f2e2|"Cm7"e3cz4e2f2g2ec'-|"Bbsus4"c'6b6g2fe-|
+V: Ins
+Z4|
+% outro
+V: Vocal
+"Abmaj7"e12-e3z|"Gm7"z4"Cm7"z12|"Fm7"z16|"Bb7sus4"z16|
+V: Ins
+Z|z2bc'e'c'bc'bgbgf2e2|z2Bcecefgfgbc'bc'e'|f'16|
+V: Vocal
+"Bb7sus4"z16|
+V: Ins
+Z|

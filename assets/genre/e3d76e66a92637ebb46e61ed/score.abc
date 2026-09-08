@@ -1,0 +1,85 @@
+X:1
+T:
+M:4/4
+L:1/32
+Q:1/4=116
+V: Vocal clef=treble name="Vocal Melody" snm="Vocal"
+V: Ins clef=treble name="Ins Melody" snm="Inst."
+K:Em
+% intro
+V: Vocal
+z24z4"Em"z4|"Em"z32|"Em"z32|"Em"z32|
+V: Ins
+z24z4E4|E8G6A6^A4B4d2e2|E8G6A6^A4B4d2e2|E8G6A6^A4B4d2e2|
+V: Vocal
+"Em"z32|"Em"z16"G6"z16|"Am7"z16"C"z8"B7"z8|"Em"z16"G6"z16|
+V: Ins
+e4d4^A2=A2G4E4D4E8|E8z4D4G6G2z8|A6A2z8c4c4B2B6|E8z4D4G6G2z8|
+V: Vocal
+"Am7"z16"C"z8"B7"z8|"Em"z16"G6"z16|"Am7"z16"C"z8"B7"z8|"Em"z16"G6"z16|
+V: Ins
+A6A2z8c4c4B2B6|e8e2d2B2d4e12z2|A6A2z8c4c4B2B6|E8e2d2B2d4e12z2|
+V: Vocal
+"Am7"z16"C"z8"B7"z8|
+V: Ins
+A6A2z8c4c4B2B6|
+% verse
+V: Vocal
+"Em"e4d4B4A4"G6"A4G4E4D4|"Am7"E4D4E4D4"C"E4G4-"B7"G4E4|"Em"z4e4d4B4"G6"A4G4E4A4-|"Am7"A8G2G2B4-"C"B8"B7"z8|
+V: Ins
+Z4|
+V: Vocal
+"Em"e8B2B2B2A2-"G6"A2G2G8E2D2|"Am7"E2D2E2D2E4D2E2-"C"E2E2G4-"B7"G4z4|"Em"E4D4E4D4"G6"E4z4G8|"Am7"A4G4A4G4"C"B8"B7"z8|
+V: Ins
+Z4|
+% pre-chorus
+V: Vocal
+"Cmaj7"z8e8g8a8|"B7"z8e8g8a8|"Em7"b8a4g4a8g4a4-|"A7"a8g4e12z4B4|
+V: Ins
+Z4|
+V: Vocal
+"Cmaj7"c8d8e8g8|"B7"f16^d16|"Em"e8z24|"Em"z32|
+V: Ins
+Z2|z8G6A6^A4B4d2e2|E8G6A6^A4B4d2e2|
+% chorus
+V: Vocal
+"Cmaj7"b16a4g4g4a4-|"B7"a8g4b12z8|"Em7"a16a4g4g4a4-|"A7"a8g4e8z8d4|
+V: Ins
+Z4|
+V: Vocal
+"Cmaj7"e8g8f8g8|"B7"f8^d8B8A8|"Em7"B16d16|"Em7"e16g16|
+V: Ins
+Z4|
+V: Vocal
+"Cmaj7"z4b4a2g2g2a6b4a2g2g2a2-|"B7"a4b4a2g2g2a6b4a4g4|"Em7"a4g4a4g4a4g4a4g4|"A7"a2g2a2g2a2g2b8e8z4|
+V: Ins
+Z4|
+V: Vocal
+"Cmaj7"e16g16|"B7"f8^d8B8A8|"Em7"B16d16|"Em7"e16g16|
+V: Ins
+Z4|
+V: Vocal
+"Cmaj7"z4e4e4e4e8b8|"B7"a4g4a4g4a2g2a8b4|"Em7"z4e4e4e4e4e4b8|"A7"a2g2a2g2a4g2a4g2b8z4|
+V: Ins
+Z4|
+V: Vocal
+"Cmaj7"e16g16|"B7"f16^d16|"Em7"e16d16|"Em7"B8A8G8A6G2|
+V: Ins
+Z4|
+V: Vocal
+"Em"E16z16|
+V: Ins
+z16e4e4e4z4|
+% outro
+V: Vocal
+"Em"z16"G6"z16|"A7"z16"C"z8"B7"z8|"Em"z16"G6"z16|"A7"z16"C"z8"B7"z8|
+V: Ins
+e8e2d2B2d4e6z8|A6A2z8c4c4B8|E8e2d2B2d4e6z8|A6A2z8c4c4B8|
+V: Vocal
+"Em"z16"G6"z16|"A7"z16"C"z8"B7"z8|"Em"z16"G6"z16|"A7"z16"C"z8"B7"z8|
+V: Ins
+E8e2d2B2d4e6z8|A6A2z8c4c4B8|E8e2d2B2d4e6z8|A6A2z8c4c4B8|
+V: Vocal
+"Em"z32|"Em"z32|
+V: Ins
+E8G6A6^A4B4d2e2|e8z24|
