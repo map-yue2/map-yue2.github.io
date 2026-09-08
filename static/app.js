@@ -426,9 +426,33 @@
     const header = element("header");
     const title = element("div");
     const [songTitle, ...variant] = row.title.split(" · ");
-    title.append(element("h3", "", songTitle));
+    const heading = element("h3", "", songTitle);
+    if (row.titleZh) {
+      const chineseTitle = element("span", "cover-title-zh", row.titleZh);
+      chineseTitle.lang = "zh-Hans";
+      heading.append(" ", chineseTitle);
+    }
+    title.append(heading);
     if (variant.length) title.append(element("p", "cover-variant", variant.join(" · ")));
-    title.append(element("p", "source-label", row.source));
+    const source = element("p", "source-label");
+    if (row.sourceUrl) {
+      const link = element("a", "", row.source.replace(/^Adapted from /, ""));
+      link.href = row.sourceUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.title = "Listen on YouTube (opens in a new tab)";
+      if (row.sourceTitleZh) {
+        const chineseSource = element("span", "", row.sourceTitleZh);
+        chineseSource.lang = "zh-Hans";
+        link.append(" (", chineseSource, ")");
+      }
+      link.setAttribute("aria-label", `${link.textContent} on YouTube (opens in a new tab)`);
+      const arrow = element("span", "", " ↗");
+      arrow.setAttribute("aria-hidden", "true");
+      link.append(arrow);
+      source.append("Adapted from ", link);
+    } else source.textContent = row.source;
+    title.append(source);
     header.append(element("span", "track-number", String(index + 1).padStart(2, "0")), title);
     card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, cover and editing example`));
     card.append(textDetails(row.tags, row.lyrics));

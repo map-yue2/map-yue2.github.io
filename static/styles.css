@@ -172,8 +172,11 @@ audio { display: block; width: 100%; height: 46px; }
 .cover-card header { display: flex; gap: 16px; align-items: flex-start; }
 .track-number { width: 24px; padding-top: 5px; color: var(--accent); font-size: .875rem; font-family: var(--display); font-variant-numeric: tabular-nums; flex-shrink: 0; }
 .cover-card h3 { font-size: 1.4375rem; line-height: 1.35; letter-spacing: -.035em; font-weight: 500; margin: 0; }
+.cover-title-zh { display: inline-block; margin-left: .5em; font-size: .8em; font-weight: 400; letter-spacing: normal; color: var(--muted); }
 .cover-variant { font-size: .875rem; line-height: 1.55; color: #79685b; margin: 5px 0 0; }
 .source-label { color: var(--muted); font-size: .75rem; line-height: 1.6; margin: 6px 0 0; }
+.source-label a { color: var(--accent); text-decoration: underline; text-decoration-color: #d7b29c; text-underline-offset: 3px; }
+.source-label a:hover { text-decoration-color: currentColor; }
 .style-badge { font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: #aa482f; line-height: 1.6; }
 .edit-label { font-size: .875rem; color: #79685b; line-height: 1.75; margin: 0; min-height: 3.5em; }
 .cover-card > .audio-player { margin-top: auto; }
