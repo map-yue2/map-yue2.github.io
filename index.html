@@ -9,7 +9,7 @@
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260909-card18">
+  <link rel="stylesheet" href="static/styles.css?v=20260909-stack19">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -199,6 +199,95 @@
             <p><strong>WildSongBench.</strong> 192 prompts and 15 system settings. The table reports automatic evaluation scores. Best-of-8 selects one of eight generations by musicality, prompt control, and lyric accuracy.</p>
             <p><strong>Figure 1.</strong> Song quality combines SongBench and SongEval; text alignment combines MuLan, AllMusicCaps, and prompt control. Both axes show normalized comparison indices. Bubble area represents AudioBox production quality.</p>
           </div></details>
+      <!-- BEGIN COMPONENT RESULTS -->
+      <section class="paper-component" id="mert2" aria-labelledby="mert2Title">
+        <figure class="paper-figure" id="paper-mert2-architecture">
+          <div class="paper-figure-heading"><div><p class="eyebrow">MERT2 · Music representations</p><h3 id="mert2Title">Learning the structure behind the sound.</h3></div><a href="static/figures/mert2-ssl.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+          <a class="paper-figure-image" href="static/figures/mert2-ssl.pdf" target="_blank" rel="noopener" aria-label="Open the MERT2 architecture as a zoomable PDF"><img src="static/figures/mert2-ssl.svg" alt="MERT2 architecture: offline target synthesis combines MuQ and Qwen2-Audio features into four code streams. A ConvNeXt frontend and 24-layer Conformer learn by masked prediction, then branch into full-song representations for SheetSage2 and a causal tokenizer curriculum for YuE2." width="3960" height="1908" loading="lazy" decoding="async" fetchpriority="low"></a>
+          <figcaption>MERT2 provides the music representations behind both analysis and generation. A ConvNeXt frontend and 24-layer Conformer learn to predict masked codes built from complementary MuQ and Qwen2-Audio features. Full-song adaptation supplies SheetSage2 with musical context; a separate causal branch becomes YuE2’s 25-Hz semantic tokenizer.</figcaption>
+        </figure>
+
+        <div class="component-results">
+          <h4>Music understanding on MARBLE</h4>
+          <p>Across its two evaluated encoders, MERT2 has the highest observed score on <strong>14 of 15 metrics</strong> in this comparison, spanning tagging, key, genre, rhythm, and emotion.</p>
+          <dl class="component-highlights" aria-label="MERT2 benchmark highlights">
+            <div><dt>Highest observed metrics<small>MERT2-30s &amp; MERT2-300s</small></dt><dd>14<span> / 15</span></dd></div>
+            <div><dt>Genre accuracy · GTZAN<small>MERT2-30s · score × 100</small></dt><dd>91.72</dd></div>
+            <div><dt>Key refined accuracy · GiantSteps<small>MERT2-300s · score × 100</small></dt><dd>67.05</dd></div>
+          </dl>
+        </div>
+
+        <details class="benchmark-details full-comparison component-comparison" id="mert2Results">
+          <summary>Explore MERT2 benchmark scores <span>MARBLE · 15 metrics · 2 encoders</span></summary>
+          <div class="benchmark-detail-content">
+            <div class="comparison-scroll" tabindex="0" role="region" aria-label="MERT2 MARBLE comparison; scroll horizontally on small screens">
+              <table><caption>Scores × 100 · higher is better · bold marks the highest displayed score.</caption><thead><tr><th scope="col">Benchmark / metric</th><th scope="col">Best published baseline</th><th scope="col" class="model-value">MERT2-30s</th><th scope="col" class="model-value">MERT2-300s</th></tr></thead><tbody>
+                <tr><th scope="row">MTT · Tagging<small>ROC-AUC</small></th><td class="score-value">91.70<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>91.91</strong></td><td class="score-value model-value">91.74</td></tr>
+                <tr><th scope="row">MTT · Tagging<small>Average precision</small></th><td class="score-value">40.80<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>41.29</strong></td><td class="score-value model-value">41.20</td></tr>
+                <tr><th scope="row">GiantSteps · Key<small>Refined accuracy</small></th><td class="score-value">66.10<small>PupuJEPA-Large</small></td><td class="score-value model-value">66.97</td><td class="score-value model-value"><strong>67.05</strong></td></tr>
+                <tr><th scope="row">GTZAN · Genre<small>Accuracy</small></th><td class="score-value">86.90<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>91.72</strong></td><td class="score-value model-value">90.69</td></tr>
+                <tr><th scope="row">GTZAN · Beat<small>F1</small></th><td class="score-value"><strong>91.00</strong><small>PupuJEPA-Large</small></td><td class="score-value model-value">90.59</td><td class="score-value model-value">90.57</td></tr>
+                <tr><th scope="row">EmoMusic · Valence<small>R²</small></th><td class="score-value">62.50<small>PupuJEPA-Large</small></td><td class="score-value model-value">63.23</td><td class="score-value model-value"><strong>63.52</strong></td></tr>
+                <tr><th scope="row">EmoMusic · Arousal<small>R²</small></th><td class="score-value">78.50<small>PupuJEPA-Huge</small></td><td class="score-value model-value"><strong>80.01</strong></td><td class="score-value model-value">78.14</td></tr>
+                <tr><th scope="row">MTG-Jamendo · Instrument<small>ROC-AUC</small></th><td class="score-value">78.40<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>80.27</strong></td><td class="score-value model-value"><strong>80.27</strong></td></tr>
+                <tr><th scope="row">MTG-Jamendo · Instrument<small>Average precision</small></th><td class="score-value">21.20<small>PupuJEPA-Large</small></td><td class="score-value model-value">22.89</td><td class="score-value model-value"><strong>23.51</strong></td></tr>
+                <tr><th scope="row">MTG-Jamendo · Mood / theme<small>ROC-AUC</small></th><td class="score-value">76.20<small>PupuJEPA-Large</small></td><td class="score-value model-value"><strong>79.44</strong></td><td class="score-value model-value">78.74</td></tr>
+                <tr><th scope="row">MTG-Jamendo · Mood / theme<small>Average precision</small></th><td class="score-value">15.50<small>Dasheng-1.2B</small></td><td class="score-value model-value"><strong>16.68</strong></td><td class="score-value model-value">15.74</td></tr>
+                <tr><th scope="row">MTG-Jamendo · Genre<small>ROC-AUC</small></th><td class="score-value">86.30<small>AudioMAE++</small></td><td class="score-value model-value"><strong>88.01</strong></td><td class="score-value model-value">87.98</td></tr>
+                <tr><th scope="row">MTG-Jamendo · Genre<small>Average precision</small></th><td class="score-value">20.10<small>PupuJEPA-Large / PupuJEPA-Huge</small></td><td class="score-value model-value"><strong>21.22</strong></td><td class="score-value model-value">20.66</td></tr>
+                <tr><th scope="row">MTG-Jamendo · Top 50<small>ROC-AUC</small></th><td class="score-value">83.10<small>AudioMAE++ / PupuJEPA-Huge</small></td><td class="score-value model-value"><strong>84.18</strong></td><td class="score-value model-value">84.13</td></tr>
+                <tr><th scope="row">MTG-Jamendo · Top 50<small>Average precision</small></th><td class="score-value">31.10<small>AudioMAE++</small></td><td class="score-value model-value"><strong>32.17</strong></td><td class="score-value model-value">31.62</td></tr>
+              </tbody></table>
+            </div>
+            <p class="component-protocol">Both encoders have 632M parameters; 30s and 300s denote their training context. These are full-context representation benchmarks. MERT2 reports the best observed results across representations selected using test scores; each ROC-AUC / AP pair uses the same representation.</p>
+            <div class="benchmark-bottom"><p><a href="https://arxiv.org/html/2606.25713v2" target="_blank" rel="noopener">Published baseline comparison ↗</a></p><a href="data/mert2-marble-results.csv" download>Download all 11 models <span aria-hidden="true">↓</span></a></div>
+          </div>
+        </details>
+      </section>
+
+      <section class="paper-component" id="sheetsage2" aria-labelledby="sheetsage2Title">
+        <figure class="paper-figure" id="paper-sheetsage2-architecture">
+          <div class="paper-figure-heading"><div><p class="eyebrow">SheetSage2 · Audio to score</p><h3 id="sheetsage2Title">Hear a song. Read its composition.</h3></div><a href="static/figures/sheetsage2-overview.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+          <a class="paper-figure-image" href="static/figures/sheetsage2-overview.pdf" target="_blank" rel="noopener" aria-label="Open the SheetSage2 architecture as a zoomable PDF"><img src="static/figures/sheetsage2-overview.svg" alt="SheetSage2 architecture: a full-song MERT2-FS encoder with trainable adapters feeds a six-layer autoregressive decoder. Task prompts select beat, section, key, chord, and melody events, which share a timeline and become ABC notation and a lead sheet." width="4070" height="2268" loading="lazy" decoding="async" fetchpriority="low"></a>
+          <figcaption>SheetSage2 turns a recording into an editable lead sheet. A full-song MERT2-FS encoder, adapted with LoRA, feeds a six-layer autoregressive decoder. Task prompts select beats, sections, keys, chords, and melodies; a shared event timeline becomes ABC notation with vocal and instrumental melody voices. These scores supply symbolic training targets for YuE2.</figcaption>
+        </figure>
+
+        <div class="component-results">
+          <h4>Six musical tasks, one model</h4>
+          <p>SheetSage2 has the highest point estimate in <strong>10 of 13 benchmark–metric pairs</strong> in this comparison, covering beat, downbeat, key, chord, structure, and melody analysis.</p>
+          <dl class="component-highlights" aria-label="SheetSage2 benchmark highlights">
+            <div><dt>Highest point estimates<small>Across six musical tasks</small></dt><dd>10<span> / 13</span></dd></div>
+            <div><dt>Vocal melody · RWC-Pop<small>Pitch-class note F1 · score × 100</small></dt><dd>82.51</dd></div>
+            <div><dt>Chord recognition · osu2017<small>Maj/min · score × 100</small></dt><dd>90.08</dd></div>
+          </dl>
+        </div>
+
+        <details class="benchmark-details full-comparison component-comparison" id="sheetsage2Results">
+          <summary>Explore SheetSage2 benchmark scores <span>6 tasks · 13 metrics</span></summary>
+          <div class="benchmark-detail-content">
+            <div class="comparison-scroll" tabindex="0" role="region" aria-label="SheetSage2 benchmark comparison; scroll horizontally on small screens">
+              <table><caption>Scores × 100 · higher is better · bold marks the highest displayed score.</caption><thead><tr><th scope="col">Benchmark / task</th><th scope="col">Metric</th><th scope="col">Best comparison</th><th scope="col" class="model-value">SheetSage2</th></tr></thead><tbody>
+                <tr><th scope="row">GTZAN<small>Beat</small></th><td>F1</td><td class="score-value"><strong>88.75</strong><small>Beat This!</small></td><td class="score-value model-value">85.65</td></tr>
+                <tr><th scope="row">osu2017<small>Beat</small></th><td>F1</td><td class="score-value">91.55<small>Madmom</small></td><td class="score-value model-value"><strong>92.29</strong></td></tr>
+                <tr><th scope="row">GTZAN<small>Downbeat</small></th><td>F1</td><td class="score-value">78.28<small>Beat This!</small></td><td class="score-value model-value"><strong>79.51</strong></td></tr>
+                <tr><th scope="row">osu2017<small>Downbeat</small></th><td>F1</td><td class="score-value">84.99<small>Beat This!</small></td><td class="score-value model-value"><strong>91.97</strong></td></tr>
+                <tr><th scope="row">GiantSteps<small>Key</small></th><td>Weighted score</td><td class="score-value">74.62<small>Madmom</small></td><td class="score-value model-value"><strong>77.73</strong></td></tr>
+                <tr><th scope="row">GTZAN<small>Key</small></th><td>Weighted score</td><td class="score-value">74.43<small>S-KEY</small></td><td class="score-value model-value"><strong>75.77</strong></td></tr>
+                <tr><th scope="row">osu2017<small>Chord</small></th><td>Maj/min</td><td class="score-value">84.59<small>Jiang et al. 2019</small></td><td class="score-value model-value"><strong>90.08</strong></td></tr>
+                <tr><th scope="row">Chords1217<small>Chord</small></th><td>Maj/min</td><td class="score-value"><strong>84.09</strong><small>ChordFormer</small></td><td class="score-value model-value">83.81</td></tr>
+                <tr><th scope="row">HarmonixSet<small>Structure</small></th><td>Accuracy</td><td class="score-value">80.03<small>SongFormer</small></td><td class="score-value model-value"><strong>80.51</strong></td></tr>
+                <tr><th scope="row">HarmonixSet<small>Structure</small></th><td>Boundary F1 · 0.5 s</td><td class="score-value"><strong>70.63</strong><small>SongFormer</small></td><td class="score-value model-value">67.96</td></tr>
+                <tr><th scope="row">HarmonixSet<small>Structure</small></th><td>Boundary F1 · 3 s</td><td class="score-value">79.50<small>SongFormer</small></td><td class="score-value model-value"><strong>82.86</strong></td></tr>
+                <tr><th scope="row">RWC-Pop<small>Melody</small></th><td>Vocal pitch-class F1</td><td class="score-value">62.71<small>SheetSage1</small></td><td class="score-value model-value"><strong>82.51</strong></td></tr>
+                <tr><th scope="row">RWC-Pop<small>Melody</small></th><td>Full pitch-class F1</td><td class="score-value">64.02<small>SheetSage1</small></td><td class="score-value model-value"><strong>75.29</strong></td></tr>
+              </tbody></table>
+            </div>
+            <p class="component-protocol">Results use one model selected by validation loss. Melody F1 measures pitch-class notes; structure F1 measures section boundaries at the stated tolerance. On Chords1217, ChordFormer uses five-fold cross-validation, while SheetSage2 evaluates one fixed model on all 1,217 tracks.</p>
+            <div class="benchmark-bottom"><p>Full comparison includes SheetSage1, Madmom, and task-specific systems.</p><a href="data/sheetsage2-benchmark-results.csv" download>Download all results <span aria-hidden="true">↓</span></a></div>
+          </div>
+        </details>
+      </section>
+      <!-- END COMPONENT RESULTS -->
     </section>
 
   </main>

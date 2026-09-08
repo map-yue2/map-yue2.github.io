@@ -1,0 +1,14 @@
+Task,Benchmark,Metric (x100),SheetSage1,Madmom,Specialist,Specialist score,SheetSage2,Comparison notes
+Beat,GTZAN,F1,85.79,85.79,Beat This!,88.75,85.65,SheetSage1 uses the same Madmom rhythm outputs
+Beat,osu2017,F1,91.55,91.55,Beat This!,88.18,92.29,SheetSage1 uses the same Madmom rhythm outputs
+Downbeat,GTZAN,F1,64.33,64.33,Beat This!,78.28,79.51,SheetSage1 uses the same Madmom rhythm outputs
+Downbeat,osu2017,F1,83.22,83.22,Beat This!,84.99,91.97,SheetSage1 uses the same Madmom rhythm outputs
+Key,GiantSteps,Weighted score,43.89,74.62,S-KEY,72.09,77.73,
+Key,GTZAN,Weighted score,54.56,72.05,S-KEY,74.43,75.77,
+Chord,osu2017,Maj/min,79.82,77.42,Jiang et al. 2019,84.59,90.08,
+Chord,Chords1217,Maj/min,72.98,83.52,ChordFormer,84.09,83.81,Madmom training includes Chords1217; ChordFormer uses five-fold cross-validation; SheetSage1 and SheetSage2 each use one fixed model on all 1217 tracks
+Structure,HarmonixSet,Accuracy,,,SongFormer,80.03,80.51,
+Structure,HarmonixSet,Boundary F1 · 0.5 s,,,SongFormer,70.63,67.96,
+Structure,HarmonixSet,Boundary F1 · 3 s,,,SongFormer,79.50,82.86,
+Melody,RWC-Pop,Vocal pitch-class F1,62.71,,SheetSage1,62.71,82.51,Note F1 uses pitch classes; the specialist is SheetSage1
+Melody,RWC-Pop,Full pitch-class F1,64.02,,SheetSage1,64.02,75.29,Note F1 uses pitch classes; the specialist is SheetSage1

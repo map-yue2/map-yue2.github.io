@@ -349,6 +349,28 @@ audio { display: block; width: 100%; height: 46px; }
 .benchmark-detail-content { padding-top: 12px; }
 .benchmark-status { color: var(--muted); font-size: .75rem; line-height: 1.7; margin: -12px 0 18px; }
 .model-overview > .evaluation-protocol { max-width: 780px; margin: 0 auto; border-top: 0; border-bottom: 1px solid var(--line); }
+
+/* Component research stays after the listening examples and YuE2 results. */
+.paper-component { margin-top: 64px; min-width: 0; scroll-margin-top: 28px; }
+.component-results { max-width: 780px; margin: 0 auto 24px; }
+.component-results h4 { margin: 0 0 8px; font-size: 1rem; font-weight: 600; }
+.component-results > p { margin: 0; color: var(--muted); font-size: .9375rem; line-height: 1.85; }
+.component-results > p strong { color: var(--ink); font-weight: 600; }
+.component-highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 24px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); }
+.component-highlights > div { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.component-highlights dt { font-size: .75rem; color: var(--muted); line-height: 1.6; }
+.component-highlights dd { order: -1; margin: 0 0 5px; font-family: var(--display); font-size: 2.15rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: -.045em; line-height: 1.25; }
+.component-highlights dd span { font-size: 1.2rem; color: var(--muted); letter-spacing: -.02em; }
+.component-highlights small { display: block; margin-top: 4px; font-size: .6875rem; color: var(--muted); line-height: 1.6; }
+.component-comparison table { min-width: 660px; }
+.component-comparison th, .component-comparison td { white-space: normal; vertical-align: top; line-height: 1.5; }
+.component-comparison th { min-width: 115px; }
+.component-comparison small { display: block; margin-top: 3px; font-size: .6875rem; font-weight: 400; color: var(--muted); }
+.component-comparison .score-value { font-family: var(--display); font-variant-numeric: tabular-nums; }
+.component-comparison .score-value small { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.component-comparison .model-value { background: #f6ebdf; color: #913f28; text-align: right; }
+.component-comparison td strong { font-weight: 700; }
+.component-protocol { margin: 0 0 16px; color: var(--muted); font-size: .75rem; line-height: 1.85; }
 @media (max-width: 800px) {
   .paper-figure { padding: 23px; }
   .paper-figure-heading { gap: 20px; margin-bottom: 23px; }
@@ -360,4 +382,10 @@ audio { display: block; width: 100%; height: 46px; }
   .paper-figure-heading h3 { font-size: 1.5rem; }
   .paper-figure-heading > a { padding-block: 3px; }
   .paper-figure figcaption { font-size: .75rem; margin-top: 16px; }
+  .paper-component { margin-top: 44px; }
+  .component-highlights { grid-template-columns: 1fr; gap: 18px; }
+  .component-highlights > div { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 12px; align-items: center; }
+  .component-highlights dd { grid-column: 1; grid-row: 1; font-size: 1.875rem; margin: 0; }
+  .component-highlights dt { grid-column: 2; grid-row: 1; }
+  .component-highlights small { margin-top: 1px; }
 }
