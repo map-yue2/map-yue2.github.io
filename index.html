@@ -7,7 +7,7 @@
   <meta name="description" content="Explore YuE2 through 98 selected songs and 8 covers. Listen to generated music, inspect ABC scores, and browse lyrics, styles, and languages.">
   <meta name="theme-color" content="#ffffff">
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260908-selection1">
+  <link rel="stylesheet" href="static/styles.css?v=20260908-audio2">
 </head>
 <body>
   <header class="site-header">
@@ -113,12 +113,12 @@
               <div id="abcSynth" class="abc-synth" aria-live="polite"></div>
               <details class="recorded-score">
                 <summary>Original score recording</summary>
-                <audio id="recordedScore" controls preload="none" aria-label="Original instrumental score recording"></audio>
+                <div id="recordedScore"></div>
               </details>
             </div>
             <div class="player-block">
               <span>Generated Song</span>
-              <audio id="musicAudio" controls preload="none" aria-label="Selected generated song"></audio>
+              <div id="musicAudio"></div>
             </div>
           </div>
 
@@ -215,8 +215,8 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="vendor/abcjs-basic-min.js"></script>
-  <script src="data/cases.js?v=20260908-selection1"></script>
-  <script src="static/app.js?v=20260908-selection1"></script>
+  <script defer src="data/cases.js?v=20260908-selection1"></script>
+  <script defer src="static/audio-player.js?v=20260908-audio2"></script>
+  <script defer src="static/app.js?v=20260908-audio2"></script>
 </body>
 </html>

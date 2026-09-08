@@ -9,8 +9,14 @@
   }
   const planned = data.cases.filter(item => item.mode === "planned");
   const controllers = new Set();
+  const audioPlayers = new window.YUE2Audio(() => stopOtherAudio());
+  const searchText = new Map(data.cases.map(row => [row.id,
+    `${row.title} ${row.genrePath.join(" ")} ${row.languageLabel} ${row.tags} ${row.lyrics}`.toLocaleLowerCase()]));
   let selectedId = null;
   let mainController = null;
+  let cancelMainScore = () => {};
+  let scoreLibrary = null;
+  let playbackEpoch = 0;
   let explorerLimit = 12;
   let toastTimer;
 
@@ -45,9 +51,9 @@
   }
 
   function stopOtherAudio(except) {
-    document.querySelectorAll("audio").forEach(audio => {
-      if (audio !== except && !audio.paused) audio.pause();
-    });
+    playbackEpoch += 1;
+    if (except) except.playbackEpoch = playbackEpoch;
+    audioPlayers.stop();
     controllers.forEach(controller => {
       if (controller !== except && controller.isStarted) {
         controller.pause();
@@ -56,22 +62,67 @@
     });
   }
 
-  document.addEventListener("play", event => {
-    if (event.target.tagName === "AUDIO") stopOtherAudio(event.target);
-  }, true);
-
   function audioPlayer(url, label) {
-    const audio = document.createElement("audio");
-    audio.controls = true;
-    audio.preload = "none";
-    audio.src = url;
-    audio.setAttribute("aria-label", label);
-    return audio;
+    return audioPlayers.create(url, label);
   }
 
-  document.addEventListener("error", event => {
-    if (event.target.tagName === "AUDIO") notify("This audio could not be loaded. Please try again.");
-  }, true);
+  function loadScoreLibrary() {
+    if (window.ABCJS) return Promise.resolve();
+    if (!scoreLibrary) scoreLibrary = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "vendor/abcjs-basic-min.js";
+      script.onload = resolve;
+      script.onerror = () => {
+        script.remove();
+        scoreLibrary = null;
+        reject(new Error("Score renderer unavailable"));
+      };
+      document.head.append(script);
+    });
+    return scoreLibrary;
+  }
+
+  function deferredScore(abc, scoreNode, controlsNode, onReady, onError) {
+    let cancelled = false;
+    let started = false;
+    let timer;
+    let observer;
+    const start = () => {
+      if (started || cancelled) return;
+      started = true;
+      observer?.disconnect();
+      controlsNode.replaceChildren(element("p", "score-loading", "Loading score player…"));
+      // Let the song controls paint before loading and engraving a full score.
+      timer = setTimeout(async () => {
+        if (cancelled) return;
+        try {
+          await loadScoreLibrary();
+          if (cancelled) return;
+          timer = setTimeout(() => {
+            if (cancelled) return;
+            scoreNode.replaceChildren();
+            controlsNode.replaceChildren();
+            try { onReady(createScore(abc, scoreNode, controlsNode)); }
+            catch (error) { onError(error); }
+          }, 0);
+        } catch (error) { if (!cancelled) onError(error); }
+      }, 0);
+    };
+    scoreNode.replaceChildren(element("p", "notice", "The score loads when it comes into view."));
+    controlsNode.replaceChildren(button("Load score player", "ghost-button", start));
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) start();
+      }, { rootMargin: "100px" });
+      observer.observe(scoreNode);
+    } else start();
+    return () => { cancelled = true; clearTimeout(timer); observer?.disconnect(); };
+  }
+
+  function debounce(callback, delay = 150) {
+    let timer;
+    return () => { clearTimeout(timer); timer = setTimeout(callback, delay); };
+  }
 
   function disposeController(controller) {
     if (!controller) return;
@@ -101,6 +152,12 @@
     };
     const controller = new ABCJS.synth.SynthController();
     controllers.add(controller);
+    const requestPlay = controller.play.bind(controller);
+    controller.play = () => {
+      if (controller.disposed) return Promise.resolve();
+      stopOtherAudio(controller);
+      return requestPlay();
+    };
     controller.load(controlsNode, {
       onStart: () => stopOtherAudio(controller),
       onFinished: clearHighlight,
@@ -122,7 +179,8 @@
     }, { displayRestart: true, displayPlay: true, displayProgress: true, displayLoop: true, displayWarp: false });
     // Avoid an old, asynchronously loading tune starting after the selection changes.
     const originalPlay = controller._play.bind(controller);
-    controller._play = () => controller.disposed ? Promise.resolve() : originalPlay();
+    controller._play = () => controller.disposed || controller.playbackEpoch !== playbackEpoch
+      ? Promise.resolve() : originalPlay();
     const originalGo = controller.go.bind(controller);
     controller.go = async () => {
       try {
@@ -164,7 +222,7 @@
     if (genre !== "all" && row.genre !== genre) return false;
     if (mode !== "all" && row.mode !== mode) return false;
     const terms = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-    const searchable = `${row.title} ${row.genrePath.join(" ")} ${row.languageLabel} ${row.tags} ${row.lyrics}`.toLocaleLowerCase();
+    const searchable = searchText.get(row.id);
     return terms.every(term => searchable.includes(term));
   }
 
@@ -232,16 +290,20 @@
     const row = planned.find(item => item.id === id);
     if (!row) return;
     document.querySelector(".case-stage").hidden = false;
+    if (id === selectedId) {
+      if (shouldScroll) $("abc-cot-gen").scrollIntoView({ block: "start" });
+      return;
+    }
+    cancelMainScore();
     disposeController(mainController);
     mainController = null;
-    $("musicAudio").pause();
-    $("recordedScore").pause();
+    audioPlayers.releaseWithin($("musicAudio"));
+    audioPlayers.releaseWithin($("recordedScore"));
     selectedId = id;
     $("selectedKicker").textContent = `${row.languageLabel} · Symbolic planning`;
     $("selectedTitle").textContent = row.title;
-    $("musicAudio").src = row.audio;
-    $("musicAudio").setAttribute("aria-label", `${row.title} generated song`);
-    $("recordedScore").src = row.scoreAudio;
+    $("musicAudio").replaceChildren(audioPlayer(row.audio, `${row.title}, generated song`));
+    $("recordedScore").replaceChildren(audioPlayer(row.scoreAudio, `${row.title}, original score recording`));
     $("abcText").textContent = row.abc;
     $("lyricsText").textContent = row.lyrics;
     $("promptText").textContent = row.tags;
@@ -253,14 +315,14 @@
     $("sheetFrame").scrollTop = 0;
     summaryChips(row);
     selectTab("score");
-    try {
-      mainController = createScore(row.abc, $("abcRenderedScore"), $("abcSynth"));
-    } catch (error) {
+    cancelMainScore = deferredScore(row.abc, $("abcRenderedScore"), $("abcSynth"), controller => {
+      mainController = controller;
+    }, () => {
       $("abcRenderedScore").replaceChildren(element("p", "notice", "The interactive score could not be rendered. Original score pages are available below."));
       $("abcSynth").replaceChildren(element("p", "notice", "Use the original score recording below."));
       $("originalScoreDetails").open = true;
       showOriginalPages(row);
-    }
+    });
     document.querySelectorAll(".case-item").forEach(node => {
       const active = node.dataset.id === id;
       node.classList.toggle("selected", active);
@@ -288,6 +350,11 @@
     if (!rows.length) {
       $("caseRail").append(element("p", "empty-state", "No scores match these filters."));
       document.querySelector(".case-stage").hidden = true;
+      cancelMainScore();
+      disposeController(mainController);
+      mainController = null;
+      selectedId = null;
+      audioPlayers.releaseWithin(document.querySelector(".case-stage"));
     } else {
       document.querySelector(".case-stage").hidden = false;
       if (!rows.some(row => row.id === selectedId)) selectCase(rows[0].id);
@@ -305,10 +372,15 @@
   function textDetails(tags, lyrics) {
     const details = element("details", "content-details");
     details.append(element("summary", "", "Prompt & lyrics"));
-    const body = element("div", "detail-body");
-    body.append(element("h4", "", "Style prompt"), element("pre", "", tags), element("h4", "", "Lyrics"), element("pre", "", lyrics));
-    body.append(button("Copy prompt & lyrics", "ghost-button", () => copyText(`${tags}\n\n${lyrics}`)));
-    details.append(body);
+    let populated = false;
+    details.addEventListener("toggle", () => {
+      if (!details.open || populated) return;
+      populated = true;
+      const body = element("div", "detail-body");
+      body.append(element("h4", "", "Style prompt"), element("pre", "", tags), element("h4", "", "Lyrics"), element("pre", "", lyrics));
+      body.append(button("Copy prompt & lyrics", "ghost-button", () => copyText(`${tags}\n\n${lyrics}`)));
+      details.append(body);
+    });
     return details;
   }
 
@@ -331,11 +403,15 @@
     raw.append(element("summary", "", "Raw ABC"), element("pre", "cover-abc", row.abc));
     details.append(controls, frame, raw, button("Copy ABC", "ghost-button", () => copyText(row.abc)));
     let controller = null;
+    let cancelScore = () => {};
     details.addEventListener("toggle", () => {
       if (details.open) {
-        try { controller = createScore(row.abc, score, controls); }
-        catch { score.replaceChildren(element("p", "notice", "Interactive score unavailable. The original ABC is included below.")); }
+        cancelScore = deferredScore(row.abc, score, controls, result => { controller = result; }, () => {
+          score.replaceChildren(element("p", "notice", "Interactive score unavailable. The original ABC is included below."));
+          controls.replaceChildren();
+        });
       } else {
+        cancelScore();
         disposeController(controller);
         controller = null;
         score.replaceChildren();
@@ -367,7 +443,10 @@
   function renderExplorer(append = false) {
     const rows = explorerMatches();
     const start = append ? $("explorerGrid").children.length : 0;
-    if (!append) $("explorerGrid").replaceChildren();
+    if (!append) {
+      audioPlayers.releaseWithin($("explorerGrid"));
+      $("explorerGrid").replaceChildren();
+    }
     $("explorerGrid").append(...rows.slice(start, explorerLimit).map(explorerCard));
     $("explorerStatus").textContent = rows.length ? `Showing ${Math.min(explorerLimit, rows.length)} of ${rows.length} selected songs` : "No songs match these filters.";
     $("loadMore").hidden = explorerLimit >= rows.length;
@@ -389,13 +468,14 @@
   fillSelect($("genreFilter"), optionsFor(planned, "genre"), "All genres");
   fillSelect($("explorerLanguage"), optionsFor(data.cases, "language", "languageLabel"), "All languages");
   fillSelect($("explorerGenre"), optionsFor(data.cases, "genre"), "All genres");
-  $("searchInput").addEventListener("input", renderRail);
+  $("searchInput").addEventListener("input", debounce(renderRail));
   ["languageFilter", "genreFilter", "sortSelect"].forEach(id => $(id).addEventListener("change", renderRail));
   ["explorerSearch", "explorerLanguage", "explorerGenre", "explorerMode"].forEach(id => {
-    $(id).addEventListener(id === "explorerSearch" ? "input" : "change", () => {
+    const update = () => {
       explorerLimit = 12;
       renderExplorer();
-    });
+    };
+    $(id).addEventListener(id === "explorerSearch" ? "input" : "change", id === "explorerSearch" ? debounce(update) : update);
   });
   $("loadMore").addEventListener("click", () => {
     explorerLimit += 12;
