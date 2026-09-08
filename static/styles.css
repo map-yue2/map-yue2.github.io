@@ -160,6 +160,7 @@ audio { display: block; width: 100%; height: 46px; }
 .notice, .empty-state { padding: 20px; color: var(--muted); font-size: .875rem; line-height: 1.7; }
 .error-notice { color: #b83030; }
 .score-loading { margin: 0; color: var(--muted); font-size: .8125rem; line-height: 1.6; padding: 10px 0; }
+.score-playback-status { margin: 9px 0 0; color: var(--muted); font-size: .875rem; line-height: 1.5; }
 
 .compact-gallery { margin-top: 14px; }
 .compact-gallery > details { border: 1px solid var(--line); border-radius: 9px; padding: 15px 20px; background: #fffaf4; }

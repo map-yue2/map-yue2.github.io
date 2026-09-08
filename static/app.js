@@ -70,7 +70,7 @@
     if (window.ABCJS) return Promise.resolve();
     if (!scoreLibrary) scoreLibrary = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "vendor/abcjs-basic-min.js";
+      script.src = "vendor/abcjs-basic-min.js?v=20260908-audio8";
       script.onload = resolve;
       script.onerror = () => {
         script.remove();
@@ -152,11 +152,47 @@
     };
     const controller = new ABCJS.synth.SynthController();
     controllers.add(controller);
+    const status = element("p", "score-playback-status");
+    status.setAttribute("role", "status");
+    status.hidden = true;
+    let playPending = false;
     const requestPlay = controller.play.bind(controller);
-    controller.play = () => {
-      if (controller.disposed) return Promise.resolve();
+    controller.play = async () => {
+      if (controller.disposed || playPending) return;
       stopOtherAudio(controller);
-      return requestPlay();
+      playPending = true;
+      if (playButton) playButton.disabled = true;
+      controlsNode.setAttribute("aria-busy", "true");
+      status.textContent = controller.isLoaded ? "" : "Preparing piano playback…";
+      status.hidden = !status.textContent;
+      try {
+        // Keep audio activation in the play gesture, before any sample requests.
+        ABCJS.synth.registerAudioContext();
+        const context = ABCJS.synth.activeAudioContext();
+        await context.resume();
+        if (context.state !== "running") throw new Error("Audio output is suspended");
+        if (controller.disposed || controller.playbackEpoch !== playbackEpoch) return;
+        await requestPlay();
+        status.hidden = true;
+      } catch (error) {
+        controller.pause();
+        controller.isStarted = false;
+        controller.isLoaded = false;
+        controller.isLoading = false;
+        controller.destroy();
+        if (progress) progress.disabled = true;
+        clearHighlight();
+        if (!controller.disposed) {
+          status.textContent = "Piano playback could not load. Press play to retry.";
+          status.hidden = false;
+          const recording = controlsNode.parentElement.querySelector(".recorded-score");
+          if (recording) recording.open = true;
+        }
+      } finally {
+        playPending = false;
+        if (playButton) playButton.disabled = false;
+        controlsNode.setAttribute("aria-busy", "false");
+      }
     };
     controller.load(controlsNode, {
       onStart: () => stopOtherAudio(controller),
@@ -177,6 +213,11 @@
         }
       },
     }, { displayRestart: true, displayPlay: true, displayProgress: true, displayLoop: true, displayWarp: false });
+    controlsNode.append(status);
+    const playButton = controlsNode.querySelector(".abcjs-midi-start");
+    // Seeking before the first play must not start a second sample-loading job.
+    const progress = controlsNode.querySelector(".abcjs-midi-progress-background");
+    if (progress) progress.disabled = true;
     // Avoid an old, asynchronously loading tune starting after the selection changes.
     const originalPlay = controller._play.bind(controller);
     controller._play = () => controller.disposed || controller.playbackEpoch !== playbackEpoch
@@ -186,16 +227,18 @@
       try {
         const result = await originalGo();
         if (controller.disposed) controller.destroy();
+        else if (progress) progress.disabled = false;
         return result;
       } catch (error) {
         controller.isLoading = false;
-        if (!controller.disposed) {
-          notify("Interactive score playback could not load. The original score recording is available below.");
-        }
+        if (progress) progress.disabled = true;
         throw error;
       }
     };
-    controller.setTune(visual, false, {});
+    controller.setTune(visual, false, {
+      soundFontUrl: "vendor/soundfonts/FluidR3_GM/",
+      soundFontVolumeMultiplier: 3,
+    });
     return controller;
   }
 
