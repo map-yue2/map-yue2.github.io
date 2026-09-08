@@ -135,32 +135,16 @@
 
   function createScore(abc, scoreNode, controlsNode, recording) {
     if (!window.ABCJS) throw new Error("Score renderer unavailable");
-    const visual = ABCJS.renderAbc(scoreNode, abc, {
+    const notation = window.YUE2Notation.prepare(abc);
+    const visual = ABCJS.renderAbc(scoreNode, notation.abc, {
       responsive: "resize", add_classes: true, staffwidth: 820,
       paddingtop: 15, paddingbottom: 20,
       wrap: { minSpacing: 1.4, maxSpacing: 2.5, preferredMeasuresPerLine: 4 },
     })[0];
     if (!visual) throw new Error("The score could not be rendered");
-    let highlighted = [];
-    const clearHighlight = () => {
-      highlighted.forEach(node => node.classList.remove("playing-note"));
-      highlighted = [];
-    };
-    const highlight = event => {
-      clearHighlight();
-      if (!event || !event.elements) return;
-      highlighted = event.elements.flat().filter(Boolean);
-      highlighted.forEach(node => node.classList.add("playing-note"));
-      const target = highlighted[0];
-      const frame = scoreNode.parentElement;
-      if (target && scoreNode.isConnected) {
-        const bounds = target.getBoundingClientRect();
-        const viewport = frame.getBoundingClientRect();
-        if (bounds.top < viewport.top + 20 || bounds.bottom > viewport.bottom - 30) {
-          frame.scrollTop += bounds.top - viewport.top - 70;
-        }
-      }
-    };
+    if (notation.setUpAudio) visual.setUpAudio = notation.setUpAudio;
+    const highlight = window.YUE2Notation.highlighter(scoreNode);
+    const clearHighlight = () => highlight(null);
     if (recording) {
       return new window.YUE2ScorePlayer({
         visual, recording, controls: controlsNode, onEvent: highlight,
