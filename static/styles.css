@@ -60,13 +60,12 @@ h1 span { color: var(--lime); }
 .fact { color: #aebcc4; font-size: .75rem; line-height: 1.5; }
 .fact strong { font-family: var(--display); font-weight: 500; font-size: 2rem; color: #fff; display: block; letter-spacing: -.05em; line-height: 1.1; margin-bottom: 5px; }
 
-.module-index { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.module-index { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--line); }
 .module-card { display: grid; grid-template-columns: 23px 1fr; gap: 2px 8px; align-items: baseline; padding: 4px 0; }
 .module-card .module-number { font-family: var(--display); font-size: .75rem; color: var(--muted); }
 .module-card strong { font-family: var(--display); font-size: .9375rem; font-weight: 600; }
 .module-card em { grid-column: 2; color: var(--muted); font-size: .75rem; font-style: normal; line-height: 1.6; }
 .module-card:hover strong, .module-card:hover .module-number { color: var(--accent); }
-.module-card.locked { color: var(--muted); }
 .module-section { margin-top: 68px; scroll-margin-top: 28px; }
 .showcase { margin-top: 38px; }
 .section-head { display: flex; justify-content: space-between; align-items: center; gap: 32px; margin-bottom: 24px; }
@@ -203,11 +202,6 @@ audio { display: block; width: 100%; height: 46px; }
 .text-link { border: 0; background: none; padding: 0; text-align: left; color: #4b6a2e; font-size: .875rem; font-weight: 500; width: fit-content; min-height: 30px; }
 .text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .load-more { display: block; margin: 28px auto 0; padding: 11px 24px; border-radius: 25px; }
-.module-empty { padding: 26px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.module-empty .section-head { margin: 0; }
-.module-empty .section-head h2 { font-size: 1.5rem; }
-.module-empty .section-head > p { color: var(--muted); font-size: .875rem; }
-.module-empty .section-number { color: var(--muted); border-color: #d4dce0; }
 
 .site-footer { padding-block: 40px; margin-top: 26px; }
 .footer-heading { display: flex; gap: 22px; align-items: center; padding-bottom: 24px; border-bottom: 1px solid #e0e6e9; }

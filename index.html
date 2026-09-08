@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YuE2 · Music Generation with Symbolic Planning</title>
-  <meta name="description" content="Explore YuE2 through 98 selected songs and 8 covers. Listen to generated music, inspect ABC scores, and browse lyrics, styles, and languages.">
+  <meta name="description" content="Explore YuE2 through 98 selected songs and 8 cover and editing examples. Listen to generated music, inspect ABC scores, and browse lyrics, styles, and languages.">
   <meta name="theme-color" content="#111619">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260908-design3">
+  <link rel="stylesheet" href="static/styles.css?v=20260908-cover-editing4">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -19,7 +19,7 @@
     </a>
     <nav class="top-nav" aria-label="Modules">
       <a href="#abc-cot-gen">ABC Planning</a>
-      <a href="#cover">Cover</a>
+      <a href="#cover">Cover &amp; Editing</a>
       <a href="#special-prompt-control">Genre Explorer</a>
       <a class="source-link" href="https://github.com/map-yue2/map-yue2.github.io">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
@@ -42,16 +42,12 @@
         <em id="plannedCount">Selected scores</em>
       </a>
       <a class="module-card" href="#cover">
-        <span class="module-number">02</span><strong>Covers</strong>
-        <em id="coverCount">Selected covers</em>
+        <span class="module-number">02</span><strong>Cover &amp; Editing</strong>
+        <em id="coverCount">Selected examples</em>
       </a>
       <a class="module-card" href="#special-prompt-control">
         <span class="module-number">03</span><strong>Genre Explorer</strong>
         <em id="genreCount">Selected songs</em>
-      </a>
-      <a class="module-card locked" href="#abc-editing" aria-disabled="true">
-        <span class="module-number">04</span><strong>ABC Editing</strong>
-        <em>Coming soon</em>
       </a>
     </section>
 
@@ -164,8 +160,8 @@
 
     <section class="module-section" id="cover" aria-labelledby="coverTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">02</span><div><p class="eyebrow">Familiar songs, reimagined</p><h2 id="coverTitle">A different kind of cover.</h2></div></div>
-        <p>Eight reinterpretations through changes<br class="desktop-break"> to the score, lyrics, tempo, and arrangement.</p>
+        <div class="section-title"><span class="section-number">02</span><div><p class="eyebrow">Familiar songs, reimagined</p><h2 id="coverTitle">Cover &amp; Editing</h2></div></div>
+        <p>Eight examples of song covers and edits<br class="desktop-break"> to melody, lyrics, tempo, and arrangement.</p>
       </div>
       <div id="coverGrid" class="cover-grid"></div>
     </section>
@@ -186,17 +182,11 @@
       <button id="loadMore" class="load-more ghost-button" type="button">Show more songs</button>
     </section>
 
-    <section class="module-section module-empty" id="abc-editing" aria-labelledby="abcEditingTitle">
-      <div class="section-head">
-        <div class="section-title"><span class="section-number">04</span><div><p class="eyebrow">Coming soon</p><h2 id="abcEditingTitle">ABC Editing</h2></div></div>
-        <p>Edit the score. Explore another version.</p>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-heading"><a class="footer-brand" href="#top">YuE2</a><span>Music generation with symbolic planning.</span><a href="#top" class="back-top">Back to top ↑</a></div>
-    <div class="footer-notes"><p>Genre Explorer · Legacy VAE previews.<br>Cover audio · Original supplied previews; decoder metadata was not included.</p><p>Score playback with <a href="https://github.com/paulrosen/abcjs">abcjs</a><br><a href="https://github.com/map-yue2/map-yue2.github.io">Website source ↗</a></p></div>
+    <div class="footer-notes"><p>Genre Explorer · Legacy VAE previews.<br>Cover &amp; Editing audio · Original supplied previews; decoder metadata was not included.</p><p>Score playback with <a href="https://github.com/paulrosen/abcjs">abcjs</a><br><a href="https://github.com/map-yue2/map-yue2.github.io">Website source ↗</a></p></div>
   </footer>
 
   <noscript><p class="no-script">Enable JavaScript to browse the selected songs, scores, lyrics, and prompts.</p></noscript>
@@ -205,6 +195,6 @@
 
   <script defer src="data/cases.js?v=20260908-selection1"></script>
   <script defer src="static/audio-player.js?v=20260908-design3"></script>
-  <script defer src="static/app.js?v=20260908-design3"></script>
+  <script defer src="static/app.js?v=20260908-cover-editing4"></script>
 </body>
 </html>

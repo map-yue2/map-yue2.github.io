@@ -395,7 +395,7 @@
     if (variant.length) title.append(element("p", "cover-variant", variant.join(" · ")));
     title.append(element("p", "source-label", row.source));
     header.append(element("span", "track-number", String(index + 1).padStart(2, "0")), title);
-    card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, generated cover`));
+    card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, cover and editing example`));
     card.append(textDetails(row.tags, row.lyrics));
     const details = element("details", "content-details");
     details.append(element("summary", "", "ABC score & playback"));
@@ -457,14 +457,14 @@
   }
 
   const summary = data.summary;
-  const facts = [[summary.genreCount, "songs"], [summary.genres, "genres"], [summary.languages, "languages"], [summary.coverCount, "covers"]];
+  const facts = [[summary.genreCount, "songs"], [summary.genres, "genres"], [summary.languages, "languages"], [summary.coverCount, "cover & editing"]];
   $("collectionSummary").replaceChildren(...facts.map(([count, label]) => {
     const fact = element("span", "fact");
     fact.append(element("strong", "", count), document.createTextNode(` ${label}`));
     return fact;
   }));
   $("plannedCount").textContent = `${summary.plannedCount} selected scores`;
-  $("coverCount").textContent = `${summary.coverCount} selected covers`;
+  $("coverCount").textContent = `${summary.coverCount} selected examples`;
   $("genreCount").textContent = `${summary.genreCount} selected songs`;
   $("caseSummary").textContent = `${planned.length} cases`;
   $("genreDescription").textContent = `${summary.genreCount} selected songs across ${summary.genres} genres and ${summary.languages} languages. Find a style, press play, and explore.`;

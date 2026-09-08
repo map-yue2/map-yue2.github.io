@@ -2,7 +2,9 @@
 
 [Visit the listening page](https://map-yue2.github.io/).
 
-The September 8, 2026 selection contains 98 songs selected through Genre Explorer's Like button and eight covers. Of the 98 songs, 64 include an ABC plan and 34 use direct generation. The selection spans 69 genre labels and six languages. The latest recorded Like state determines inclusion; entries with a subsequent Unlike are excluded.
+The September 8, 2026 selection contains 98 songs selected through Genre Explorer's Like button and eight cover and editing examples. Of the 98 songs, 64 include an ABC plan and 34 use direct generation. The selection spans 69 genre labels and six languages. The latest recorded Like state determines inclusion; entries with a subsequent Unlike are excluded.
+
+The three sections are ABC Planning, Cover & Editing, and Genre Explorer. Cover & Editing combines the existing cover, melody, lyric, tempo, and arrangement edits in one collection; there is no separate editing placeholder.
 
 The site includes source MP3s, ABC notation, lyrics, prompts, and original rendered score pages. Audio is copied without transcoding. Genre Explorer previews use the legacy VAE. Decoder metadata was not included with the supplied cover collection, so those files retain their original identity and are not labeled as verified legacy-VAE renders. This listening selection does not report evaluation scores.
 
