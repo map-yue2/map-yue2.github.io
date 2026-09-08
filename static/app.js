@@ -508,17 +508,8 @@
   }
 
   const summary = data.summary;
-  const facts = [[summary.genreCount, "songs"], [summary.genres, "genres"], [summary.languages, "languages"], [summary.coverCount, "cover & editing"]];
-  $("collectionSummary").replaceChildren(...facts.map(([count, label]) => {
-    const fact = element("span", "fact");
-    fact.append(element("strong", "", count), document.createTextNode(` ${label}`));
-    return fact;
-  }));
-  $("plannedCount").textContent = `${summary.plannedCount} selected scores`;
-  $("coverCount").textContent = `${summary.coverCount} selected examples`;
-  $("genreCount").textContent = `${summary.genreCount} selected songs`;
   $("caseSummary").textContent = `${planned.length} cases`;
-  $("genreDescription").textContent = `${summary.genreCount} selected songs across ${summary.genres} genres and ${summary.languages} languages. Find a style, press play, and explore.`;
+  $("genreDescription").textContent = `${summary.genreCount} songs, ${summary.genres} genres, ${summary.languages} languages. Find a style and press play.`;
   fillSelect($("languageFilter"), optionsFor(planned, "language", "languageLabel"), "All languages");
   fillSelect($("genreFilter"), optionsFor(planned, "genre"), "All genres");
   fillSelect($("explorerLanguage"), optionsFor(data.cases, "language", "languageLabel"), "All languages");

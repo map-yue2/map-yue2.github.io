@@ -5,49 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YuE2 · Frontier Music, with a Plan</title>
   <meta name="description" content="Frontier-quality song generation with an editable symbolic plan. Listen to 106 selected examples, then explore the paper figures, model architecture, and leading SongBench results in the September 5 evaluation.">
-  <meta name="theme-color" content="#f8f2e9">
+  <meta name="theme-color" content="#faf6ef">
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260908-sync10">
+  <link rel="stylesheet" href="static/styles.css?v=20260908-journal11">
 </head>
 <body>
   <div class="masthead" id="top">
   <header class="site-header">
     <a class="brand" href="#top" aria-label="YuE2 home">
-      <img class="brand-mark" src="static/brand/yue-mark.svg" alt="" width="44" height="44">
+      <img class="brand-mark" src="static/brand/yue-mark.svg" alt="" width="36" height="36">
       <strong>YuE<span>2</span></strong>
-      <small>Music, with a plan.</small>
     </a>
-    <nav class="top-nav" aria-label="Modules">
-      <a href="#abc-cot-gen">Listen</a>
-      <a href="#cover">Cover &amp; Editing</a>
-      <a href="#special-prompt-control">Genre Explorer</a>
-      <a href="#model-overview">Model &amp; Results</a>
+    <nav class="top-nav" aria-label="Project links">
       <a class="source-link" href="https://github.com/map-yue2/map-yue2.github.io">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
 
     <section class="hero" aria-labelledby="heroTitle">
-      <h1 id="heroTitle">Frontier quality. <span>SongBench SOTA.</span></h1>
-      <p class="hero-subtitle">YuE2 (best-of-8) scores <strong id="heroScore">6.9632</strong> on SongBench, the highest observed mean among 15 evaluated settings on WildSongBench.</p>
-      <p class="hero-scope">192 prompts · September 2026 evaluation · <a href="#evaluation-protocol">About the results</a></p>
-      <div class="hero-actions"><a class="primary-link" href="#abc-cot-gen"><span aria-hidden="true">▶</span> Listen to YuE2</a><a class="quiet-link" href="#model-overview">Model &amp; results <span aria-hidden="true">↘</span></a></div>
+      <p class="article-meta">Research &amp; demos <span aria-hidden="true">·</span> September 2026</p>
+      <h1 id="heroTitle">YuE2: <span>music, with a plan.</span></h1>
+      <p class="hero-subtitle">Frontier-quality song generation, with an editable musical plan. <a href="#model-overview">SongBench SOTA on WildSongBench</a> with YuE2 (best-of-8).</p>
+      <nav class="article-contents" aria-label="On this page">
+        <a href="#abc-cot-gen">Listen</a>
+        <a href="#cover">Cover &amp; Editing</a>
+        <a href="#special-prompt-control">Genre Explorer</a>
+        <a href="#model-overview">Model &amp; Results</a>
+      </nav>
     </section>
   </div>
 
   <main>
-    <section class="module-index" aria-label="YuE2 modules">
-      <a class="module-card active" href="#abc-cot-gen"><span class="module-number">01</span><strong>ABC Planning</strong><em id="plannedCount">Selected scores</em></a>
-      <a class="module-card" href="#cover"><span class="module-number">02</span><strong>Cover &amp; Editing</strong><em id="coverCount">Selected examples</em></a>
-      <a class="module-card" href="#special-prompt-control"><span class="module-number">03</span><strong>Genre Explorer</strong><em id="genreCount">Selected songs</em></a>
-      <a class="module-card" href="#model-overview"><span class="module-number">04</span><strong>Model &amp; Results</strong><em>Figures from the paper</em></a>
-    </section>
-
     <section class="module-section showcase" id="abc-cot-gen" aria-labelledby="showcaseTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">01</span><div><p class="eyebrow">From score to song</p><h2 id="showcaseTitle">Hear the plan come alive.</h2></div></div>
-        <p>The generated song and its symbolic score,<br class="desktop-break"> ready to listen to side by side.</p>
+        <h2 id="showcaseTitle">Listen to YuE2</h2>
+        <p>Choose a song, then listen to its score and follow the notes.</p>
       </div>
 
       <div class="showcase-layout">
@@ -90,11 +83,11 @@
 
           <div class="audio-pair">
             <div class="player-block song-player-block">
-              <span><b class="player-step">A</b> The generated song</span>
+              <span>The generated song</span>
               <div id="musicAudio"></div>
             </div>
             <div class="player-block score-player-block">
-              <span><b class="player-step">B</b> The symbolic score</span>
+              <span>The symbolic score</span>
               <div id="abcSynth" class="abc-synth" aria-live="polite"></div>
               <details class="recorded-score">
                 <summary>Original score recording</summary>
@@ -153,18 +146,17 @@
 
     <section class="module-section" id="cover" aria-labelledby="coverTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">02</span><div><p class="eyebrow">Familiar songs, reimagined</p><h2 id="coverTitle">Cover &amp; Editing</h2></div></div>
-        <p>Eight examples of song covers and edits<br class="desktop-break"> to melody, lyrics, tempo, and arrangement.</p>
+        <h2 id="coverTitle">Cover &amp; Editing</h2>
+        <p>A familiar song can take a different shape. Listen to changes in melody, lyrics, tempo, and arrangement.</p>
       </div>
       <div id="coverGrid" class="cover-grid"></div>
     </section>
 
     <section class="module-section" id="special-prompt-control" aria-labelledby="specialPromptTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">03</span><div><p class="eyebrow">Find your next listen</p><h2 id="specialPromptTitle">Every genre has a voice.</h2></div></div>
+        <h2 id="specialPromptTitle">Genre Explorer</h2>
         <p id="genreDescription">The listening selection, gathered across genres and languages.</p>
       </div>
-      <div class="collection-facts" id="collectionSummary" aria-label="Collection overview"></div>
       <div class="explorer-filters filter-panel">
         <label><span>Search</span><input id="explorerSearch" type="search" placeholder="Genre, tags, lyrics"></label>
         <label><span>Language</span><select id="explorerLanguage"></select></label>
@@ -178,8 +170,8 @@
 
     <section class="module-section model-overview" id="model-overview" aria-labelledby="overviewTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">04</span><div><p class="eyebrow">From the paper</p><h2 id="overviewTitle">Model &amp; Results</h2></div></div>
-        <p>Frontier song quality, with an explicit<br class="desktop-break"> musical composition.</p>
+        <h2 id="overviewTitle">Model &amp; Results</h2>
+        <p>YuE2 (best-of-8) reaches <strong id="resultScore">6.9632</strong> on SongBench, the highest observed mean among 15 evaluated settings on WildSongBench (192 prompts). The figures below show the comparison and how the model works.</p>
       </div>
 
       <figure class="paper-figure" id="paper-figure-1">
@@ -225,6 +217,6 @@
   <script defer src="static/overview.js?v=20260908-paper7"></script>
   <script defer src="static/audio-player.js?v=20260908-sync10"></script>
   <script defer src="static/score-player.js?v=20260908-sync10"></script>
-  <script defer src="static/app.js?v=20260908-sync10"></script>
+  <script defer src="static/app.js?v=20260908-journal11"></script>
 </body>
 </html>
