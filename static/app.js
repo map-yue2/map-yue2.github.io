@@ -333,6 +333,7 @@
 
   function renderRail() {
     const rows = planned.filter(row => matches(row, $("searchInput").value, $("languageFilter").value, $("genreFilter").value));
+    $("railCount").textContent = `${rows.length} tracks`;
     const sort = $("sortSelect").value;
     if (sort === "genre") rows.sort((a, b) => a.genre.localeCompare(b.genre) || a.order - b.order);
     if (sort === "language") rows.sort((a, b) => a.languageLabel.localeCompare(b.languageLabel) || a.order - b.order);
@@ -389,7 +390,10 @@
     card.id = `cover-${row.id}`;
     const header = element("header");
     const title = element("div");
-    title.append(element("h3", "", row.title), element("p", "source-label", row.source));
+    const [songTitle, ...variant] = row.title.split(" · ");
+    title.append(element("h3", "", songTitle));
+    if (variant.length) title.append(element("p", "cover-variant", variant.join(" · ")));
+    title.append(element("p", "source-label", row.source));
     header.append(element("span", "track-number", String(index + 1).padStart(2, "0")), title);
     card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, generated cover`));
     card.append(textDetails(row.tags, row.lyrics));
@@ -426,7 +430,7 @@
     const card = element("article", "explorer-card");
     card.id = `song-${row.id}`;
     const header = element("header");
-    header.append(element("h3", "", row.title));
+    header.append(element("span", "song-number", `TRACK ${String(data.cases.indexOf(row) + 1).padStart(2, "0")}`), element("h3", "", row.title));
     const badges = element("div", "badge-row");
     badges.append(element("span", "badge", row.languageLabel), element("span", "badge", row.mode === "planned" ? "Symbolic planning" : "Direct generation"));
     header.append(badges);
@@ -453,7 +457,7 @@
   }
 
   const summary = data.summary;
-  const facts = [[summary.genreCount, "selected songs"], [summary.genres, "genres"], [summary.languages, "languages"], [summary.coverCount, "covers"]];
+  const facts = [[summary.genreCount, "songs"], [summary.genres, "genres"], [summary.languages, "languages"], [summary.coverCount, "covers"]];
   $("collectionSummary").replaceChildren(...facts.map(([count, label]) => {
     const fact = element("span", "fact");
     fact.append(element("strong", "", count), document.createTextNode(` ${label}`));
@@ -463,7 +467,7 @@
   $("coverCount").textContent = `${summary.coverCount} selected covers`;
   $("genreCount").textContent = `${summary.genreCount} selected songs`;
   $("caseSummary").textContent = `${planned.length} cases`;
-  $("genreDescription").textContent = `${summary.genreCount} songs selected by listening: ${summary.plannedCount} with symbolic planning and ${summary.directCount} generated directly from lyrics and tags.`;
+  $("genreDescription").textContent = `${summary.genreCount} selected songs across ${summary.genres} genres and ${summary.languages} languages. Find a style, press play, and explore.`;
   fillSelect($("languageFilter"), optionsFor(planned, "language", "languageLabel"), "All languages");
   fillSelect($("genreFilter"), optionsFor(planned, "genre"), "All genres");
   fillSelect($("explorerLanguage"), optionsFor(data.cases, "language", "languageLabel"), "All languages");

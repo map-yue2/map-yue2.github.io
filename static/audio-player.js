@@ -29,7 +29,7 @@ window.YUE2Audio = class {
 
   reset(player) {
     player.activate.hidden = false;
-    player.activate.textContent = this.positions.get(player.url) > 0 ? "▶ Resume audio" : "▶ Play audio";
+    player.activate.textContent = this.positions.get(player.url) > 0 ? "Resume audio" : "Play audio";
     player.status.textContent = "";
     player.shell.setAttribute("aria-busy", "false");
   }
@@ -83,7 +83,7 @@ window.YUE2Audio = class {
     const fail = message => {
       if (this.active !== active) return;
       this.stop();
-      player.activate.textContent = "↻ Retry audio";
+      player.activate.textContent = "Retry audio";
       player.status.textContent = message;
     };
     const loading = () => {

@@ -10,6 +10,8 @@ The page is static and publishes from `main` at `/`. `.nojekyll` disables Jekyll
 
 The score library and score engraving are deferred until a score approaches the viewport or its load button is pressed. Switching selections cancels pending rendering. Search updates are debounced, prompt and lyric details populate when opened, and Genre Explorer adds cards in groups of 12.
 
+The listening-room layout uses a charcoal masthead, a compact section index, and a lime accent for the primary song player. Song titles, versions, and source notes have separate visual levels. On narrow screens, the selected song appears before the score collection, whose tracks form a horizontal list. Headings use a locally hosted 22 KB Latin subset of Space Grotesk, with its [SIL Open Font License](vendor/fonts/OFL.txt); system fonts provide the fallback and other scripts. No external font request is needed.
+
 Score rendering and interactive playback use [abcjs 6.7.0](https://github.com/paulrosen/abcjs/releases/tag/v6.7.0), vendored under its [MIT license](vendor/abcjs-LICENSE.md). Interactive synthesis loads the library's default FluidR3 sound samples from the abcjs author's HTTPS site. The 64 planned Genre Explorer cases also include locally hosted original instrumental recordings, which can be played independently of interactive synthesis.
 
 `data/cases.js` contains only the selected public presentation data. Source paths, event logs, experimental metrics, and model identifiers are kept outside the deployed website.
