@@ -9,7 +9,7 @@
   }
   const planned = data.cases.filter(item => item.mode === "planned");
   const controllers = new Set();
-  const audioPlayers = new window.YUE2Audio(() => stopOtherAudio());
+  const audioPlayers = new window.YUE2Audio(() => stopOtherAudio(null, true));
   const searchText = new Map(data.cases.map(row => [row.id,
     `${row.title} ${row.genrePath.join(" ")} ${row.languageLabel} ${row.tags} ${row.lyrics}`.toLocaleLowerCase()]));
   let selectedId = null;
@@ -50,10 +50,10 @@
     return node;
   }
 
-  function stopOtherAudio(except) {
+  function stopOtherAudio(except, keepNative = false) {
     playbackEpoch += 1;
     if (except) except.playbackEpoch = playbackEpoch;
-    audioPlayers.stop();
+    if (!keepNative) audioPlayers.stop();
     controllers.forEach(controller => {
       if (controller !== except && controller.isStarted) {
         controller.pause();
@@ -82,7 +82,7 @@
     return scoreLibrary;
   }
 
-  function deferredScore(abc, scoreNode, controlsNode, onReady, onError) {
+  function deferredScore(abc, scoreNode, controlsNode, onReady, onError, recording) {
     let cancelled = false;
     let started = false;
     let timer;
@@ -102,7 +102,7 @@
             if (cancelled) return;
             scoreNode.replaceChildren();
             controlsNode.replaceChildren();
-            try { onReady(createScore(abc, scoreNode, controlsNode)); }
+            try { onReady(createScore(abc, scoreNode, controlsNode, recording)); }
             catch (error) { onError(error); }
           }, 0);
         } catch (error) { if (!cancelled) onError(error); }
@@ -133,7 +133,7 @@
     controllers.delete(controller);
   }
 
-  function createScore(abc, scoreNode, controlsNode) {
+  function createScore(abc, scoreNode, controlsNode, recording) {
     if (!window.ABCJS) throw new Error("Score renderer unavailable");
     const visual = ABCJS.renderAbc(scoreNode, abc, {
       responsive: "resize", add_classes: true, staffwidth: 820,
@@ -141,15 +141,36 @@
       wrap: { minSpacing: 1.4, maxSpacing: 2.5, preferredMeasuresPerLine: 4 },
     })[0];
     if (!visual) throw new Error("The score could not be rendered");
-    if (!ABCJS.synth || !ABCJS.synth.supportsAudio()) {
-      controlsNode.replaceChildren(element("p", "notice", "Interactive playback is not supported in this browser. Use the original score recording."));
-      return null;
-    }
     let highlighted = [];
     const clearHighlight = () => {
       highlighted.forEach(node => node.classList.remove("playing-note"));
       highlighted = [];
     };
+    const highlight = event => {
+      clearHighlight();
+      if (!event || !event.elements) return;
+      highlighted = event.elements.flat().filter(Boolean);
+      highlighted.forEach(node => node.classList.add("playing-note"));
+      const target = highlighted[0];
+      const frame = scoreNode.parentElement;
+      if (target && scoreNode.isConnected) {
+        const bounds = target.getBoundingClientRect();
+        const viewport = frame.getBoundingClientRect();
+        if (bounds.top < viewport.top + 20 || bounds.bottom > viewport.bottom - 30) {
+          frame.scrollTop += bounds.top - viewport.top - 70;
+        }
+      }
+    };
+    if (recording) {
+      return new window.YUE2ScorePlayer({
+        visual, recording, controls: controlsNode, onEvent: highlight,
+        revealRecording: () => { controlsNode.parentElement.querySelector(".recorded-score").open = true; },
+      });
+    }
+    if (!ABCJS.synth || !ABCJS.synth.supportsAudio()) {
+      controlsNode.replaceChildren(element("p", "notice", "Interactive playback is not supported in this browser."));
+      return null;
+    }
     const controller = new ABCJS.synth.SynthController();
     controllers.add(controller);
     const status = element("p", "score-playback-status");
@@ -197,21 +218,7 @@
     controller.load(controlsNode, {
       onStart: () => stopOtherAudio(controller),
       onFinished: clearHighlight,
-      onEvent: event => {
-        clearHighlight();
-        if (!event || !event.elements) return;
-        highlighted = event.elements.flat().filter(Boolean);
-        highlighted.forEach(node => node.classList.add("playing-note"));
-        const target = highlighted[0];
-        const frame = scoreNode.parentElement;
-        if (target && !controller.disposed) {
-          const bounds = target.getBoundingClientRect();
-          const viewport = frame.getBoundingClientRect();
-          if (bounds.top < viewport.top + 20 || bounds.bottom > viewport.bottom - 30) {
-            frame.scrollTop += bounds.top - viewport.top - 70;
-          }
-        }
-      },
+      onEvent: event => { if (!controller.disposed) highlight(event); },
     }, { displayRestart: true, displayPlay: true, displayProgress: true, displayLoop: true, displayWarp: false });
     controlsNode.append(status);
     const playButton = controlsNode.querySelector(".abcjs-midi-start");
@@ -346,7 +353,8 @@
     $("selectedKicker").textContent = `${row.languageLabel} · Symbolic planning`;
     $("selectedTitle").textContent = row.title;
     $("musicAudio").replaceChildren(audioPlayer(row.audio, `${row.title}, generated song`));
-    $("recordedScore").replaceChildren(audioPlayer(row.scoreAudio, `${row.title}, original score recording`));
+    const recordedScore = audioPlayer(row.scoreAudio, `${row.title}, original score recording`);
+    $("recordedScore").replaceChildren(recordedScore);
     $("abcText").textContent = row.abc;
     $("lyricsText").textContent = row.lyrics;
     $("promptText").textContent = row.tags;
@@ -365,7 +373,7 @@
       $("abcSynth").replaceChildren(element("p", "notice", "Use the original score recording below."));
       $("originalScoreDetails").open = true;
       showOriginalPages(row);
-    });
+    }, audioPlayers.transport(recordedScore));
     document.querySelectorAll(".case-item").forEach(node => {
       const active = node.dataset.id === id;
       node.classList.toggle("selected", active);

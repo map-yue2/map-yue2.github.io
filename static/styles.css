@@ -135,6 +135,14 @@ audio { display: block; width: 100%; height: 46px; }
 .abcjs-inline-audio .abcjs-midi-progress-indicator { width: 12px; height: 12px; margin-left: -6px; top: -3px; border-radius: 50%; background: #aa482f; box-shadow: 0 0 0 3px #f3e7d9; pointer-events: none; }
 .abcjs-inline-audio .abcjs-midi-clock { color: #6d3024; font-size: .75rem; font-family: var(--display); font-variant-numeric: tabular-nums; min-width: 34px; margin: 0 4px 0 0; text-align: right; }
 .abcjs-inline-audio .abcjs-loading-svg circle { stroke: #aa482f; }
+.score-transport .abcjs-btn { color: #6d3024; }
+.score-transport svg { fill: currentColor; }
+.score-transport .score-loop[aria-pressed="true"] { border-color: #b76648; }
+.score-transport .score-seek { appearance: none; flex: 1 1 0%; width: 0; min-width: 24px; height: 44px; min-height: 44px; margin: 0 10px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.score-seek::-webkit-slider-runnable-track { height: 6px; border-radius: 4px; background: linear-gradient(to right, #aa482f var(--score-progress, 0%), #d2b69d var(--score-progress, 0%)); }
+.score-seek::-moz-range-track { height: 6px; border-radius: 4px; background: linear-gradient(to right, #aa482f var(--score-progress, 0%), #d2b69d var(--score-progress, 0%)); }
+.score-seek::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; margin-top: -3px; border: 0; border-radius: 50%; background: #aa482f; box-shadow: 0 0 0 3px #f3e7d9; }
+.score-seek::-moz-range-thumb { width: 12px; height: 12px; border: 0; border-radius: 50%; background: #aa482f; box-shadow: 0 0 0 3px #f3e7d9; }
 .recorded-score { margin-top: 12px; color: #79685b; font-size: .8125rem; }
 .recorded-score .audio-player { margin-top: 10px; }
 .abc-plan-summary { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 22px 0; }

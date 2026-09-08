@@ -6,6 +6,7 @@ window.YUE2Audio = class {
     this.beforePlay = beforePlay;
     this.active = null;
     this.positions = new Map();
+    this.players = new WeakMap();
     this.volume = 1;
     this.muted = false;
   }
@@ -20,17 +21,78 @@ window.YUE2Audio = class {
     const status = document.createElement("span");
     status.className = "audio-status";
     status.setAttribute("role", "status");
-    const player = { shell, activate, status, url, label };
+    const player = { shell, activate, status, url, label, duration: 0, loop: false,
+      playing: false, loading: false, subscribers: new Set() };
+    this.players.set(shell, player);
     this.reset(player);
     activate.addEventListener("click", () => this.play(player));
     shell.append(activate, status);
     return shell;
   }
 
+  snapshot(player) {
+    const active = this.active?.player === player ? this.active : null;
+    const audio = active?.audio;
+    return {
+      active: Boolean(audio),
+      currentTime: audio ? active.pendingSeek ?? audio.currentTime : this.positions.get(player.url) || 0,
+      duration: audio && Number.isFinite(audio.duration) ? audio.duration : player.duration,
+      paused: !audio || (audio.paused && !player.loading),
+      playing: Boolean(audio && !audio.paused && player.playing),
+      loop: audio ? audio.loop : player.loop,
+      loading: player.loading,
+      status: player.status.textContent,
+    };
+  }
+
+  notify(player) {
+    const state = this.snapshot(player);
+    player.subscribers.forEach(callback => callback(state));
+  }
+
+  // Both score controls and native controls use this same media element and clock.
+  transport(shell) {
+    const player = this.players.get(shell);
+    if (!player) throw new Error("Unknown audio player");
+    return {
+      state: () => this.snapshot(player),
+      subscribe: callback => {
+        player.subscribers.add(callback);
+        callback(this.snapshot(player));
+        return () => player.subscribers.delete(callback);
+      },
+      play: () => this.play(player, { focus: false }),
+      pause: () => {
+        if (this.active?.player === player) this.active.pause();
+      },
+      seek: seconds => {
+        if (!Number.isFinite(seconds)) return;
+        const duration = this.snapshot(player).duration;
+        const position = Math.max(0, duration > 0 ? Math.min(seconds, duration) : seconds);
+        this.positions.set(player.url, position);
+        if (this.active?.player === player) {
+          this.active.pendingSeek = position;
+          try {
+            this.active.audio.currentTime = position;
+            if (this.active.metadataLoaded) this.active.pendingSeek = null;
+          } catch { /* Restore after metadata loads. */ }
+        }
+        this.notify(player);
+      },
+      setLoop: loop => {
+        player.loop = Boolean(loop);
+        if (this.active?.player === player) this.active.audio.loop = player.loop;
+        this.notify(player);
+      },
+    };
+  }
+
   reset(player) {
     player.activate.hidden = false;
     player.activate.textContent = this.positions.get(player.url) > 0 ? "Resume audio" : "Play audio";
     player.status.textContent = "";
+    player.loading = false;
+    player.playing = false;
     player.shell.setAttribute("aria-busy", "false");
   }
 
@@ -41,17 +103,20 @@ window.YUE2Audio = class {
     clearTimeout(active.timeout);
     const { audio, player, listeners } = active;
     const restoreFocus = player.shell.contains(document.activeElement);
-    const position = audio.currentTime;
+    const position = active.pendingSeek ?? audio.currentTime;
     if (audio.ended) this.positions.delete(player.url);
-    else if (Number.isFinite(position) && position > 0) this.positions.set(player.url, position);
+    else if (Number.isFinite(position) && position >= 0) this.positions.set(player.url, position);
     this.volume = audio.volume;
     this.muted = audio.muted;
+    if (Number.isFinite(audio.duration)) player.duration = audio.duration;
+    player.loop = audio.loop;
     listeners.forEach(([event, handler]) => audio.removeEventListener(event, handler));
     audio.pause();
     audio.removeAttribute("src");
     audio.load(); // Abort the old request and release its media resource.
     audio.remove();
     this.reset(player);
+    this.notify(player);
     if (restoreFocus) player.activate.focus({ preventScroll: true });
   }
 
@@ -59,7 +124,13 @@ window.YUE2Audio = class {
     if (this.active && root.contains(this.active.player.shell)) this.stop();
   }
 
-  play(player) {
+  play(player, { focus = true } = {}) {
+    if (this.active?.player === player) {
+      this.beforePlay();
+      if (!this.active.audio.paused && player.playing) return;
+      this.active.start(focus);
+      return;
+    }
     this.stop();
     this.beforePlay();
     const audio = document.createElement("audio");
@@ -67,8 +138,10 @@ window.YUE2Audio = class {
     audio.preload = "none";
     audio.volume = this.volume;
     audio.muted = this.muted;
+    audio.loop = player.loop;
     audio.setAttribute("aria-label", player.label);
-    const active = { player, audio, listeners: [], timeout: null };
+    const active = { player, audio, listeners: [], timeout: null, playAttempt: 0,
+      metadataLoaded: false, pendingSeek: this.positions.get(player.url) ?? null };
     this.active = active;
     const listen = (event, handler) => {
       const guarded = () => { if (this.active === active) handler(); };
@@ -77,6 +150,8 @@ window.YUE2Audio = class {
     };
     const ready = () => {
       clearTimeout(active.timeout);
+      active.timeout = null;
+      player.loading = false;
       player.status.textContent = "";
       player.shell.setAttribute("aria-busy", "false");
     };
@@ -85,42 +160,71 @@ window.YUE2Audio = class {
       this.stop();
       player.activate.textContent = "Retry audio";
       player.status.textContent = message;
+      this.notify(player);
     };
     const loading = () => {
       player.status.textContent = "Loading audio…";
+      player.loading = true;
       player.shell.setAttribute("aria-busy", "true");
       if (!active.timeout) active.timeout = setTimeout(() => {
         fail("Audio is taking too long to load. Please retry.");
       }, 45000);
+      this.notify(player);
     };
     listen("loadedmetadata", () => {
+      active.metadataLoaded = true;
+      if (Number.isFinite(audio.duration)) player.duration = audio.duration;
       const position = this.positions.get(player.url);
-      if (position > 0 && Number.isFinite(audio.duration) && position < audio.duration) {
-        try { audio.currentTime = position; } catch { /* Playback can still start from the beginning. */ }
+      if (position >= 0 && Number.isFinite(audio.duration)) {
+        try {
+          audio.currentTime = Math.min(position, audio.duration);
+          active.pendingSeek = null;
+        } catch { /* Playback can still start from the beginning. */ }
       }
+      this.notify(player);
     });
-    listen("playing", () => { ready(); active.timeout = null; });
-    listen("pause", () => { ready(); active.timeout = null; });
-    listen("waiting", loading);
-    listen("stalled", loading);
+    listen("play", () => { this.beforePlay(); player.playing = false; loading(); });
+    listen("playing", () => { player.playing = true; ready(); this.notify(player); });
+    listen("pause", () => {
+      active.playAttempt += 1;
+      player.playing = false;
+      ready();
+      this.notify(player);
+    });
+    listen("waiting", () => { if (!audio.paused) { player.playing = false; loading(); } });
+    listen("stalled", () => { if (!audio.paused) loading(); });
+    for (const event of ["timeupdate", "seeking", "seeked", "durationchange", "ratechange"]) {
+      listen(event, () => this.notify(player));
+    }
     listen("ended", () => this.stop());
     listen("error", () => fail("This audio could not load. Please try again."));
     player.activate.hidden = true;
     player.shell.insertBefore(audio, player.status);
-    loading();
+    active.pause = () => {
+      active.playAttempt += 1;
+      player.playing = false;
+      ready();
+      audio.pause();
+      this.notify(player);
+    };
+    active.start = shouldFocus => {
+      const attempt = ++active.playAttempt;
+      loading();
+      try {
+        Promise.resolve(audio.play()).catch(error => {
+          if (this.active !== active || attempt !== active.playAttempt) return;
+          if (error.name === "AbortError") { ready(); this.notify(player); return; }
+          fail(error.name === "NotAllowedError"
+            ? "Playback was blocked. Click to try again."
+            : "This audio could not load. Please try again.");
+        });
+      } catch {
+        fail("This audio could not load. Please try again.");
+      }
+      if (shouldFocus && this.active === active) audio.focus({ preventScroll: true });
+    };
     // Assign the source and call play in the same user gesture (also on mobile).
     audio.src = player.url;
-    try {
-      Promise.resolve(audio.play()).catch(error => {
-        if (this.active !== active) return;
-        if (error.name === "AbortError") { ready(); active.timeout = null; return; }
-        fail(error.name === "NotAllowedError"
-          ? "Playback was blocked. Click to try again."
-          : "This audio could not load. Please try again.");
-      });
-    } catch {
-      fail("This audio could not load. Please try again.");
-    }
-    if (this.active === active) audio.focus({ preventScroll: true });
+    active.start(focus);
   }
 };
