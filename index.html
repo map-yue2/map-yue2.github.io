@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YuE2 · Frontier Music, with a Plan</title>
-  <meta name="description" content="Frontier-quality song generation with an editable symbolic plan. Explore YuE2's architecture, leading SongBench results in the September 5 evaluation, and 106 selected listening examples.">
+  <meta name="description" content="Frontier-quality song generation with an editable symbolic plan. Listen to 106 selected examples, then explore the paper figures, model architecture, and leading SongBench results in the September 5 evaluation.">
   <meta name="theme-color" content="#f8f2e9">
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260908-wsb6">
+  <link rel="stylesheet" href="static/styles.css?v=20260908-paper7">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -20,117 +20,33 @@
       <small>Music, with a plan.</small>
     </a>
     <nav class="top-nav" aria-label="Modules">
-      <a href="#model-overview">The model</a>
       <a href="#abc-cot-gen">Listen</a>
       <a href="#cover">Cover &amp; Editing</a>
       <a href="#special-prompt-control">Genre Explorer</a>
+      <a href="#model-overview">Model &amp; Results</a>
       <a class="source-link" href="https://github.com/map-yue2/map-yue2.github.io">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
 
     <section class="hero" aria-labelledby="heroTitle">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> The next chapter of YuE</p>
-        <h1 id="heroTitle">Frontier quality.<br><span>Music you can shape.</span></h1>
-        <p class="hero-subtitle">A full song begins with an idea. YuE2 turns lyrics and style into an editable musical plan, then brings it to life with vocals and accompaniment.</p>
-        <div class="hero-actions"><a class="primary-link" href="#abc-cot-gen"><span aria-hidden="true">▶</span> Hear YuE2</a><a class="quiet-link" href="#model-overview">Explore the model <span aria-hidden="true">↘</span></a></div>
-      </div>
-      <aside class="hero-result" aria-labelledby="heroResultTitle">
-        <div class="result-topline"><span class="result-badge">SOTA · SongBench</span><span>05 SEP 2026</span></div>
-        <h2 id="heroResultTitle">At the frontier<br>of song generation.</h2>
-        <p>Competitive with the evaluated proprietary systems. The highest observed SongBench mean on WildSongBench.</p>
-        <div class="headline-results">
-          <div><span>WildSongBench</span><strong>6.9632</strong><small>192 prompts</small></div>
-        </div>
-        <p class="result-scope">YuE2 (best-of-8) · Seven-dimension average.<br>SOTA here means highest among the 15 evaluated settings under the recorded selection protocols.</p>
-        <a class="result-link" href="#model-overview">See the comparison &amp; protocol <span aria-hidden="true">↗</span></a>
-      </aside>
+      <h1 id="heroTitle">Frontier quality. <span>SongBench SOTA.</span></h1>
+      <p class="hero-subtitle">YuE2 (best-of-8) scores <strong id="heroScore">6.9632</strong> on SongBench, the highest observed mean among 15 evaluated settings on WildSongBench.</p>
+      <p class="hero-scope">192 prompts · September 2026 evaluation · <a href="#evaluation-protocol">Scope &amp; protocol</a></p>
+      <div class="hero-actions"><a class="primary-link" href="#abc-cot-gen"><span aria-hidden="true">▶</span> Listen to YuE2</a><a class="quiet-link" href="#model-overview">Model &amp; results <span aria-hidden="true">↘</span></a></div>
     </section>
-    <div class="collection-strip"><span class="collection-label">The listening collection</span><div class="hero-facts" id="collectionSummary" aria-label="Collection overview"></div><a href="#special-prompt-control">Find your sound <span aria-hidden="true">↗</span></a></div>
   </div>
 
   <main>
     <section class="module-index" aria-label="YuE2 modules">
-      <a class="module-card active" href="#model-overview">
-        <span class="module-number">01</span><strong>The model</strong>
-        <em>Performance &amp; architecture</em>
-      </a>
-      <a class="module-card" href="#abc-cot-gen">
-        <span class="module-number">02</span><strong>ABC Planning</strong>
-        <em id="plannedCount">Selected scores</em>
-      </a>
-      <a class="module-card" href="#cover">
-        <span class="module-number">03</span><strong>Cover &amp; Editing</strong>
-        <em id="coverCount">Selected examples</em>
-      </a>
-      <a class="module-card" href="#special-prompt-control">
-        <span class="module-number">04</span><strong>Genre Explorer</strong>
-        <em id="genreCount">Selected songs</em>
-      </a>
-    </section>
-
-    <section class="module-section model-overview" id="model-overview" aria-labelledby="overviewTitle">
-      <div class="section-head">
-        <div class="section-title"><span class="section-number">01</span><div><p class="eyebrow">The science behind the sound</p><h2 id="overviewTitle">The model, at a glance.</h2></div></div>
-        <p>Frontier song quality meets a readable,<br class="desktop-break"> editable composition.</p>
-      </div>
-      <div class="overview-shell">
-        <div class="overview-header">
-          <div class="overview-tabs" role="tablist" aria-label="Model overview">
-            <button id="performanceTab" role="tab" aria-selected="true" aria-controls="performancePanel" type="button">Performance</button>
-            <button id="architectureTab" role="tab" aria-selected="false" aria-controls="architecturePanel" tabindex="-1" type="button">Architecture</button>
-          </div>
-          <span class="overview-caption">YuE2 / Research overview</span>
-        </div>
-        <section id="performancePanel" class="overview-panel" role="tabpanel" aria-labelledby="performanceTab">
-          <div class="benchmark-controls">
-            <div class="benchmark-dataset"><strong>WildSongBench</strong><span>192 prompts</span></div>
-            <label class="metric-select"><span>Compare by</span><select id="benchmarkMetric" aria-label="Evaluation metric"><option value="songbench_global_avg">SongBench</option></select></label>
-          </div>
-          <div class="benchmark-layout">
-            <div class="benchmark-insight" aria-live="polite" aria-atomic="true">
-              <p class="eyebrow" id="benchmarkTag">Highest observed score</p>
-              <p class="benchmark-value" id="benchmarkValue">6.9632</p>
-              <p class="benchmark-setting">YuE2 (best-of-8)</p>
-              <p class="benchmark-ranking" id="benchmarkRank">#1 of 15 evaluated settings</p>
-              <div class="baseline-result"><span>YuE2</span><strong id="benchmarkBaseValue">6.7316</strong><small id="benchmarkBaseRank">#4 of 15</small></div>
-              <p id="benchmarkDefinition" class="metric-definition">SongBench · Seven-dimension global average. Higher is better.</p>
-            </div>
-            <figure class="benchmark-figure">
-              <figcaption><strong id="benchmarkChartTitle">WildSongBench · SongBench</strong><span id="benchmarkDirection">Higher is better ↑</span></figcaption>
-              <ol id="benchmarkChart" class="benchmark-chart" aria-label="Ranked metric comparison"></ol>
-              <p class="chart-note">Top five, both YuE2 settings, and YuE 1. Bars start at zero. All 15 settings are available below.</p>
-            </figure>
-          </div>
-          <div class="benchmark-bottom"><p>September 5, 2026 evaluation · rankings vary by metric · generation and selection compute are not matched.</p><a href="data/benchmark-results.csv?v=20260908-wsb6" download>Download results <span aria-hidden="true">↓</span></a></div>
-          <details class="full-comparison"><summary>Full comparison <span>15 evaluated settings · current metric</span></summary><div class="comparison-scroll"><table><caption id="comparisonCaption">WildSongBench · SongBench</caption><thead><tr><th scope="col">Rank</th><th scope="col">System / setting</th><th scope="col">Prompts</th><th scope="col" id="comparisonMetric">SongBench ↑</th></tr></thead><tbody id="comparisonRows"></tbody></table></div></details>
-          <details class="evaluation-protocol" id="evaluation-protocol"><summary>How to read these results</summary><div class="protocol-copy">
-            <p><strong>Scope.</strong> WildSongBench compares 13 other systems and two YuE2 settings on 192 prompts. “Frontier quality” describes competitiveness with the evaluated proprietary systems under this automatic evaluation. The SOTA headline refers specifically to the highest observed SongBench mean in this comparison; it does not imply a lead on every metric, statistical significance, or established human preference.</p>
-            <p><strong>Selection.</strong> YuE2 uses the lower phoneme error rate (PER) of two candidates. YuE2 (best-of-8) selects from eight using Musicality → Control → PER. SongBench Musicality participates in this selection, so the reported best-of-8 quality includes evaluator-based selection. ASR evaluation uses the lowest PER of four repeats per candidate. Control weights differ between selected settings in 10 of the 192 WildSongBench records.</p>
-            <p><strong>Metrics.</strong> SongBench averages Arrangement, Instrumental, Melody, Mixing, Musicality, Structure, and Vocal. SongEval averages five quality dimensions. AudioBox PQ uses length-weighted 10-second windows, then equal song weights. MuLan and AllMusicCaps measure similarity to style text, not percentages. Control is prompt-weighted; PER is lower-is-better. All displayed aggregate metrics have complete coverage.</p>
-            <p><strong>Scores and listening.</strong> Both evaluated YuE2 settings generate with melody-and-chord symbolic planning and use the verified new VAE for scoring. The curated Genre Explorer audio below uses the legacy VAE for listening; these previews are separate from the benchmark audio.</p>
-          </div></details>
-        </section>
-        <section id="architecturePanel" class="overview-panel" role="tabpanel" aria-labelledby="architectureTab" hidden>
-          <div class="architecture-intro"><div><p class="eyebrow">Plan → realize</p><h3>One composition.<br>Many ways to make it yours.</h3><p>YuE2 writes a musical score before generating the performance. A shared symbolic interface connects creation, covering, and editing.</p></div><dl class="model-specs"><div><dt>Parameters</dt><dd>≈3.59B</dd></div><div><dt>Backbone</dt><dd>28 layers</dd></div><div><dt>Semantic rate</dt><dd>25 Hz</dd></div></dl></div>
-          <div class="architecture-modes segmented" role="group" aria-label="Generation operation"><button type="button" data-operation="create" aria-pressed="true">Create</button><button type="button" data-operation="cover" aria-pressed="false">Cover</button><button type="button" data-operation="edit" aria-pressed="false">Edit</button></div>
-          <ol class="architecture-flow" aria-label="Generation pipeline">
-            <li><span class="flow-kicker" id="flowInputKicker">Your idea</span><h4 id="flowInputTitle">Lyrics + style</h4><p id="flowInputText">Describe the song you want to hear.</p></li>
-            <li class="flow-plan"><span class="flow-kicker" id="flowPlanKicker">AR · Compose</span><h4 id="flowPlanTitle">ABC score</h4><p id="flowPlanText">Melody, chords, tempo, meter, and form.</p></li>
-            <li><span class="flow-kicker">AR · Continue</span><h4>MERT2 tokens</h4><p>A discrete semantic sequence for the performance.</p></li>
-            <li class="flow-acoustic"><span class="flow-kicker">NAR · Realize</span><h4>Acoustic latents</h4><p>Bidirectional flow matching over the full sequence.</p></li>
-            <li><span class="flow-kicker">VAE · Decode</span><h4>The full song</h4><p>Vocals and accompaniment, together.</p></li>
-          </ol>
-          <p id="operationDescription" class="operation-description" aria-live="polite">Create: the AR stream generates the score and semantic tokens from lyrics and style. The NAR stream uses the full text, score, and semantic prefix to generate acoustic latents.</p>
-          <div class="architecture-notes"><div><h4>AR–NAR Mixture-of-Transformers</h4><p>One backbone with separate AR and NAR normalization, projections, and MLP experts. Discrete prediction is causal; acoustic realization reads the full condition and uses bidirectional acoustic context.</p></div><div><h4>An explicit musical plan</h4><p>ABC notation exposes the composition for inspection and revision. MERT2 provides semantic codes from a 32,768-entry vocabulary. SheetSage2 supplies a transcribed plan when covering reference audio.</p></div></div>
-          <p class="architecture-footnote">The diagram shows generation with symbolic planning. Direct generation is also supported. Editing regenerates the full song; unchanged waveform regions are not guaranteed.</p>
-        </section>
-      </div>
+      <a class="module-card active" href="#abc-cot-gen"><span class="module-number">01</span><strong>ABC Planning</strong><em id="plannedCount">Selected scores</em></a>
+      <a class="module-card" href="#cover"><span class="module-number">02</span><strong>Cover &amp; Editing</strong><em id="coverCount">Selected examples</em></a>
+      <a class="module-card" href="#special-prompt-control"><span class="module-number">03</span><strong>Genre Explorer</strong><em id="genreCount">Selected songs</em></a>
+      <a class="module-card" href="#model-overview"><span class="module-number">04</span><strong>Model &amp; Results</strong><em>Figures from the paper</em></a>
     </section>
 
     <section class="module-section showcase" id="abc-cot-gen" aria-labelledby="showcaseTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">02</span><div><p class="eyebrow">From score to song</p><h2 id="showcaseTitle">Hear the plan come alive.</h2></div></div>
+        <div class="section-title"><span class="section-number">01</span><div><p class="eyebrow">From score to song</p><h2 id="showcaseTitle">Hear the plan come alive.</h2></div></div>
         <p>The generated song and its symbolic score,<br class="desktop-break"> ready to listen to side by side.</p>
       </div>
 
@@ -237,7 +153,7 @@
 
     <section class="module-section" id="cover" aria-labelledby="coverTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">03</span><div><p class="eyebrow">Familiar songs, reimagined</p><h2 id="coverTitle">Cover &amp; Editing</h2></div></div>
+        <div class="section-title"><span class="section-number">02</span><div><p class="eyebrow">Familiar songs, reimagined</p><h2 id="coverTitle">Cover &amp; Editing</h2></div></div>
         <p>Eight examples of song covers and edits<br class="desktop-break"> to melody, lyrics, tempo, and arrangement.</p>
       </div>
       <div id="coverGrid" class="cover-grid"></div>
@@ -245,9 +161,10 @@
 
     <section class="module-section" id="special-prompt-control" aria-labelledby="specialPromptTitle">
       <div class="section-head">
-        <div class="section-title"><span class="section-number">04</span><div><p class="eyebrow">Find your next listen</p><h2 id="specialPromptTitle">Every genre has a voice.</h2></div></div>
+        <div class="section-title"><span class="section-number">03</span><div><p class="eyebrow">Find your next listen</p><h2 id="specialPromptTitle">Every genre has a voice.</h2></div></div>
         <p id="genreDescription">The listening selection, gathered across genres and languages.</p>
       </div>
+      <div class="collection-facts" id="collectionSummary" aria-label="Collection overview"></div>
       <div class="explorer-filters filter-panel">
         <label><span>Search</span><input id="explorerSearch" type="search" placeholder="Genre, tags, lyrics"></label>
         <label><span>Language</span><select id="explorerLanguage"></select></label>
@@ -257,6 +174,42 @@
       <p id="explorerStatus" class="results-status" role="status"></p>
       <div id="explorerGrid" class="explorer-grid"></div>
       <button id="loadMore" class="load-more ghost-button" type="button">Show more songs</button>
+    </section>
+
+    <section class="module-section model-overview" id="model-overview" aria-labelledby="overviewTitle">
+      <div class="section-head">
+        <div class="section-title"><span class="section-number">04</span><div><p class="eyebrow">From the paper</p><h2 id="overviewTitle">Model &amp; Results</h2></div></div>
+        <p>Frontier song quality, with an explicit<br class="desktop-break"> musical composition.</p>
+      </div>
+
+      <figure class="paper-figure" id="paper-figure-1">
+        <div class="paper-figure-heading"><div><p class="eyebrow">Figure 1</p><h3>YuE2 at the frontier.</h3></div><a href="static/figures/frontier-teaser.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+        <a class="paper-figure-image" href="static/figures/frontier-teaser.png" target="_blank" rel="noopener" aria-label="Open Figure 1 at full resolution"><img src="static/figures/frontier-teaser.png" alt="Paper Figure 1: a WildSongBench comparison of song quality and text alignment. YuE2 and YuE2 best-of-8 are competitive with the evaluated proprietary systems. Bubble area represents AudioBox production quality." width="1980" height="764" loading="lazy" decoding="async" fetchpriority="low"></a>
+        <figcaption>Song quality and text alignment on WildSongBench. Bubble area shows AudioBox PQ; black outlines mark Pareto optima on the two plotted axes. Bo8 = best-of-8. <a href="#evaluation-protocol">How to read the indices</a>.</figcaption>
+      </figure>
+
+      <figure class="paper-figure" id="paper-architecture">
+        <div class="paper-figure-heading"><div><p class="eyebrow">Model architecture</p><h3>Composing in symbols, performing in audio.</h3></div><a href="static/figures/yue2-overview.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+        <a class="paper-figure-image" href="static/figures/yue2-overview.png" target="_blank" rel="noopener" aria-label="Open the model architecture at full resolution"><img src="static/figures/yue2-overview.png" alt="Paper architecture diagram: an AR–NAR Mixture-of-Transformers generates symbolic scores and semantic tokens causally, then acoustic latents through bidirectional flow matching. A VAE decodes audio. Creation, covering, and editing share the generator; SheetSage2, MERT2, and the VAE encoder construct training targets offline." width="2352" height="1191" loading="lazy" decoding="async" fetchpriority="low"></a>
+        <figcaption>An editable score becomes semantic music tokens, acoustic latents, and full-song audio. The model has approximately 3.59B parameters and 28 layers, and supports creation, covering, and editing. The AR and NAR experts share an attention computation while using separate normalization, projections, and MLPs.</figcaption>
+      </figure>
+
+      <details class="benchmark-details full-comparison" id="benchmarkDetails">
+        <summary>Explore benchmark scores <span>WildSongBench · 15 settings · 7 metrics</span></summary>
+        <div class="benchmark-detail-content">
+          <div class="benchmark-controls"><div class="benchmark-dataset"><strong>WildSongBench</strong><span>192 prompts</span></div><label class="metric-select"><span>Compare by</span><select id="benchmarkMetric" aria-label="Evaluation metric"><option value="songbench_global_avg">SongBench</option></select></label></div>
+          <p id="benchmarkStatus" class="benchmark-status" role="status"></p>
+          <div class="comparison-scroll"><table><caption id="comparisonCaption">WildSongBench · SongBench</caption><thead><tr><th scope="col">Rank</th><th scope="col">System / setting</th><th scope="col">Prompts</th><th scope="col" id="comparisonMetric">SongBench ↑</th></tr></thead><tbody id="comparisonRows"></tbody></table></div>
+          <div class="benchmark-bottom"><p>September 5, 2026 evaluation · rankings vary by metric.</p><a href="data/benchmark-results.csv?v=20260908-wsb6" download>Download results <span aria-hidden="true">↓</span></a></div>
+        </div>
+      </details>
+      <details class="evaluation-protocol" id="evaluation-protocol"><summary>How to read these results</summary><div class="protocol-copy">
+            <p><strong>Figure 1.</strong> Song quality combines standardized SongBench and SongEval means with weights 2:1. Text alignment equally weights standardized MuLan, AllMusicCaps, and the prompt-weighted Qwen3-Omni score. Metrics are standardized against the 13 comparator systems, then each composite is rescaled so the observed minimum and maximum are 10 and 90. These indices are not percentages. Bubble area encodes AudioBox PQ; black outlines identify Pareto optima on the two axes only.</p>
+            <p><strong>Scope.</strong> WildSongBench compares 13 other systems and two YuE2 settings on 192 prompts. “Frontier quality” describes competitiveness with the evaluated proprietary systems under this automatic evaluation. The SOTA headline refers specifically to the highest observed SongBench mean in this comparison; it does not imply a lead on every metric, statistical significance, or established human preference.</p>
+            <p><strong>Selection.</strong> YuE2 uses the lower phoneme error rate (PER) of two candidates. YuE2 (best-of-8) selects from eight using Musicality → Control → PER. SongBench Musicality participates in this selection, so the reported best-of-8 quality includes evaluator-based selection. ASR evaluation uses the lowest PER of four repeats per candidate. Control weights differ between selected settings in 10 of the 192 WildSongBench records.</p>
+            <p><strong>Metrics.</strong> SongBench averages Arrangement, Instrumental, Melody, Mixing, Musicality, Structure, and Vocal. SongEval averages five quality dimensions. AudioBox PQ uses length-weighted 10-second windows, then equal song weights. MuLan and AllMusicCaps measure similarity to style text, not percentages. Control is prompt-weighted; PER is lower-is-better. All displayed aggregate metrics have complete coverage.</p>
+            <p><strong>Scores and listening.</strong> Both evaluated YuE2 settings generate with melody-and-chord symbolic planning and use the verified new VAE for scoring. The curated Genre Explorer audio uses the legacy VAE for listening; these previews are separate from the benchmark audio.</p>
+          </div></details>
     </section>
 
   </main>
@@ -272,7 +225,7 @@
 
   <script defer src="data/cases.js?v=20260908-selection1"></script>
   <script defer src="data/benchmarks.js?v=20260908-wsb6"></script>
-  <script defer src="static/overview.js?v=20260908-wsb6"></script>
+  <script defer src="static/overview.js?v=20260908-paper7"></script>
   <script defer src="static/audio-player.js?v=20260908-design3"></script>
   <script defer src="static/app.js?v=20260908-cover-editing4"></script>
 </body>
