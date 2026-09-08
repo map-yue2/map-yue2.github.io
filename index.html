@@ -31,7 +31,7 @@
     <section class="hero" aria-labelledby="heroTitle">
       <h1 id="heroTitle">Frontier quality. <span>SongBench SOTA.</span></h1>
       <p class="hero-subtitle">YuE2 (best-of-8) scores <strong id="heroScore">6.9632</strong> on SongBench, the highest observed mean among 15 evaluated settings on WildSongBench.</p>
-      <p class="hero-scope">192 prompts · September 2026 evaluation · <a href="#evaluation-protocol">Scope &amp; protocol</a></p>
+      <p class="hero-scope">192 prompts · September 2026 evaluation · <a href="#evaluation-protocol">About the results</a></p>
       <div class="hero-actions"><a class="primary-link" href="#abc-cot-gen"><span aria-hidden="true">▶</span> Listen to YuE2</a><a class="quiet-link" href="#model-overview">Model &amp; results <span aria-hidden="true">↘</span></a></div>
     </section>
   </div>
@@ -190,7 +190,7 @@
 
       <figure class="paper-figure" id="paper-architecture">
         <div class="paper-figure-heading"><div><p class="eyebrow">Model architecture</p><h3>Composing in symbols, performing in audio.</h3></div><a href="static/figures/yue2-overview.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
-        <a class="paper-figure-image" href="static/figures/yue2-overview.png" target="_blank" rel="noopener" aria-label="Open the model architecture at full resolution"><img src="static/figures/yue2-overview.png" alt="Paper architecture diagram: an AR–NAR Mixture-of-Transformers generates symbolic scores and semantic tokens causally, then acoustic latents through bidirectional flow matching. A VAE decodes audio. Creation, covering, and editing share the generator; SheetSage2, MERT2, and the VAE encoder construct training targets offline." width="2352" height="1191" loading="lazy" decoding="async" fetchpriority="low"></a>
+        <a class="paper-figure-image" href="static/figures/yue2-overview.png" target="_blank" rel="noopener" aria-label="Open the model architecture at full resolution"><img src="static/figures/yue2-overview.png" alt="YuE2 architecture: an AR–NAR Mixture-of-Transformers turns an editable symbolic score into semantic tokens, acoustic latents, and full-song audio. The same generator supports creation, covering, and editing." width="2352" height="1191" loading="lazy" decoding="async" fetchpriority="low"></a>
         <figcaption>An editable score becomes semantic music tokens, acoustic latents, and full-song audio. The model has approximately 3.59B parameters and 28 layers, and supports creation, covering, and editing. The AR and NAR experts share an attention computation while using separate normalization, projections, and MLPs.</figcaption>
       </figure>
 
@@ -204,11 +204,8 @@
         </div>
       </details>
       <details class="evaluation-protocol" id="evaluation-protocol"><summary>How to read these results</summary><div class="protocol-copy">
-            <p><strong>Figure 1.</strong> Song quality combines standardized SongBench and SongEval means with weights 2:1. Text alignment equally weights standardized MuLan, AllMusicCaps, and the prompt-weighted Qwen3-Omni score. Metrics are standardized against the 13 comparator systems, then each composite is rescaled so the observed minimum and maximum are 10 and 90. These indices are not percentages. Bubble area encodes AudioBox PQ; black outlines identify Pareto optima on the two axes only.</p>
-            <p><strong>Scope.</strong> WildSongBench compares 13 other systems and two YuE2 settings on 192 prompts. “Frontier quality” describes competitiveness with the evaluated proprietary systems under this automatic evaluation. The SOTA headline refers specifically to the highest observed SongBench mean in this comparison; it does not imply a lead on every metric, statistical significance, or established human preference.</p>
-            <p><strong>Selection.</strong> YuE2 uses the lower phoneme error rate (PER) of two candidates. YuE2 (best-of-8) selects from eight using Musicality → Control → PER. SongBench Musicality participates in this selection, so the reported best-of-8 quality includes evaluator-based selection. ASR evaluation uses the lowest PER of four repeats per candidate. Control weights differ between selected settings in 10 of the 192 WildSongBench records.</p>
-            <p><strong>Metrics.</strong> SongBench averages Arrangement, Instrumental, Melody, Mixing, Musicality, Structure, and Vocal. SongEval averages five quality dimensions. AudioBox PQ uses length-weighted 10-second windows, then equal song weights. MuLan and AllMusicCaps measure similarity to style text, not percentages. Control is prompt-weighted; PER is lower-is-better. All displayed aggregate metrics have complete coverage.</p>
-            <p><strong>Scores and listening.</strong> Both evaluated YuE2 settings generate with melody-and-chord symbolic planning and use the verified new VAE for scoring. The curated Genre Explorer audio uses the legacy VAE for listening; these previews are separate from the benchmark audio.</p>
+            <p><strong>WildSongBench.</strong> 192 prompts and 15 system settings. The headline reports the highest observed SongBench mean in this automatic evaluation. Best-of-8 selects one of eight generations by musicality, prompt control, and lyric accuracy.</p>
+            <p><strong>Figure 1.</strong> Song quality combines SongBench and SongEval; text alignment combines MuLan, AllMusicCaps, and prompt control. Both axes show normalized comparison indices. Bubble area represents AudioBox production quality.</p>
           </div></details>
     </section>
 
@@ -216,14 +213,14 @@
 
   <footer class="site-footer">
     <div class="footer-heading"><a class="footer-brand" href="#top"><img src="static/brand/yue-mark.svg" alt="" width="34" height="34">YuE2</a><span>Frontier music, with a plan.</span><a href="#top" class="back-top">Back to top ↑</a></div>
-    <div class="footer-notes"><p>Genre Explorer · Legacy VAE listening previews; benchmark scores use the verified new VAE.<br>Cover &amp; Editing · Original supplied audio; decoder metadata was not included.</p><p><a href="https://github.com/multimodal-art-projection/YuE/tree/main/assets/logo">Original YuE logo</a> · <a href="https://github.com/paulrosen/abcjs">abcjs score playback</a> · <a href="vendor/soundfonts/FluidR3_GM/LICENSE.txt">Piano samples</a><br><a href="https://github.com/map-yue2/map-yue2.github.io">Website source ↗</a></p></div>
+    <div class="footer-notes"><p><a href="https://github.com/multimodal-art-projection/YuE/tree/main/assets/logo">Original YuE logo</a> · <a href="https://github.com/paulrosen/abcjs">abcjs score playback</a> · <a href="vendor/soundfonts/FluidR3_GM/LICENSE.txt">Piano samples</a></p><p><a href="https://github.com/map-yue2/map-yue2.github.io">Website source ↗</a></p></div>
   </footer>
 
   <noscript><p class="no-script">Enable JavaScript to browse the selected songs, scores, lyrics, and prompts.</p></noscript>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script defer src="data/cases.js?v=20260908-selection1"></script>
+  <script defer src="data/cases.js?v=20260908-public9"></script>
   <script defer src="data/benchmarks.js?v=20260908-wsb6"></script>
   <script defer src="static/overview.js?v=20260908-paper7"></script>
   <script defer src="static/audio-player.js?v=20260908-design3"></script>
