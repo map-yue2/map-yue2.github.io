@@ -454,6 +454,25 @@ audio { display: block; width: 100%; height: 46px; }
 }
 
 
+/* A compact data note closes the research section. */
+.training-data { max-width: 780px; margin-inline: auto; border-top: 1px solid var(--line); padding-top: 32px; }
+.training-data h2 { margin: 0; font-family: var(--editorial); font-size: 2rem; font-weight: 500; line-height: 1.3; letter-spacing: -.035em; }
+.training-data > p { margin: 12px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.8; }
+.training-data-scale { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 28px 0 8px; }
+.training-data-scale > div { min-width: 0; }
+.training-data-scale > div + div { border-left: 1px solid var(--line); padding-left: 24px; }
+.training-data-scale dt { font-family: var(--display); font-size: .875rem; font-weight: 500; }
+.training-data-scale dd { margin: 8px 0 0; color: var(--accent); font-family: var(--display); font-size: clamp(1.5rem, 3.5vw, 2.15rem); font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1.15; letter-spacing: -.035em; }
+.training-data-scale dd span { display: block; margin-top: 6px; color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: .75rem; font-weight: 400; letter-spacing: 0; }
+@media (max-width: 520px) {
+  .training-data { padding-top: 26px; }
+  .training-data h2 { font-size: 1.75rem; }
+  .training-data > p { font-size: .9375rem; }
+  .training-data-scale { gap: 12px; margin-top: 24px; }
+  .training-data-scale > div + div { padding-left: 12px; }
+  .training-data-scale dt { font-size: .75rem; }
+}
+
 /* Persistent listening controls. */
 .listening-bar { position: fixed; inset: auto 0 0; z-index: 40; border-top: 1px solid #deccba; background: rgba(255, 250, 243, .97); box-shadow: 0 -6px 30px #452a1410; backdrop-filter: blur(16px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 .listening-inner { max-width: 1200px; margin: 0 auto; padding: 10px 32px 6px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 1.45fr) minmax(175px, 1fr); align-items: center; gap: 2px 24px; }
