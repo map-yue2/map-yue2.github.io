@@ -28,6 +28,16 @@
   }
   const tracks = new Map();
   const audioMetadata = new Map();
+  const agenticData = window.YUE2_AGENTIC;
+  const agenticRows = agenticData?.steps.flatMap(step => step.versions) || [];
+  let agenticStory = null;
+  for (const row of agenticRows) {
+    const track = { id: `agentic:${row.id}`, rowId: row.id, url: row.audio, kind: "song", context: "agentic",
+      title: `${agenticData.title} · ${row.label}`, subtitle: "Agentic music editing",
+      planned: false, hasScore: true, hasLyrics: true };
+    tracks.set(track.id, track);
+    audioMetadata.set(row.audio, track);
+  }
   for (const [rows, context, prefix] of [[data.cases, "explorer", "song"], [data.covers, "covers", "cover"]]) {
     for (const row of rows) {
       const track = { id: `${prefix}:${row.id}`, rowId: row.id, url: row.audio, kind: "song", context,
@@ -629,14 +639,15 @@
   }
 
   function getQueue(scope) {
+    if (scope === "agentic") return agenticRows.map(row => tracks.get(`agentic:${row.id}`));
     if (scope === "planned") return railMatches().map(row => tracks.get(`song:${row.id}`));
     if (scope === "covers") return covers.map(row => tracks.get(`cover:${row.id}`));
     if (scope === "explorer") return explorerMatches().map(row => tracks.get(`song:${row.id}`));
-    return [...cases.map(row => tracks.get(`song:${row.id}`)), ...covers.map(row => tracks.get(`cover:${row.id}`))];
+    return [...cases.map(row => tracks.get(`song:${row.id}`)), ...covers.map(row => tracks.get(`cover:${row.id}`)), ...agenticRows.map(row => tracks.get(`agentic:${row.id}`))];
   }
 
   function markCurrentTrack() {
-    document.querySelectorAll(".cover-card, .explorer-card, .case-stage").forEach(node => {
+    document.querySelectorAll(".cover-card, .explorer-card, .case-stage, .agentic-version").forEach(node => {
       const current = Boolean(currentTrack && node.dataset.trackId === currentTrack.id);
       node.classList.toggle("is-current-track", current);
       const label = node.querySelector(".now-playing-label");
@@ -697,7 +708,9 @@
     // End an earlier smooth jump before a tab resize changes scroll anchoring.
     window.scrollTo({ top: window.scrollY, left: window.scrollX, behavior: "instant" });
     let target, focus, reader;
-    if (track.id.startsWith("cover:")) {
+    if (track.id.startsWith("agentic:")) {
+      ({ target, focus, reader } = agenticStory?.reveal(track.rowId, view) || {});
+    } else if (track.id.startsWith("cover:")) {
       const card = $(`cover-${track.rowId}`);
       target = focus = card.querySelector("h3");
       if (view === "lyrics") {
@@ -770,6 +783,9 @@
   });
   renderMiniCases();
   $("coverGrid").replaceChildren(...covers.map(coverCard));
+  if (agenticData && window.YUE2AgenticEditing) agenticStory = window.YUE2AgenticEditing.mount({
+    root: $("agenticStory"), data: agenticData, element, button, audioPlayer, copyText, deferredScore, disposeController,
+  });
   renderRail();
   renderExplorer();
   listening = new window.YUE2ListeningPlayer({

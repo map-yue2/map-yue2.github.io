@@ -10,6 +10,15 @@ window.YUE2Notation = {
       for (const staff of line.staff || []) {
         for (const voice of staff.voices) {
           for (const note of voice) {
+            // A 5/16 note needs two tied glyphs. Preserve the original plan and
+            // its audio timeline; this spelling change is only for engraving.
+            if (note.pitches?.length === 1 && note.duration === 5 / 16) {
+              const text = abc.slice(note.startChar, note.endChar);
+              const token = /^([A-Ga-g][,']*)10$/.exec(text);
+              if (token) replacements.set(note.startChar, {
+                length: text.length, text: `${token[1]}8-${token[1]}2`,
+              });
+            }
             const count = note.rest?.text;
             if (note.rest?.type !== "multimeasure" || !Number.isSafeInteger(count) || count <= 1) continue;
             const text = abc.slice(note.startChar, note.endChar);

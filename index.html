@@ -10,6 +10,7 @@
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
   <link rel="stylesheet" href="static/styles.css?v=20260909-tokenwave34">
+  <link rel="stylesheet" href="static/agentic-editing.css?v=20260910-editing1">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -173,6 +174,11 @@
         <p>A familiar song can take a different shape. Listen to changes in melody, lyrics, tempo, and arrangement.</p>
       </div>
       <div id="coverGrid" class="cover-grid"></div>
+      <section class="agentic-section" id="agentic-music-editing" aria-labelledby="agenticTitle">
+        <h3 id="agenticTitle">Agentic music editing</h3>
+        <div id="agenticStory"><p>A song takes shape through a conversation. Loading the editing story…</p></div>
+        <noscript><p>Enable JavaScript to explore the conversation, hear the songs and play their scores.</p></noscript>
+      </section>
     </section>
 
     <section class="module-section" id="special-prompt-control" aria-labelledby="specialPromptTitle">
@@ -349,7 +355,7 @@
         <div class="listening-timeline"><span data-listening="elapsed">0:00</span><input data-listening="seek" type="range" min="0" max="0" step="0.1" value="0" aria-label="Seek in current track" disabled><span data-listening="duration">0:00</span></div>
       </div>
       <div class="listening-options">
-        <div class="listening-queue-controls"><select data-listening="collection" aria-label="Playback collection"><option value="all">All songs</option><option value="planned">From score to song</option><option value="covers">Cover &amp; Editing</option><option value="explorer">Genre Explorer</option></select><button type="button" class="listening-icon" data-listening="reshuffle" aria-label="Reshuffle songs and queue" title="Reshuffle songs and queue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M5 8a7 7 0 0 1 12-3l3 4M4 15l3 4a7 7 0 0 0 12-3"/></svg></button></div>
+        <div class="listening-queue-controls"><select data-listening="collection" aria-label="Playback collection"><option value="all">All songs</option><option value="planned">From score to song</option><option value="covers">Cover &amp; Editing</option><option value="agentic">Agentic music editing</option><option value="explorer">Genre Explorer</option></select><button type="button" class="listening-icon" data-listening="reshuffle" aria-label="Reshuffle songs and queue" title="Reshuffle songs and queue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M5 8a7 7 0 0 1 12-3l3 4M4 15l3 4a7 7 0 0 0 12-3"/></svg></button></div>
         <div class="listening-meta"><span data-listening="count"></span><label class="listening-volume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4 5 9H2v6h3l6 5ZM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg><input type="range" min="0" max="1" step="0.05" value="1" data-listening="volume" aria-label="Volume"></label></div>
       </div>
       <p class="listening-status" data-listening="status" role="status" aria-live="polite">Ready to play</p>
@@ -361,11 +367,13 @@
 
   <script defer src="data/cases.js?v=20260909-pineapple32"></script>
   <script defer src="data/benchmarks.js?v=20260908-wsb6"></script>
+  <script defer src="data/agentic-editing.js?v=20260910-editing1"></script>
   <script defer src="static/overview.js?v=20260908-paper7"></script>
   <script defer src="static/audio-player.js?v=20260909-player28"></script>
-  <script defer src="static/listening-player.js?v=20260909-linked29"></script>
+  <script defer src="static/listening-player.js?v=20260910-editing1"></script>
   <script defer src="static/score-player.js?v=20260909-linked29"></script>
-  <script defer src="static/score-notation.js?v=20260909-score14"></script>
-  <script defer src="static/app.js?v=20260909-rail30"></script>
+  <script defer src="static/score-notation.js?v=20260910-editing1"></script>
+  <script defer src="static/agentic-editing.js?v=20260910-editing1"></script>
+  <script defer src="static/app.js?v=20260910-editing1"></script>
 </body>
 </html>

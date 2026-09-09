@@ -1,0 +1,155 @@
+X:1
+T:
+M:4/4
+L:1/32
+Q:1/4=88
+V: Vocal clef=treble name="Vocal Melody" snm="Vocal"
+V: Ins clef=treble name="Ins Melody" snm="Inst."
+K:D
+% intro
+V: Vocal
+z24"Dmaj7"z8|"Dmaj7/F#"z16"Gmaj7"z16|"C#m7b5"z16"F#7"z16|"Bm7"z16"E7"z16|
+V: Ins
+Z|z8f4a2c'2b4a4f4e4|z4e4g4b4^a4g4f4e4|z4B4d4f4^g4f4e4d4|
+V: Vocal
+"Em7"z16"A7"z16|
+V: Ins
+z4e4g4b4a4g4e4c4|
+% verse
+V: Vocal
+"Dmaj7"z8d2e2d4d4d2d2c2d2e4|"C#m7b5"e6z8z2"F#7"z4c4-"Bm7"c2d6|"Bm7"z6d2e2d2d6d2d2c2d4"B7"A4|"Em7"B8z8"A7"z16|
+V: Ins
+Z3|z8e4g2b2a4g4e4c4|
+V: Vocal
+"Gmaj7"z6d2e2d2d4-"Gm6"d2d2d2c2d4a4|"C#m7b5"e6z8z2"F#7"z4c4-"Bm7"c2d6|"Bm7"z4d2d2d4d2d2"Bbaug"f4g2f6d4|"A7sus4"d8z16"A7"d4e4|
+V: Ins
+z8f4a2c'2^a4=a4g4e4|Z3|
+% pre-chorus
+V: Vocal
+"Em7"f4d2f6d4f4g2a2-"A7"a4d4|"Dm7"e6z8z2"G7"z4c6d6|"Cmaj7"e4=c2e6c4"A7"e4f2a6^c4|"Dmaj7"d16"D7"z8f2g2f2g2|
+V: Ins
+Z4|
+% chorus
+V: Vocal
+"Gmaj7"a6d'6c'4"A7"c'4a6f4f2-|"Dmaj7"f8z8"D7"e4f4g4a4|"Em7"a8d'4c'4"A7"c'4a6f4f2-|"Dmaj7/F#"f8z8"Gm6"e4g4e4g4|
+V: Ins
+Z4|
+V: Vocal
+"Gmaj7"a8d'4c'4"A7"c'4a6f4f2-|"Dmaj7"f8"F#7"e6d2"Bm7"d4z4"E7sus4"A8|"Em7"B6d2f6e2-"A7"e2e4f2A4c2d2-|"D6"d6z16z2"A7"z8|
+V: Ins
+Z3|z8f4a2c'2b4a4f4e4|
+V: Vocal
+"D6"z16"Db7"z16|
+V: Ins
+z8f4a2c'2b4^g4^e4^d4|
+% verse
+V: Vocal
+"Cmaj7"z8d2e2d4"C6"d4d2d2=c2d2e4|"C#m7b5"e6z8z2"F#7"z4c4-"Bm7"c2d6|"Bm7"z6d2e2d2d4-"E7sus4"d2d2d2c2d4A4|"Am7"B8z8"D7"z16|
+V: Ins
+Z3|z12e4f4a4g4e4|
+V: Vocal
+"Gmaj7"z6d2e2d2d4-"Gm6"d2d2d2=c2d4a4|"C#m7b5"e6z8z2"F#7"z4c4-"Bm7"c2d6|"Bm7"z4d2d2d2d4f2-"Bbaug"f4g2f6d4|"Em7"d8z8"A7"z8d4e4|
+V: Ins
+Z4|
+% pre-chorus
+V: Vocal
+"Em7"f4d2f6d4"F#7"f4g2"Bm7"a6d4|"Bm7"e6z8z2"E7"z4c6d6|"Am7"e4=c2e6c4"D7"e4f2a6c4|
+V: Ins
+Z3|
+V: Vocal
+M:3/4
+"Gmaj7"d12"D7/F#"z4f2g2f2g2|
+V: Ins
+M:3/4
+Z|
+% chorus
+V: Vocal
+M:4/4
+"Gmaj7"a6d'6c'4"F#7"c'4"Bm7"a6f4f2-|"Bm7"f8z8"E7"e4f4^g4"Am7"a4|"Am7"a8d'4=c'4"D7"c'4a6f4f2-|"Gmaj7"f8z8"Gm6"e4g4e4g4|
+V: Ins
+M:4/4
+Z4|
+V: Vocal
+"Dmaj7/F#"a8d'4c'4"B7"c'4a6f4f2-|"Em7"f8"A7"e6d2"Dmaj7"d4"F#7"z4"Bm7"A8|"Bm7"B6d2f6e2-"E7"e2e4f2A4c2d2-|"A7sus4"d6z2"A7"z24|
+V: Ins
+Z3|z8f4a2c'2b4a4f4e4|
+V: Vocal
+"Dmaj7"z16"D7"z16|
+V: Ins
+z8f4a2c'2b4a4f4e4|
+% bridge
+V: Vocal
+"Gmaj7"z4d4e4f8e4d8|"Em7"B8d4e4"F#7"f4e8z4|"Bm7"d8f4e4"E7sus4"d8B8|"Em7"G8B4d4"A7"c4A8z4|
+V: Ins
+Z3|z24z4C4|
+% interlude
+V: Vocal
+"D6"z32|"Gmaj7"z16"A7"z16|"Gmaj7"z16"D/F#"z16|"Em7"z16"D6"z16|
+V: Ins
+D8D8A8A8|B8B8A16|G8G8F8F8|E8E8D16|
+V: Vocal
+"D6"z16"Gmaj7"z16|"F#m7"z16"Em7"z16|"A7"z16"Gmaj7"z16|"F#m7"z16"Em7"z8"A7"z8|
+V: Ins
+A8A8G8G8|F8F8E16|A8A8G8G8|F8F8E16|
+V: Vocal
+"D6"z16"F#m7"z16|"Gmaj7"z16"A7"z16|"Gmaj7"z16"D/F#"z16|"Em7"z16"D6"z16|
+V: Ins
+D8D8A8A8|B8B8A16|G8G8F8F8|E8E8D16|
+V: Vocal
+"D6"z16"Dbaug"z16|"Cmaj7"z16"B7"z16|"Em7"z16"Ebm7"z16|"D6"z32|
+V: Ins
+D6D8-D2A8A8|B6B8-B2A16|G8G8F12F4|E6E8-E2D16|
+V: Vocal
+"F#m7"z16"F7"z16|"Emaj7"z32|"Em7"z16"A7"z16|"Dmaj7/F#"z16"Dm6/F"z16|
+V: Ins
+A12A4G8G8|F6F8-F2E16|A8A8G6G8-G2|F6F8-F2E16|
+V: Vocal
+"Em7"z16"F#m7/C#"z16|"Bm7"z16"D7/A"z16|"Gmaj7"z16"D/F#"z16|"A7/E"z16"D6"z16|
+V: Ins
+D6D8-D2A8A8|B6B8-B2A16|G8G8F12F4|E6E8-E2D16|
+V: Vocal
+"Dmaj7"z16"B7"z16|"Em7"z16"A7"z16|"F#m7"z16"B7"z16|"Em7"z16"A7"z16|
+V: Ins
+z4F4A4c4B6A2F4^D4|E8G4B4A8z8|F6A2c4B4A4F4^D4F4|G4F4E8C4E4G4z4|
+V: Vocal
+"Dmaj7"z16"D7"z16|"Gmaj7"z16"Gm6"z16|"D/F#"z16"B7"z16|"Em7"z16"A7"z16|
+V: Ins
+F8A4d4=c6A2F4D4|B8A4G4^A4=A4G4E4|F8A4c4B6A2F4^D4|E8G4B4A12z4|
+V: Vocal
+M:3/4
+"Em7"z12"A7"z12|"D7"z12"D7/F#"z12|
+V: Ins
+M:3/4
+E4G4B4A8z4|F4A4=C4F4G4z4|
+% chorus
+V: Vocal
+M:4/4
+"Gmaj7"z4a2d'6c'4"Eb7"c'4a4-"Dmaj7/F#"a2f4f2-|"Dmaj7/F#"f8z8"G7"e4f4g4a4|"Em7"a8d'4c'4"Eb7"c'4a4-"Dmaj7/F#"a2f4f2-|"Dmaj7/F#"f8z8"Bbmaj7"^e4g4e4g4|
+V: Ins
+M:4/4
+Z4|
+V: Vocal
+"Gmaj7"a8d'4c'4"A7"c'4a6f4f2-|"Dmaj7"f8"F#7"e6d2"Bm7"d4z4"E7sus4"A8|"Em7"B6d2f6e2-"A7"e2e4f2A4c2d2-|"D6"d6z8z2"Gm6"z16|
+V: Ins
+Z3|z8f4a2c'2^a4=a4g4e4|
+V: Vocal
+"Dmaj7"z16"C7"z16|
+V: Ins
+z8f4a2c'2^a4g4e4=c4|
+% verse
+V: Vocal
+"Fmaj7"z4d2d2d4d4"Bbmaj7"d4d4d4e4|"C#m7b5"e6z8z2"F#7"z4c4-"Bm7"c2d6|"Bm7"z4d4d2d4d2-"E7sus4"d2d2d4d4A4|"Em7"B8z8"A7"z16|
+V: Ins
+Z4|
+V: Vocal
+M:3/8
+"D6"z12|
+V: Ins
+M:3/8
+Z|
+V: Vocal
+M:4/4
+"Dmaj7"z32|
+V: Ins
+M:4/4
+Z|

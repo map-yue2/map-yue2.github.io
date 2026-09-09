@@ -1,0 +1,92 @@
+/* A score notebook within the existing warm project page. */
+.agentic-section { margin-top: 68px; padding-top: 36px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+.agentic-section > h3 { font: 500 1.7rem/1.25 var(--editorial); margin: 0 0 26px; }
+.agentic-intro { position: relative; padding: 30px 36px; margin-bottom: 28px; background: #eee6d9; border: 1px solid #dacdbb; border-radius: 4px 20px 20px 4px; border-left: 4px solid var(--accent); }
+.agentic-kicker { color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .14em; margin: 0 0 10px; }
+.agentic-song-title { font: 500 clamp(2rem, 3.8vw, 2.8rem)/1.15 var(--editorial); margin: 0 0 12px; }
+.agentic-deck { max-width: 790px; margin: 0; font-size: 1.05rem; line-height: 1.65; }
+.agentic-path { color: var(--muted); font-size: .87rem; line-height: 1.8; margin: 16px 0 12px; }
+.agentic-jump { color: var(--accent); font-size: .9rem; font-weight: 600; text-underline-offset: 4px; }
+.agentic-editor-note { max-width: 850px; font-size: .79rem; line-height: 1.65; color: var(--muted); margin: 18px 0 0; }
+.agentic-timeline { position: relative; padding-left: 22px; }
+.agentic-timeline::before { content: ""; position: absolute; top: 28px; bottom: 30px; left: 0; border-left: 1px solid #c9b49e; }
+.agentic-step { position: relative; margin: 0 0 12px; background: #fffdf8; border: 1px solid var(--line); border-radius: 12px; }
+.agentic-step::before { content: ""; position: absolute; left: -27px; top: 30px; width: 9px; height: 9px; background: #d0bba4; border: 2px solid #faf6ef; border-radius: 50%; box-sizing: content-box; }
+.agentic-step[open]::before { background: var(--accent); }
+.agentic-step-heading { display: flex; align-items: center; gap: 18px; padding: 19px 24px; cursor: pointer; list-style: none; }
+.agentic-step-heading::-webkit-details-marker { display: none; }
+.agentic-step-heading:hover { background: #f5eee3; border-radius: 12px; }
+.agentic-step-number { font: 500 1.45rem/1 var(--editorial); color: #957158; flex: 0 0 30px; }
+.agentic-step-title { flex: 1; min-width: 0; }
+.agentic-step-phase { display: block; color: var(--accent); text-transform: uppercase; letter-spacing: .09em; font-size: .66rem; font-weight: 700; margin-bottom: 5px; }
+.agentic-step-name { font: 500 1.18rem/1.35 var(--editorial); }
+.agentic-step-count { color: var(--muted); font-size: .75rem; white-space: nowrap; }
+.agentic-chevron { font-size: 1.35rem; color: var(--accent); width: 16px; text-align: center; }
+.agentic-step[open] > summary .agentic-chevron { transform: rotate(45deg); }
+.agentic-step[open] > summary { border-bottom: 1px solid var(--line); }
+.agentic-step-body { padding: 22px 28px 28px; min-width: 0; }
+.agentic-context { margin: 0 0 16px; color: var(--muted); font-size: .72rem; letter-spacing: .02em; }
+.agentic-message { max-width: 90%; border-radius: 12px; padding: 17px 21px; font-size: .93rem; line-height: 1.7; }
+.agentic-message p, .agentic-message blockquote { margin: 0; }
+.agentic-message .agentic-speaker { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; margin-bottom: 7px; color: var(--accent); }
+.agentic-user { margin-left: auto; background: #f3e2d3; border-bottom-right-radius: 3px; }
+.agentic-agent { margin: 14px auto 0 0; background: #f1f0e8; border-bottom-left-radius: 3px; }
+.agentic-agent .agentic-speaker { color: #536353; }
+.agentic-listen-for { border-left: 2px solid #c6b8a3; padding-left: 14px; margin: 22px 0; color: var(--muted); font-size: .86rem; line-height: 1.65; }
+.agentic-listen-for strong { display: block; color: var(--ink); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.agentic-version-picker { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-top: 1px solid var(--line); }
+.agentic-version-picker > span { font-size: .79rem; color: var(--muted); }
+.agentic-version-picker select { max-width: 100%; min-width: 0; padding: 10px 36px 10px 12px; border: 1px solid #cdbcaa; border-radius: 6px; color: var(--ink); background-color: #fffcf6; font: inherit; font-size: .85rem; }
+.agentic-version { min-width: 0; padding: 20px; border: 1px solid #e0d5c5; border-radius: 9px; background: #faf6ee; }
+.agentic-version[hidden] { display: none; }
+.agentic-version.is-current-track { border-color: #b77452; box-shadow: 0 0 0 1px #b7745230; }
+.agentic-version-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.agentic-version-heading h5 { font-size: 1rem; line-height: 1.4; margin: 0; scroll-margin-top: 24px; }
+.agentic-meta { color: var(--muted); font-size: .75rem; line-height: 1.5; margin: 7px 0 12px; }
+.agentic-version-note { font-size: .85rem; line-height: 1.65; margin: 0 0 15px; }
+.agentic-changes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; margin: 20px 0; }
+.agentic-changes dt { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+.agentic-changes dd { margin: 0; font-size: .82rem; line-height: 1.65; color: var(--muted); }
+.agentic-tools { display: grid; gap: 7px; }
+.agentic-detail { min-width: 0; border-top: 1px solid var(--line); }
+.agentic-detail > summary { padding: 12px 0; font-size: .83rem; font-weight: 600; cursor: pointer; line-height: 1.5; }
+.agentic-detail > summary::marker { color: var(--accent); }
+.agentic-detail-body { padding: 2px 0 14px; min-width: 0; }
+.agentic-small { font-size: .76rem; color: var(--muted); line-height: 1.65; margin: 4px 0 15px; }
+.agentic-input-label { margin: 8px 0 12px; font: 600 .8rem/1.4 var(--display); scroll-margin-top: 24px; }
+.agentic-input { margin: 0 0 16px; padding: 18px 20px; background: #fffdf8; border: 1px solid var(--line); border-radius: 5px; font: .87rem/1.95 var(--display); white-space: pre-wrap; overflow-wrap: anywhere; }
+.agentic-lyrics .agentic-input { max-height: 420px; overflow: auto; overscroll-behavior: contain; }
+.agentic-translation { margin: 18px 0 8px; }
+.agentic-diff { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 380px; overflow: auto; padding: 17px 20px; font-size: .82rem; line-height: 2; background: #fffdf8; border: 1px solid var(--line); border-radius: 5px; }
+.agentic-diff del { color: #974a3a; background: #fae5df; text-decoration-thickness: 1px; }
+.agentic-diff ins { color: #365c45; background: #deecdc; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+.agentic-diff-key { display: flex; gap: 18px; font-size: .72rem; margin: 0 0 10px; }
+.agentic-diff-key span:first-child { color: #974a3a; }
+.agentic-diff-key span:last-child { color: #365c45; }
+.agentic-downloads { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin: 15px 0; font-size: .79rem; }
+.agentic-downloads a { color: var(--accent); text-underline-offset: 3px; }
+.agentic-score-frame { max-height: 580px; background: #fff; overscroll-behavior: contain; }
+.agentic-score .cover-controls { margin: 14px 0; }
+.agentic-raw pre { max-height: 340px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.agentic-section :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+@media (max-width: 650px) {
+  .agentic-section { margin-top: 45px; }
+  .agentic-intro { padding: 24px 20px; }
+  .agentic-timeline { padding-left: 14px; }
+  .agentic-step::before { left: -19px; }
+  .agentic-step-heading { gap: 10px; padding: 16px 13px; }
+  .agentic-step-number { flex-basis: 22px; font-size: 1.2rem; }
+  .agentic-step-name { font-size: 1.02rem; }
+  .agentic-step-count { font-size: .65rem; }
+  .agentic-step-body { padding: 16px 12px; }
+  .agentic-message { max-width: 96%; padding: 14px; font-size: .86rem; }
+  .agentic-version { padding: 14px 12px; }
+  .agentic-changes { grid-template-columns: 1fr; gap: 14px; }
+  .agentic-version-picker { flex-direction: column; align-items: stretch; gap: 8px; }
+  .agentic-version-picker select { width: 100%; }
+  .agentic-input, .agentic-diff { padding: 14px 12px; font-size: .81rem; }
+  .agentic-score-frame { max-height: 430px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .agentic-section * { scroll-behavior: auto; transition: none; }
+}

@@ -86,7 +86,7 @@
     const seconds = Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
     return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
   };
-  const names = { all: "All songs", planned: "From score to song", covers: "Cover & Editing", explorer: "Genre Explorer" };
+  const names = { all: "All songs", planned: "From score to song", covers: "Cover & Editing", explorer: "Genre Explorer", agentic: "Agentic music editing" };
 
   window.YUE2ListeningPlayer = class {
     constructor({ manager, getTracks, initialId, onShuffle, onSelect, onReveal, onCurrent = () => {} }) {
