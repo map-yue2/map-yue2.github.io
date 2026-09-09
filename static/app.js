@@ -7,9 +7,43 @@
     $("selectedTitle").textContent = "The collection could not be loaded. Please refresh the page.";
     return;
   }
-  const planned = data.cases.filter(item => item.mode === "planned");
+  function randomOrder(rows, key) {
+    const result = window.YUE2Shuffle(rows);
+    try {
+      const previous = sessionStorage.getItem(key);
+      if (result.length > 1 && result[0].id === previous) [result[0], result[1]] = [result[1], result[0]];
+      if (result.length) sessionStorage.setItem(key, result[0].id);
+    } catch { /* Random browsing also works without browser storage. */ }
+    return result;
+  }
+  let cases = randomOrder(data.cases, "yue2-first-song");
+  let covers = randomOrder(data.covers, "yue2-first-cover");
+  let planned = cases.filter(item => item.mode === "planned");
+  // Give the featured score a fresh first choice independently of direct songs.
+  const featured = randomOrder(planned, "yue2-first-score");
+  if (featured.length) {
+    const first = featured[0];
+    cases = [first, ...cases.filter(row => row !== first)];
+    planned = cases.filter(item => item.mode === "planned");
+  }
+  const tracks = new Map();
+  const audioMetadata = new Map();
+  for (const [rows, context, prefix] of [[data.cases, "explorer", "song"], [data.covers, "covers", "cover"]]) {
+    for (const row of rows) {
+      const track = { id: `${prefix}:${row.id}`, rowId: row.id, url: row.audio, kind: "song", context,
+        title: row.titleZh ? `${row.title} · ${row.titleZh}` : row.title,
+        subtitle: context === "covers" ? `Cover & Editing · ${row.genre}` : `${row.languageLabel} · ${row.genre}`,
+        planned: row.mode === "planned" };
+      tracks.set(track.id, track);
+      audioMetadata.set(row.audio, track);
+      if (row.scoreAudio) audioMetadata.set(row.scoreAudio, { ...track, url: row.scoreAudio, kind: "score", context: "planned" });
+    }
+  }
   const controllers = new Set();
-  const audioPlayers = new window.YUE2Audio(() => stopOtherAudio(null, true));
+  const audioPlayers = new window.YUE2Audio(() => stopOtherAudio(null, true), {
+    describe: url => audioMetadata.get(url), parking: $("listeningParking"),
+  });
+  let listening = null;
   const searchText = new Map(data.cases.map(row => [row.id,
     `${row.title} ${row.genrePath.join(" ")} ${row.languageLabel} ${row.tags} ${row.lyrics}`.toLocaleLowerCase()]));
   let selectedId = null;
@@ -62,8 +96,8 @@
     });
   }
 
-  function audioPlayer(url, label) {
-    return audioPlayers.create(url, label);
+  function audioPlayer(url, label, context) {
+    return audioPlayers.create(url, label, context);
   }
 
   function loadScoreLibrary() {
@@ -336,8 +370,8 @@
     selectedId = id;
     $("selectedKicker").textContent = `${row.languageLabel} · Symbolic planning`;
     $("selectedTitle").textContent = row.title;
-    $("musicAudio").replaceChildren(audioPlayer(row.audio, `${row.title}, generated song`));
-    const recordedScore = audioPlayer(row.scoreAudio, `${row.title}, original score recording`);
+    $("musicAudio").replaceChildren(audioPlayer(row.audio, `${row.title}, generated song`, "planned"));
+    const recordedScore = audioPlayer(row.scoreAudio, `${row.title}, original score recording`, "planned");
     $("recordedScore").replaceChildren(recordedScore);
     $("abcText").textContent = row.abc;
     $("lyricsText").textContent = row.lyrics;
@@ -366,13 +400,19 @@
     if (shouldScroll) $("abc-cot-gen").scrollIntoView({ block: "start" });
   }
 
-  function renderRail() {
+  function railMatches() {
     const rows = planned.filter(row => matches(row, $("searchInput").value, $("languageFilter").value, $("genreFilter").value));
-    $("railCount").textContent = `${rows.length} tracks`;
     const sort = $("sortSelect").value;
+    if (sort === "curated") rows.sort((a, b) => a.order - b.order);
     if (sort === "genre") rows.sort((a, b) => a.genre.localeCompare(b.genre) || a.order - b.order);
     if (sort === "language") rows.sort((a, b) => a.languageLabel.localeCompare(b.languageLabel) || a.order - b.order);
     if (sort === "pages") rows.sort((a, b) => b.sheets.length - a.sheets.length || a.order - b.order);
+    return rows;
+  }
+
+  function renderRail() {
+    const rows = railMatches();
+    $("railCount").textContent = `${rows.length} tracks`;
     $("caseRail").replaceChildren(...rows.map((row, index) => {
       const item = button("", "case-item", () => selectCase(row.id));
       item.dataset.id = row.id;
@@ -395,6 +435,7 @@
       document.querySelector(".case-stage").hidden = false;
       if (!rows.some(row => row.id === selectedId)) selectCase(rows[0].id);
     }
+    listening?.refreshQueue("planned");
   }
 
   function openScore(id) {
@@ -454,7 +495,7 @@
     } else source.textContent = row.source;
     title.append(source);
     header.append(element("span", "track-number", String(index + 1).padStart(2, "0")), title);
-    card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, cover and editing example`));
+    card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, cover and editing example`, "covers"));
     card.append(textDetails(row.tags, row.lyrics));
     const details = element("details", "content-details");
     details.append(element("summary", "", "ABC score & playback"));
@@ -489,18 +530,18 @@
     const card = element("article", "explorer-card");
     card.id = `song-${row.id}`;
     const header = element("header");
-    header.append(element("span", "song-number", `TRACK ${String(data.cases.indexOf(row) + 1).padStart(2, "0")}`), element("h3", "", row.title));
+    header.append(element("span", "song-number", `TRACK ${String(cases.indexOf(row) + 1).padStart(2, "0")}`), element("h3", "", row.title));
     const badges = element("div", "badge-row");
     badges.append(element("span", "badge", row.languageLabel), element("span", "badge", row.mode === "planned" ? "Symbolic planning" : "Direct generation"));
     header.append(badges);
-    card.append(header, element("p", "tag-excerpt", row.tags), audioPlayer(row.audio, `${row.title}, ${row.languageLabel}, generated song`));
+    card.append(header, element("p", "tag-excerpt", row.tags), audioPlayer(row.audio, `${row.title}, ${row.languageLabel}, generated song`, "explorer"));
     if (row.mode === "planned") card.append(button("View the ABC score ↗", "text-link", () => openScore(row.id)));
     card.append(textDetails(row.tags, row.lyrics));
     return card;
   }
 
   function explorerMatches() {
-    return data.cases.filter(row => matches(row, $("explorerSearch").value, $("explorerLanguage").value, $("explorerGenre").value, $("explorerMode").value));
+    return cases.filter(row => matches(row, $("explorerSearch").value, $("explorerLanguage").value, $("explorerGenre").value, $("explorerMode").value));
   }
 
   function renderExplorer(append = false) {
@@ -513,6 +554,51 @@
     $("explorerGrid").append(...rows.slice(start, explorerLimit).map(explorerCard));
     $("explorerStatus").textContent = rows.length ? `Showing ${Math.min(explorerLimit, rows.length)} of ${rows.length} selected songs` : "No songs match these filters.";
     $("loadMore").hidden = explorerLimit >= rows.length;
+    listening?.refreshQueue("explorer");
+  }
+
+  function renderMiniCases() {
+    $("caseGrid").replaceChildren(...planned.map(row => {
+      const item = button("", "mini-case", () => openScore(row.id));
+      item.append(element("strong", "", row.title), element("small", "", row.languageLabel));
+      return item;
+    }));
+  }
+
+  function shuffleCollections() {
+    cases = randomOrder(cases, "yue2-first-song");
+    covers = randomOrder(covers, "yue2-first-cover");
+    planned = cases.filter(item => item.mode === "planned");
+    $("sortSelect").value = "random";
+    renderRail();
+    renderMiniCases();
+    // Moving existing cover nodes preserves expanded scores and playback.
+    covers.forEach((row, index) => {
+      const card = $(`cover-${row.id}`);
+      card.querySelector(".track-number").textContent = String(index + 1).padStart(2, "0");
+      $("coverGrid").append(card);
+    });
+    renderExplorer();
+  }
+
+  function getQueue(scope) {
+    if (scope === "planned") return railMatches().map(row => tracks.get(`song:${row.id}`));
+    if (scope === "covers") return covers.map(row => tracks.get(`cover:${row.id}`));
+    if (scope === "explorer") return explorerMatches().map(row => tracks.get(`song:${row.id}`));
+    return [...cases.map(row => tracks.get(`song:${row.id}`)), ...covers.map(row => tracks.get(`cover:${row.id}`))];
+  }
+
+  function revealTrack(track) {
+    if (track.id.startsWith("cover:")) {
+      $(`cover-${track.rowId}`).scrollIntoView({ block: "center" });
+    } else if (track.planned) openScore(track.rowId);
+    else {
+      $("explorerSearch").value = "";
+      ["explorerLanguage", "explorerGenre", "explorerMode"].forEach(id => $(id).value = "all");
+      explorerLimit = Math.max(explorerLimit, cases.findIndex(row => row.id === track.rowId) + 1);
+      renderExplorer();
+      $(`song-${track.rowId}`).scrollIntoView({ block: "center" });
+    }
   }
 
   const summary = data.summary;
@@ -535,12 +621,13 @@
     explorerLimit += 12;
     renderExplorer(true);
   });
-  $("caseGrid").replaceChildren(...planned.map(row => {
-    const item = button("", "mini-case", () => openScore(row.id));
-    item.append(element("strong", "", row.title), element("small", "", row.languageLabel));
-    return item;
-  }));
-  $("coverGrid").replaceChildren(...data.covers.map(coverCard));
+  renderMiniCases();
+  $("coverGrid").replaceChildren(...covers.map(coverCard));
   renderRail();
   renderExplorer();
+  listening = new window.YUE2ListeningPlayer({
+    manager: audioPlayers, getTracks: getQueue, initialId: `song:${selectedId}`,
+    onShuffle: shuffleCollections, onReveal: revealTrack,
+    onSelect: (track, scope) => { if (scope === "planned") selectCase(track.rowId); },
+  });
 })();

@@ -2,8 +2,12 @@
 
 // Keep one native media element alive, regardless of how many cards are shown.
 window.YUE2Audio = class {
-  constructor(beforePlay = () => {}) {
+  constructor(beforePlay = () => {}, { describe = () => ({}), parking = null } = {}) {
     this.beforePlay = beforePlay;
+    this.describe = describe;
+    this.parking = parking;
+    this.subscribers = new Set();
+    this.nextAudio = null;
     this.active = null;
     this.positions = new Map();
     this.players = new WeakMap();
@@ -11,7 +15,7 @@ window.YUE2Audio = class {
     this.muted = false;
   }
 
-  create(url, label) {
+  create(url, label, context) {
     const shell = document.createElement("div");
     shell.className = "audio-player";
     const activate = document.createElement("button");
@@ -21,11 +25,17 @@ window.YUE2Audio = class {
     const status = document.createElement("span");
     status.className = "audio-status";
     status.setAttribute("role", "status");
-    const player = { shell, activate, status, url, label, duration: 0, loop: false,
+    const metadata = { ...this.describe(url), ...(context ? { context } : {}) };
+    if (metadata.id) shell.dataset.trackId = metadata.id;
+    shell.dataset.audioKind = metadata.kind || "song";
+    const player = { shell, activate, status, url, label, metadata, homeContext: metadata.context, duration: 0, loop: false,
       playing: false, loading: false, subscribers: new Set() };
     this.players.set(shell, player);
     this.reset(player);
-    activate.addEventListener("click", () => this.play(player));
+    activate.addEventListener("click", () => {
+      player.metadata.context = player.homeContext;
+      this.play(player);
+    });
     shell.append(activate, status);
     return shell;
   }
@@ -45,9 +55,15 @@ window.YUE2Audio = class {
     };
   }
 
-  notify(player) {
+  subscribe(callback) {
+    this.subscribers.add(callback);
+    return () => this.subscribers.delete(callback);
+  }
+
+  notify(player, event = "state") {
     const state = this.snapshot(player);
     player.subscribers.forEach(callback => callback(state));
+    this.subscribers.forEach(callback => callback({ player, state, event }));
   }
 
   // Both score controls and native controls use this same media element and clock.
@@ -67,22 +83,28 @@ window.YUE2Audio = class {
       },
       seek: seconds => {
         if (!Number.isFinite(seconds)) return;
-        const duration = this.snapshot(player).duration;
+        const active = this.active?.player.url === player.url ? this.active : null;
+        const duration = active && Number.isFinite(active.audio.duration) ? active.audio.duration : this.snapshot(player).duration;
         const position = Math.max(0, duration > 0 ? Math.min(seconds, duration) : seconds);
         this.positions.set(player.url, position);
-        if (this.active?.player === player) {
-          this.active.pendingSeek = position;
+        if (active) {
+          active.pendingSeek = position;
           try {
-            this.active.audio.currentTime = position;
-            if (this.active.metadataLoaded) this.active.pendingSeek = null;
+            active.audio.currentTime = position;
+            if (active.metadataLoaded) active.pendingSeek = null;
           } catch { /* Restore after metadata loads. */ }
         }
         this.notify(player);
+        if (active && active.player !== player) this.notify(active.player);
       },
       setLoop: loop => {
         player.loop = Boolean(loop);
         if (this.active?.player === player) this.active.audio.loop = player.loop;
         this.notify(player);
+      },
+      setVolume: volume => {
+        this.volume = Math.max(0, Math.min(1, volume));
+        if (this.active?.player === player) this.active.audio.volume = this.volume;
       },
     };
   }
@@ -121,10 +143,21 @@ window.YUE2Audio = class {
   }
 
   releaseWithin(root) {
-    if (this.active && root.contains(this.active.player.shell)) this.stop();
+    if (!this.active || !root.contains(this.active.player.shell)) return;
+    if (this.parking && this.active.player.metadata.kind === "song") {
+      // Keep the current song alive when filtering or changing the visible card.
+      this.parking.replaceChildren(this.active.player.shell);
+    } else this.stop();
   }
 
   play(player, { focus = true } = {}) {
+    if (this.active?.player !== player && this.active?.player.url === player.url) {
+      const owner = this.active.player;
+      owner.metadata.context = player.metadata.context;
+      this.play(owner, { focus: false });
+      this.notify(owner);
+      return;
+    }
     if (this.active?.player === player) {
       this.beforePlay();
       if (!this.active.audio.paused && player.playing) return;
@@ -133,7 +166,8 @@ window.YUE2Audio = class {
     }
     this.stop();
     this.beforePlay();
-    const audio = document.createElement("audio");
+    const audio = this.nextAudio || document.createElement("audio");
+    this.nextAudio = null;
     audio.controls = true;
     audio.preload = "none";
     audio.volume = this.volume;
@@ -193,10 +227,16 @@ window.YUE2Audio = class {
     });
     listen("waiting", () => { if (!audio.paused) { player.playing = false; loading(); } });
     listen("stalled", () => { if (!audio.paused) loading(); });
-    for (const event of ["timeupdate", "seeking", "seeked", "durationchange", "ratechange"]) {
+    for (const event of ["timeupdate", "seeking", "seeked", "durationchange", "ratechange", "volumechange"]) {
       listen(event, () => this.notify(player));
     }
-    listen("ended", () => this.stop());
+    listen("ended", () => {
+      this.stop();
+      // Reuse the user-activated element for continuous playback on mobile.
+      this.nextAudio = this.parking && player.metadata.kind === "song" ? audio : null;
+      this.notify(player, "ended");
+      this.nextAudio = null;
+    });
     listen("error", () => fail("This audio could not load. Please try again."));
     player.activate.hidden = true;
     player.shell.insertBefore(audio, player.status);
