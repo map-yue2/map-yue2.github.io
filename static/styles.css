@@ -71,7 +71,9 @@ a.institution-logo { border-radius: 3px; min-height: 44px; }
 .institution-secondary > .institution-logo { min-height: 40px; }
 .institution-nyu { width: 60px; }
 .institution-stanford { width: 94px; }
-.institution-tokenwave { width: 122px; }
+.institution-tokenwave { width: 122px; gap: 5px; color: #050e2b; font-family: var(--display); font-size: .75rem; font-weight: 600; line-height: 1; white-space: nowrap; }
+.institution-tokenwave .institution-symbol { width: 32px; aspect-ratio: 359 / 126; }
+.institution-tokenwave .institution-symbol img { position: absolute; width: 301.950%; max-width: none; left: -6.964%; top: -27.778%; }
 .institution-mbzuai { width: 88px; gap: 5px; color: #302a75; font-size: .6875rem; font-weight: 600; line-height: 1; }
 .institution-symbol { position: relative; flex-shrink: 0; width: 24px; aspect-ratio: 181 / 156; overflow: hidden; mix-blend-mode: multiply; }
 .institution-mbzuai .institution-symbol img { position: absolute; width: 536.465%; max-width: none; left: -77.348%; top: -118.590%; }
