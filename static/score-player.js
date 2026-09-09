@@ -121,6 +121,13 @@ window.YUE2ScorePlayer = class {
     this.recording.pause();
   }
 
+  refreshView() {
+    if (this.disposed) return;
+    // A seek while the score is hidden still needs to reveal its current staff.
+    this.onEvent(null);
+    this.onEvent(this.lastEvent);
+  }
+
   destroy() {
     this.disposed = true;
     this.events.abort();

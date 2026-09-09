@@ -33,7 +33,7 @@
       const track = { id: `${prefix}:${row.id}`, rowId: row.id, url: row.audio, kind: "song", context,
         title: row.titleZh ? `${row.title} · ${row.titleZh}` : row.title,
         subtitle: context === "covers" ? `Cover & Editing · ${row.genre}` : `${row.languageLabel} · ${row.genre}`,
-        planned: row.mode === "planned" };
+        planned: row.mode === "planned", hasScore: Boolean(row.abc), hasLyrics: Boolean(row.lyrics?.trim()) };
       tracks.set(track.id, track);
       audioMetadata.set(row.audio, track);
       if (row.scoreAudio) audioMetadata.set(row.scoreAudio, { ...track, url: row.scoreAudio, kind: "score", context: "planned" });
@@ -44,6 +44,10 @@
     describe: url => audioMetadata.get(url), parking: $("listeningParking"),
   });
   let listening = null;
+  let currentTrack = null;
+  let currentState = {};
+  let readingView = null;
+  let revealRequest = 0;
   const searchText = new Map(data.cases.map(row => [row.id,
     `${row.title} ${row.genrePath.join(" ")} ${row.languageLabel} ${row.tags} ${row.lyrics}`.toLocaleLowerCase()]));
   let selectedId = null;
@@ -304,6 +308,19 @@
       panel.classList.toggle("active", active);
       panel.hidden = !active;
     });
+    if (name === "score") requestAnimationFrame(() => {
+      if ($("scorePanel").hidden) return;
+      mainController?.refreshView();
+      const note = $("abcRenderedScore").querySelector(".playing-note");
+      const frame = $("sheetFrame");
+      if (note && frame.clientWidth) {
+        const bounds = note.getBoundingClientRect();
+        const viewport = frame.getBoundingClientRect();
+        if (bounds.left < viewport.left + 12 || bounds.right > viewport.right - 12) {
+          frame.scrollLeft += bounds.left - viewport.left - 24;
+        }
+      }
+    });
   }
 
   document.querySelectorAll(".tabs .tab").forEach(tab => {
@@ -368,6 +385,7 @@
     audioPlayers.releaseWithin($("musicAudio"));
     audioPlayers.releaseWithin($("recordedScore"));
     selectedId = id;
+    $("currentDemo").dataset.trackId = `song:${id}`;
     $("selectedKicker").textContent = `${row.languageLabel} · Symbolic planning`;
     $("selectedTitle").textContent = row.title;
     $("musicAudio").replaceChildren(audioPlayer(row.audio, `${row.title}, generated song`, "planned"));
@@ -398,6 +416,7 @@
       node.setAttribute("aria-pressed", String(active));
     });
     if (shouldScroll) $("abc-cot-gen").scrollIntoView({ block: "start" });
+    markCurrentTrack();
   }
 
   function railMatches() {
@@ -436,27 +455,32 @@
       if (!rows.some(row => row.id === selectedId)) selectCase(rows[0].id);
     }
     listening?.refreshQueue("planned");
+    markCurrentTrack();
   }
 
   function openScore(id) {
-    $("searchInput").value = "";
-    $("languageFilter").value = "all";
-    $("genreFilter").value = "all";
-    renderRail();
-    selectCase(id, true);
+    revealTrack(tracks.get(`song:${id}`), "score");
   }
 
   function textDetails(tags, lyrics) {
     const details = element("details", "content-details");
+    details.dataset.view = "lyrics";
     details.append(element("summary", "", "Prompt & lyrics"));
     let populated = false;
-    details.addEventListener("toggle", () => {
-      if (!details.open || populated) return;
+    const populate = () => {
+      if (populated) return;
       populated = true;
       const body = element("div", "detail-body");
-      body.append(element("h4", "", "Style prompt"), element("pre", "", tags), element("h4", "", "Lyrics"), element("pre", "", lyrics));
+      const heading = element("h4", "", "Lyrics");
+      heading.dataset.lyricsHeading = "";
+      heading.tabIndex = -1;
+      body.append(element("h4", "", "Style prompt"), element("pre", "", tags), heading, element("pre", "", lyrics));
       body.append(button("Copy prompt & lyrics", "ghost-button", () => copyText(`${tags}\n\n${lyrics}`)));
       details.append(body);
+    };
+    details.revealLyrics = () => { populate(); details.open = true; return details.querySelector("[data-lyrics-heading]"); };
+    details.addEventListener("toggle", () => {
+      if (details.open) populate();
     });
     return details;
   }
@@ -464,6 +488,7 @@
   function coverCard(row, index) {
     const card = element("article", "cover-card");
     card.id = `cover-${row.id}`;
+    card.dataset.trackId = `cover:${row.id}`;
     const header = element("header");
     const title = element("div");
     const [songTitle, ...variant] = row.title.split(" · ");
@@ -474,6 +499,9 @@
       heading.append(" ", chineseTitle);
     }
     title.append(heading);
+    const nowPlaying = element("span", "now-playing-label", "Now playing");
+    nowPlaying.hidden = true;
+    title.append(nowPlaying);
     if (variant.length) title.append(element("p", "cover-variant", variant.join(" · ")));
     const source = element("p", "source-label");
     if (row.sourceUrl) {
@@ -498,6 +526,7 @@
     card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, cover and editing example`, "covers"));
     card.append(textDetails(row.tags, row.lyrics));
     const details = element("details", "content-details");
+    details.dataset.view = "score";
     details.append(element("summary", "", "ABC score & playback"));
     const controls = element("div", "cover-controls");
     const frame = element("div", "cover-score");
@@ -529,11 +558,15 @@
   function explorerCard(row) {
     const card = element("article", "explorer-card");
     card.id = `song-${row.id}`;
+    card.dataset.trackId = `song:${row.id}`;
     const header = element("header");
     header.append(element("span", "song-number", `TRACK ${String(cases.indexOf(row) + 1).padStart(2, "0")}`), element("h3", "", row.title));
     const badges = element("div", "badge-row");
     badges.append(element("span", "badge", row.languageLabel), element("span", "badge", row.mode === "planned" ? "Symbolic planning" : "Direct generation"));
     header.append(badges);
+    const nowPlaying = element("span", "now-playing-label", "Now playing");
+    nowPlaying.hidden = true;
+    header.append(nowPlaying);
     card.append(header, element("p", "tag-excerpt", row.tags), audioPlayer(row.audio, `${row.title}, ${row.languageLabel}, generated song`, "explorer"));
     if (row.mode === "planned") card.append(button("View the ABC score ↗", "text-link", () => openScore(row.id)));
     card.append(textDetails(row.tags, row.lyrics));
@@ -549,12 +582,16 @@
     const start = append ? $("explorerGrid").children.length : 0;
     if (!append) {
       audioPlayers.releaseWithin($("explorerGrid"));
+      audioPlayers.releaseWithin($("explorerSpotlight"));
+      $("explorerSpotlight").replaceChildren();
+      $("explorerSpotlight").hidden = true;
       $("explorerGrid").replaceChildren();
     }
     $("explorerGrid").append(...rows.slice(start, explorerLimit).map(explorerCard));
     $("explorerStatus").textContent = rows.length ? `Showing ${Math.min(explorerLimit, rows.length)} of ${rows.length} selected songs` : "No songs match these filters.";
     $("loadMore").hidden = explorerLimit >= rows.length;
     listening?.refreshQueue("explorer");
+    markCurrentTrack();
   }
 
   function renderMiniCases() {
@@ -588,17 +625,115 @@
     return [...cases.map(row => tracks.get(`song:${row.id}`)), ...covers.map(row => tracks.get(`cover:${row.id}`))];
   }
 
-  function revealTrack(track) {
-    if (track.id.startsWith("cover:")) {
-      $(`cover-${track.rowId}`).scrollIntoView({ block: "center" });
-    } else if (track.planned) openScore(track.rowId);
-    else {
-      $("explorerSearch").value = "";
-      ["explorerLanguage", "explorerGenre", "explorerMode"].forEach(id => $(id).value = "all");
-      explorerLimit = Math.max(explorerLimit, cases.findIndex(row => row.id === track.rowId) + 1);
-      renderExplorer();
-      $(`song-${track.rowId}`).scrollIntoView({ block: "center" });
+  function markCurrentTrack() {
+    document.querySelectorAll(".cover-card, .explorer-card, .case-stage").forEach(node => {
+      const current = Boolean(currentTrack && node.dataset.trackId === currentTrack.id);
+      node.classList.toggle("is-current-track", current);
+      const label = node.querySelector(".now-playing-label");
+      label.hidden = !current;
+      label.textContent = currentState.loading ? "Loading…" : currentState.paused ? "Paused" : "Now playing";
+    });
+    document.querySelectorAll(".case-item").forEach(node => {
+      const current = currentTrack?.id === `song:${node.dataset.id}`;
+      node.classList.toggle("is-current-track", current);
+      if (current) node.setAttribute("aria-current", "true");
+      else node.removeAttribute("aria-current");
+    });
+  }
+
+  function readingIsVisible() {
+    const node = readingView?.node;
+    if (!node?.isConnected || !node.getClientRects().length || node.closest("[hidden]") || node.closest("details:not([open])")) return false;
+    if (node.closest("[data-track-id]")?.dataset.trackId !== readingView.id) return false;
+    const rect = node.getBoundingClientRect();
+    const bottom = $("listeningPlayer").getBoundingClientRect().top;
+    return rect.bottom > 24 && rect.top < bottom - 40;
+  }
+
+  function syncCurrentTrack(track, state) {
+    const follow = track && track.id !== currentTrack?.id && readingView?.id === currentTrack?.id && readingIsVisible();
+    const view = readingView?.view;
+    if (track?.id !== currentTrack?.id) revealRequest += 1;
+    currentTrack = track;
+    currentState = state;
+    markCurrentTrack();
+    if (follow) {
+      const nextView = view === "score" && !track.hasScore ? (track.hasLyrics ? "lyrics" : "song")
+        : view === "lyrics" && !track.hasLyrics ? "song" : view;
+      revealTrack(track, nextView, { follow: true });
     }
+  }
+
+  function explorerTrack(row) {
+    let card = $(`song-${row.id}`);
+    if (card) return card;
+    const rows = explorerMatches();
+    const index = rows.findIndex(item => item.id === row.id);
+    if (index >= 0) {
+      explorerLimit = Math.max(explorerLimit, index + 1);
+      renderExplorer(true);
+    } else {
+      // Reveal the playing song separately without changing search or queue filters.
+      audioPlayers.releaseWithin($("explorerSpotlight"));
+      $("explorerSpotlight").replaceChildren(explorerCard(row));
+      $("explorerSpotlight").hidden = false;
+    }
+    return $(`song-${row.id}`);
+  }
+
+  function revealTrack(track, view = "song", { follow = false } = {}) {
+    if (!track) return;
+    const request = ++revealRequest;
+    // End an earlier smooth jump before a tab resize changes scroll anchoring.
+    window.scrollTo({ top: window.scrollY, left: window.scrollX, behavior: "instant" });
+    let target, focus, reader;
+    if (track.id.startsWith("cover:")) {
+      const card = $(`cover-${track.rowId}`);
+      target = focus = card.querySelector("h3");
+      if (view === "lyrics") {
+        const details = card.querySelector('[data-view="lyrics"]');
+        target = focus = details.revealLyrics();
+        reader = target.nextElementSibling;
+      } else if (view === "score") {
+        const details = card.querySelector('[data-view="score"]');
+        details.open = true;
+        target = focus = details.querySelector("summary");
+        reader = details;
+      }
+    } else if (track.planned) {
+      selectCase(track.rowId);
+      if (view === "lyrics" || view === "score") {
+        selectTab(view);
+        target = document.querySelector(".tabs");
+        focus = $(`${view}Tab`);
+        reader = $(`${view}Panel`);
+      } else target = focus = $("selectedTitle");
+    } else {
+      const row = cases.find(item => item.id === track.rowId);
+      const card = explorerTrack(row);
+      target = focus = card.querySelector("h3");
+      if (view === "lyrics") {
+        target = focus = card.querySelector('[data-view="lyrics"]').revealLyrics();
+        reader = target.nextElementSibling;
+      }
+    }
+    readingView = reader ? { id: track.id, view, node: reader } : null;
+    markCurrentTrack();
+    if (!target) return;
+    target.classList.add("listening-destination");
+    if (!focus.hasAttribute("tabindex") && !focus.matches("button, summary")) focus.tabIndex = -1;
+    // Wait for details and tabs to open before measuring the destination.
+    requestAnimationFrame(() => {
+      if (request !== revealRequest || !target.isConnected) return;
+      if (!follow) focus.focus({ preventScroll: true });
+      requestAnimationFrame(() => {
+        if (request !== revealRequest || !target.isConnected) return;
+        const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        // Scroll only the page; a score's own scroll position belongs to its clock.
+        const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - 24);
+        window.scrollTo({ top, behavior: follow || reduced ? "instant" : "smooth" });
+      });
+    });
   }
 
   const summary = data.summary;
@@ -627,7 +762,7 @@
   renderExplorer();
   listening = new window.YUE2ListeningPlayer({
     manager: audioPlayers, getTracks: getQueue, initialId: `song:${selectedId}`,
-    onShuffle: shuffleCollections, onReveal: revealTrack,
-    onSelect: (track, scope) => { if (scope === "planned") selectCase(track.rowId); },
+    onShuffle: shuffleCollections, onReveal: revealTrack, onCurrent: syncCurrentTrack,
+    onSelect: (track, scope) => { if (scope === "planned" && !readingIsVisible()) selectCase(track.rowId); },
   });
 })();

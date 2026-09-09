@@ -89,12 +89,13 @@
   const names = { all: "All songs", planned: "From score to song", covers: "Cover & Editing", explorer: "Genre Explorer" };
 
   window.YUE2ListeningPlayer = class {
-    constructor({ manager, getTracks, initialId, onShuffle, onSelect, onReveal }) {
+    constructor({ manager, getTracks, initialId, onShuffle, onSelect, onReveal, onCurrent = () => {} }) {
       this.manager = manager;
       this.getTracks = getTracks;
       this.onShuffle = onShuffle;
       this.onSelect = onSelect;
       this.onReveal = onReveal;
+      this.onCurrent = onCurrent;
       this.scope = "all";
       this.root = document.getElementById("listeningPlayer");
       this.ui = Object.fromEntries([...this.root.querySelectorAll("[data-listening]")].map(node => [node.dataset.listening, node]));
@@ -136,7 +137,9 @@
         this.manager.volume = Number(this.ui.volume.value);
         this.transport?.setVolume(this.manager.volume);
       });
-      this.ui.title.addEventListener("click", () => this.current && this.onReveal(this.current));
+      for (const [control, view] of [["title", "song"], ["lyrics", "lyrics"], ["score", "score"]]) {
+        this.ui[control].addEventListener("click", () => this.current && this.onReveal(this.current, view));
+      }
       this.unsubscribe = manager.subscribe(event => this.onMedia(event));
       document.querySelectorAll("[data-shuffle-play]").forEach(button => {
         button.addEventListener("click", () => this.shufflePlay(button.dataset.shufflePlay));
@@ -210,7 +213,11 @@
       const title = current?.title || "Choose a song";
       if (ui.title.textContent !== title) ui.title.textContent = title;
       ui.title.title = title;
-      ui.title.setAttribute("aria-label", `View ${title}`);
+      ui.title.setAttribute("aria-label", `Go to ${title}`);
+      ui.lyrics.hidden = !current?.hasLyrics;
+      ui.score.hidden = !current?.hasScore;
+      ui.lyrics.setAttribute("aria-label", `View lyrics for ${title}`);
+      ui.score.setAttribute("aria-label", `View score for ${title}`);
       const description = current?.kind === "score" ? "Original score recording" : current?.subtitle || "YuE2 listening collection";
       ui.detail.textContent = description;
       ui.collection.value = this.scope;
@@ -239,6 +246,11 @@
         if (state.duration > 0 && navigator.mediaSession.setPositionState) {
           try { navigator.mediaSession.setPositionState({ duration: state.duration, playbackRate: this.manager.active?.audio.playbackRate || 1, position: Math.min(state.duration, Math.max(0, state.currentTime || 0)) }); } catch { /* Optional system controls. */ }
         }
+      }
+      const currentKey = `${this.player ? current?.id : ""}:${playing}:${state.loading}`;
+      if (this.currentKey !== currentKey) {
+        this.currentKey = currentKey;
+        this.onCurrent(this.player ? current : null, state);
       }
     }
     updateMediaMetadata() {

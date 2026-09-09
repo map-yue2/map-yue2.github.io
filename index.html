@@ -9,7 +9,7 @@
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260909-player28">
+  <link rel="stylesheet" href="static/styles.css?v=20260909-linked29">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -93,11 +93,12 @@
           <div id="caseRail" class="case-list"></div>
         </aside>
 
-        <article class="case-stage" aria-live="polite">
+        <article class="case-stage" aria-live="polite" id="currentDemo">
           <div class="stage-head">
             <div>
               <p id="selectedKicker" class="eyebrow">Selected score</p>
               <h2 id="selectedTitle">Loading selected song…</h2>
+              <span class="now-playing-label" hidden>Now playing</span>
             </div>
             <button id="copyAbc" class="ghost-button" type="button">Copy ABC</button>
           </div>
@@ -185,6 +186,7 @@
         <label><span>Generation</span><select id="explorerMode"><option value="all">All songs</option><option value="planned">With symbolic planning</option><option value="direct">Direct generation</option></select></label>
       </div>
       <p id="explorerStatus" class="results-status" role="status"></p>
+      <div id="explorerSpotlight" class="explorer-spotlight" hidden></div>
       <div id="explorerGrid" class="explorer-grid"></div>
       <button id="loadMore" class="load-more ghost-button" type="button">Show more songs</button>
     </section>
@@ -324,7 +326,7 @@
     <div class="listening-inner">
       <div class="listening-track">
         <img class="listening-art" src="static/brand/yue-mark.svg" alt="" width="44" height="44">
-        <div class="listening-track-copy"><button type="button" class="listening-title" data-listening="title">Choose a song</button><p data-listening="detail">YuE2 listening collection</p></div>
+        <div class="listening-track-copy"><button type="button" class="listening-title" data-listening="title">Choose a song</button><p data-listening="detail">YuE2 listening collection</p><div class="listening-links" aria-label="Current song views"><button type="button" data-listening="lyrics" hidden>Lyrics</button><button type="button" data-listening="score" hidden>Score</button></div></div>
       </div>
       <div class="listening-transport">
         <div class="listening-buttons">
@@ -350,9 +352,9 @@
   <script defer src="data/benchmarks.js?v=20260908-wsb6"></script>
   <script defer src="static/overview.js?v=20260908-paper7"></script>
   <script defer src="static/audio-player.js?v=20260909-player28"></script>
-  <script defer src="static/listening-player.js?v=20260909-player28"></script>
-  <script defer src="static/score-player.js?v=20260908-sync10"></script>
+  <script defer src="static/listening-player.js?v=20260909-linked29"></script>
+  <script defer src="static/score-player.js?v=20260909-linked29"></script>
   <script defer src="static/score-notation.js?v=20260909-score14"></script>
-  <script defer src="static/app.js?v=20260909-player28"></script>
+  <script defer src="static/app.js?v=20260909-linked29"></script>
 </body>
 </html>
