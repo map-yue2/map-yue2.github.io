@@ -9,7 +9,7 @@
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260909-tokenwave34">
+  <link rel="stylesheet" href="static/styles.css?v=20260910-public-models">
   <link rel="stylesheet" href="static/agentic-editing.css?v=20260910-editing2">
 </head>
 <body>
@@ -28,6 +28,35 @@
       <p class="article-meta">Research &amp; demos <span aria-hidden="true">·</span> September 2026</p>
       <h1 id="heroTitle">Frontier quality. <span>Music, with a plan.</span></h1>
       <p class="hero-subtitle">YuE2 unifies symbolic and audio music generation in one model, with song quality that rivals Suno v5. Through symbolic planning, it writes an editable score, then brings the composition to life with vocals and accompaniment.</p>
+      <nav class="release-links" aria-label="Public models and benchmark on Hugging Face">
+        <p class="release-caption"><span class="release-dot" aria-hidden="true"></span> Models &amp; benchmark <span class="release-host">on Hugging Face</span></p>
+        <div class="release-grid">
+          <div class="release-group release-generation">
+            <span class="release-label">Generation</span>
+            <a class="release-main" href="https://huggingface.co/m-a-p/YuE2-3B" target="_blank" rel="noopener noreferrer">YuE2-3B <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a>
+            <div class="release-related">
+              <a href="https://huggingface.co/m-a-p/YuE2-Vae" target="_blank" rel="noopener noreferrer" aria-label="YuE2 VAE on Hugging Face">VAE <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a>
+              <span aria-hidden="true">·</span>
+              <a href="https://huggingface.co/m-a-p/YuE2-Vae-legacy" target="_blank" rel="noopener noreferrer" aria-label="YuE2 VAE legacy on Hugging Face">VAE legacy <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a>
+            </div>
+          </div>
+          <div class="release-group">
+            <span class="release-label">Transcription</span>
+            <a class="release-main" href="https://huggingface.co/m-a-p/SheetSage2" target="_blank" rel="noopener noreferrer">SheetSage2 <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a>
+            <span class="release-description">Audio to score</span>
+          </div>
+          <div class="release-group">
+            <span class="release-label">Representations</span>
+            <a class="release-main" href="https://huggingface.co/m-a-p/MERT-v2-30s" target="_blank" rel="noopener noreferrer">MERT2 <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a>
+            <div class="release-related"><a href="https://huggingface.co/m-a-p/MERT-v2-FullSong" target="_blank" rel="noopener noreferrer" aria-label="MERT2-FS full-song encoder on Hugging Face">MERT2-FS <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a></div>
+          </div>
+          <div class="release-group">
+            <span class="release-label">Benchmark</span>
+            <a class="release-main" href="https://huggingface.co/datasets/m-a-p/WildSongBench" target="_blank" rel="noopener noreferrer">WildSongBench <svg class="release-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6"/></svg></a>
+            <span class="release-description">Prompts &amp; evaluation</span>
+          </div>
+        </div>
+      </nav>
       <div class="institution-strip" aria-label="Institutions and organizations">
         <div class="institution-primary">
           <a class="institution-logo institution-hkust" href="https://hkust.edu.hk/" target="_blank" rel="noopener noreferrer" aria-label="The Hong Kong University of Science and Technology">
