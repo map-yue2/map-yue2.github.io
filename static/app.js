@@ -429,6 +429,15 @@
     return rows;
   }
 
+  function updateRailEdges() {
+    const rail = $("caseRail");
+    const horizontal = rail.scrollWidth > rail.clientWidth + 1;
+    const position = horizontal ? rail.scrollLeft : rail.scrollTop;
+    const extent = horizontal ? rail.scrollWidth - rail.clientWidth : rail.scrollHeight - rail.clientHeight;
+    rail.parentElement.classList.toggle("can-scroll-back", position > 1);
+    rail.parentElement.classList.toggle("can-scroll-forward", position < extent - 1);
+  }
+
   function renderRail() {
     const rows = railMatches();
     $("railCount").textContent = `${rows.length} tracks`;
@@ -456,6 +465,7 @@
     }
     listening?.refreshQueue("planned");
     markCurrentTrack();
+    updateRailEdges();
   }
 
   function openScore(id) {
@@ -745,6 +755,8 @@
   fillSelect($("explorerGenre"), optionsFor(data.cases, "genre"), "All genres");
   $("searchInput").addEventListener("input", debounce(renderRail));
   ["languageFilter", "genreFilter", "sortSelect"].forEach(id => $(id).addEventListener("change", renderRail));
+  $("caseRail").addEventListener("scroll", updateRailEdges, { passive: true });
+  if (window.ResizeObserver) new ResizeObserver(updateRailEdges).observe($("caseRail"));
   ["explorerSearch", "explorerLanguage", "explorerGenre", "explorerMode"].forEach(id => {
     const update = () => {
       explorerLimit = 12;

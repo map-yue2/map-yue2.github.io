@@ -9,7 +9,7 @@
   <link rel="icon" href="static/brand/yue-mark.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="vendor/abcjs-audio.css">
-  <link rel="stylesheet" href="static/styles.css?v=20260909-linked29">
+  <link rel="stylesheet" href="static/styles.css?v=20260909-rail30">
 </head>
 <body>
   <div class="masthead" id="top">
@@ -90,7 +90,9 @@
               </select>
             </label>
           </div>
-          <div id="caseRail" class="case-list"></div>
+          <div class="case-list-viewport">
+            <div id="caseRail" class="case-list" role="region" aria-label="Selected scores" tabindex="0"></div>
+          </div>
         </aside>
 
         <article class="case-stage" aria-live="polite" id="currentDemo">
@@ -355,6 +357,6 @@
   <script defer src="static/listening-player.js?v=20260909-linked29"></script>
   <script defer src="static/score-player.js?v=20260909-linked29"></script>
   <script defer src="static/score-notation.js?v=20260909-score14"></script>
-  <script defer src="static/app.js?v=20260909-linked29"></script>
+  <script defer src="static/app.js?v=20260909-rail30"></script>
 </body>
 </html>
