@@ -4,9 +4,10 @@
 .agentic-intro { position: relative; padding: 30px 36px; margin-bottom: 28px; background: #eee6d9; border: 1px solid #dacdbb; border-radius: 4px 20px 20px 4px; border-left: 4px solid var(--accent); }
 .agentic-kicker { color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .14em; margin: 0 0 10px; }
 .agentic-song-title { font: 500 clamp(2rem, 3.8vw, 2.8rem)/1.15 var(--editorial); margin: 0 0 12px; }
+.agentic-credit { margin: 0 0 18px; font-size: .95rem; line-height: 1.6; color: var(--ink); }
+.agentic-credit strong { color: var(--accent); font-weight: 600; white-space: nowrap; }
 .agentic-deck { max-width: 790px; margin: 0; font-size: 1.05rem; line-height: 1.65; }
-.agentic-path { color: var(--muted); font-size: .87rem; line-height: 1.8; margin: 16px 0 12px; }
-.agentic-jump { color: var(--accent); font-size: .9rem; font-weight: 600; text-underline-offset: 4px; }
+.agentic-jump { display: inline-block; margin-top: 18px; color: var(--accent); font-size: .9rem; font-weight: 600; text-underline-offset: 4px; }
 .agentic-editor-note { max-width: 850px; font-size: .79rem; line-height: 1.65; color: var(--muted); margin: 18px 0 0; }
 .agentic-timeline { position: relative; padding-left: 22px; }
 .agentic-timeline::before { content: ""; position: absolute; top: 28px; bottom: 30px; left: 0; border-left: 1px solid #c9b49e; }

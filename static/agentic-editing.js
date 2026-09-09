@@ -132,9 +132,10 @@ window.YUE2AgenticEditing = (() => {
     }
 
     const intro = element("div", "agentic-intro");
+    const credit = element("p", "agentic-credit");
+    credit.append("Co-created by ", element("strong", "", "a researcher"), " and ", element("strong", "", "GPT-6 Astra Max"));
     intro.append(element("p", "agentic-kicker", "ONE SONG · 9 STEPS · 14 VERSIONS"), element("h4", "agentic-song-title", data.title),
-      element("p", "agentic-deck", "An acoustic pop song becomes modern vocal jazz through a conversation: change the harmony, reshape the melody, develop a familiar theme, then rewrite the words."));
-    const path = element("p", "agentic-path", "Acoustic pop → Swing trio → Saxophone interlude → Modern jazz");
+      credit, element("p", "agentic-deck", "I used YuE2 to generate a Mandarin pop song, then worked with GPT-6 Astra Max to edit it over multiple rounds. I gave musical feedback; Astra revised the score, style and lyrics, and YuE2 rendered each version. We ended with an English jazz song featuring modern harmony, two complete statements of “Twinkle, Twinkle, Little Star” and a saxophone solo."));
     const jump = element("a", "agentic-jump", "Jump to the final English version ↗");
     jump.href = `#edit-${data.final}`;
     jump.addEventListener("click", event => {
@@ -145,7 +146,7 @@ window.YUE2AgenticEditing = (() => {
       destination.focus.focus({ preventScroll: true });
       destination.target.scrollIntoView({ block: "start", behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
     });
-    intro.append(path, jump, element("p", "agentic-editor-note", "Condensed and translated into English from an editing conversation. Related requests are grouped; comparison renders and refinement passes stay with the request that prompted them. Expand a step to hear every version and inspect its score and inputs."));
+    intro.append(jump, element("p", "agentic-editor-note", "Below is a summarized English version of our real, multi-turn conversation with Codex."));
     const timeline = element("div", "agentic-timeline");
     for (const [index, step] of data.steps.entries()) {
       const container = element("details", "agentic-step");
@@ -160,9 +161,9 @@ window.YUE2AgenticEditing = (() => {
       const content = element("div", "agentic-step-body");
       if (step.context) content.append(element("p", "agentic-context", step.context));
       const user = element("div", "agentic-message agentic-user");
-      user.append(element("p", "agentic-speaker", "User"), element("blockquote", "", step.user));
+      user.append(element("p", "agentic-speaker", "Researcher"), element("blockquote", "", step.user));
       const agent = element("div", "agentic-message agentic-agent");
-      agent.append(element("p", "agentic-speaker", "Agent"), element("p", "", step.agent));
+      agent.append(element("p", "agentic-speaker", "GPT-6 Astra Max"), element("p", "", step.agent));
       content.append(user, agent);
       const cue = element("p", "agentic-listen-for");
       cue.append(element("strong", "", "Listen for "), step.listenFor);
