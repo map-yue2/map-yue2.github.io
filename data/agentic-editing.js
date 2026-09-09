@@ -1,6 +1,6 @@
 window.YUE2_AGENTIC = {
   "title": "The Last Train",
-  "final": "english-final",
+  "final": "english-phrasing",
   "steps": [
     {
       "id": "begin",
@@ -707,11 +707,11 @@ window.YUE2_AGENTIC = {
       "id": "english",
       "title": "English lyrics and a more considered harmony",
       "phase": "Refine",
-      "primary": "english-final",
-      "context": "One request, followed by three refinement passes",
+      "primary": "english-phrasing",
+      "context": "Three refinement passes; the phrasing pass is the final choice",
       "user": "This is good. Rewrite the lyrics in English, fitting the syllables and phonemes to the notes. Smooth the melody–chord clashes while keeping the colors that work.",
-      "agent": "I rewrote the lyrics for the existing vocal phrases, checked syllable placement and vowel holds, and revised chords under sustained notes. Augmented passing chords and earlier resolutions ease several clashes while preserving the chromatic colors. Two further passes make the English phrasing less crowded and let way, name and dawn carry the phrase endings.",
-      "listenFor": "The final English vocal sits around the same two complete themes and solo. Compare the three passes to hear how shorter wording and longer vowel holds change the delivery.",
+      "agent": "I rewrote the lyrics for the existing vocal phrases, checked syllable placement and vowel holds, and revised chords under sustained notes. Augmented passing chords and earlier resolutions ease several clashes while preserving the chromatic colors. Two further passes explored less crowded English phrasing and longer vowel holds at phrase endings.",
+      "listenFor": "The researcher chose the English phrasing pass as the final version after listening. Compare it with the draft and the later vowel-hold variation; all three retain the two complete themes and saxophone solo.",
       "versions": [
         {
           "id": "english-draft",
@@ -876,9 +876,9 @@ window.YUE2_AGENTIC = {
         },
         {
           "id": "english-phrasing",
-          "label": "English phrasing pass",
+          "label": "Final English version · phrasing pass",
           "previous": "english-draft",
-          "note": "Rewords crowded lines and lengthens selected pickups to give the voice more room.",
+          "note": "Selected as the final version by the researcher after listening. Rewords crowded lines and lengthens selected pickups to give the voice more room.",
           "styleChange": "Asks the singer to complete each phrase and make stressed words clear, with relaxed breathing space.",
           "lyricsChange": "Rewrites lines including ‘your face stays here with me’ → ‘I see your face once more’ and ‘let stars be your light and guide’ → ‘let stars light your way tonight’.",
           "style": "English, intimate modern vocal jazz, warm expressive female vocalist, clear natural English diction, complete every written lyric phrase,  singable English phrasing with natural word stress, sustain vowels through melismas and release final consonants clearly, let stressed words such as dawn, stars, night and home ring clearly, relaxed phrases with space to breathe, acoustic quartet: lyrical tenor saxophone, acoustic piano, upright double bass and brushed drums, widely spaced piano guide tones and tasteful ninths and thirteenths, support the sung melody and the saxophone long tones with clear chord tones, expressive tension resolves smoothly, chromatic bass lines, brief tonicizations, augmented passing chords, selective tritone substitutions and major-to-minor colors, each verse and chorus develops its harmony, relaxed swing with gentle syncopation, mostly 4/4 with the brief 3/4 transitions written in the score, the singer rests throughout the saxophone interlude, the saxophone plays the COMPLETE six-phrase Twinkle Twinkle Little Star melody twice, the first full statement is clear and familiar, the second keeps the entire melody with modern reharmonization and rhythmic variation, then an eight-bar melodic jazz solo develops the theme, piano and bass connect the sections naturally, a short graceful turnaround returns to the final vocal chorus, no guitars, warm intimate jazz-club sound, 88 BPM",
@@ -1007,9 +1007,9 @@ window.YUE2_AGENTIC = {
         },
         {
           "id": "english-final",
-          "label": "Final English version",
+          "label": "English vowel-hold comparison",
           "previous": "english-phrasing",
-          "note": "Shorter chorus lines give way and name room for three-note melismas, and dawn room for a two-note hold.",
+          "note": "A later variation with shorter chorus lines: way and name have three-note melismas, and dawn has a two-note hold.",
           "styleChange": "Adds explicit vowel-hold guidance for way and name while keeping the relaxed modern-jazz arrangement.",
           "lyricsChange": "Shortens ‘let stars light your way tonight’ to ‘let stars light your way’; changes ‘a new day calls your name’ to ‘dawn calls out your name’ across the choruses.",
           "style": "English, intimate modern vocal jazz, warm expressive female vocalist, clear natural English diction, complete every written lyric phrase,  singable English phrasing with natural word stress, sustain vowels through melismas and release final consonants clearly, let way and name flow across their phrase-ending notes, let stressed words such as dawn, stars, night and home ring clearly, relaxed phrases with space to breathe, acoustic quartet: lyrical tenor saxophone, acoustic piano, upright double bass and brushed drums, widely spaced piano guide tones and tasteful ninths and thirteenths, support the sung melody and the saxophone long tones with clear chord tones, expressive tension resolves smoothly, chromatic bass lines, brief tonicizations, augmented passing chords, selective tritone substitutions and major-to-minor colors, each verse and chorus develops its harmony, relaxed swing with gentle syncopation, mostly 4/4 with the brief 3/4 transitions written in the score, the singer rests throughout the saxophone interlude, the saxophone plays the COMPLETE six-phrase Twinkle Twinkle Little Star melody twice, the first full statement is clear and familiar, the second keeps the entire melody with modern reharmonization and rhythmic variation, then an eight-bar melodic jazz solo develops the theme, piano and bass connect the sections naturally, a short graceful turnaround returns to the final vocal chorus, no guitars, warm intimate jazz-club sound, 88 BPM",
