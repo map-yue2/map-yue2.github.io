@@ -17,6 +17,9 @@
     option.value = metric.key;
     return option;
   }));
+  const snapshotDate = new Intl.DateTimeFormat("en-US", {
+    year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+  }).format(new Date(`${data.snapshot}T00:00:00Z`));
   function render() {
     const metric = data.metrics.find(item => item.key === $("benchmarkMetric").value);
     const rows = data.rows.filter(row => row.dataset === "WSB")
@@ -25,7 +28,7 @@
     const rank = row => 1 + rows.filter(other => metric.lowerIsBetter
       ? other[metric.key] < row[metric.key] : other[metric.key] > row[metric.key]).length;
     $("benchmarkStatus").textContent = `${metric.description}. ${metric.lowerIsBetter ? "Lower" : "Higher"} is better.`;
-    $("comparisonCaption").textContent = `WildSongBench · ${metric.label} · 192 prompts · September 5, 2026`;
+    $("comparisonCaption").textContent = `WildSongBench · ${metric.label} · 192 prompts · ${snapshotDate}`;
     $("comparisonMetric").textContent = `${metric.label} ${metric.lowerIsBetter ? "↓" : "↑"}`;
     $("comparisonRows").replaceChildren(...rows.map(row => {
       const tr = node("tr");

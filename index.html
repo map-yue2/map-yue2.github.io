@@ -27,7 +27,7 @@
     <section class="hero" aria-labelledby="heroTitle">
       <p class="article-meta">Research &amp; demos <span aria-hidden="true">·</span> September 2026</p>
       <h1 id="heroTitle">Frontier quality. <span>Music, with a plan.</span></h1>
-      <p class="hero-subtitle">YuE2 unifies symbolic and audio music generation in one model, with song quality that rivals Suno v5. Through symbolic planning, it writes an editable score, then brings the composition to life with vocals and accompaniment.</p>
+      <p class="hero-subtitle">YuE2 unifies symbolic and audio music generation in one model, with frontier song quality competitive with evaluated proprietary systems. Through symbolic planning, it writes an editable score, then brings the composition to life with vocals and accompaniment.</p>
       <nav class="release-links" aria-label="Public models and benchmark on Hugging Face">
         <p class="release-caption"><span class="release-dot" aria-hidden="true"></span> Models &amp; benchmark <span class="release-host">on Hugging Face</span></p>
         <div class="release-grid">
@@ -230,39 +230,41 @@
     <section class="module-section model-overview" id="model-overview" aria-labelledby="overviewTitle">
       <div class="section-head">
         <h2 id="overviewTitle">Model &amp; Results</h2>
-        <p>YuE2 (best-of-8) reaches <strong id="resultScore">6.9632</strong> on SongBench, the highest observed mean among 15 evaluated settings on WildSongBench (192 prompts). Suno v5 scores 6.8721 in the same comparison.</p>
+        <p>YuE2 (best-of-8) reaches <strong id="resultScore">6.9632</strong> on SongBench’s seven-dimension global average, the highest observed mean among 17 evaluated settings on WildSongBench (192 prompts). The strongest proprietary result is Mureka 9 at 6.9377; Suno v6 and v6 Wild score 6.5562 and 6.4195.</p>
       </div>
 
       <figure class="paper-figure" id="paper-figure-1">
-        <div class="paper-figure-heading"><div><p class="eyebrow">Figure 1</p><h3>YuE2 at the frontier.</h3></div><a href="static/figures/frontier-teaser.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
-        <a class="paper-figure-image" href="static/figures/frontier-teaser.pdf" target="_blank" rel="noopener" aria-label="Open Figure 1 as a zoomable PDF"><img src="static/figures/frontier-teaser.svg" alt="Paper Figure 1: a WildSongBench comparison of song quality and text alignment. YuE2 and YuE2 best-of-8 are competitive with the evaluated proprietary systems. Bubble area represents AudioBox production quality." width="1980" height="764" loading="lazy" decoding="async" fetchpriority="low"></a>
+        <div class="paper-figure-heading"><div><p class="eyebrow">Figure 1</p><h3>YuE2 at the frontier.</h3></div><a href="static/figures/frontier-teaser.pdf?v=20260912-paper" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+        <a class="paper-figure-image" href="static/figures/frontier-teaser.pdf?v=20260912-paper" target="_blank" rel="noopener" aria-label="Open Figure 1 as a zoomable PDF"><img src="static/figures/frontier-teaser.svg?v=20260912-paper" alt="Paper Figure 1: 17 WildSongBench settings, including Suno v6 and v6 Wild, compared on song quality and text alignment. YuE2 and YuE2 best-of-8 are competitive with the evaluated proprietary systems. Bubble area represents AudioBox production quality." width="1980" height="764" loading="lazy" decoding="async" fetchpriority="low"></a>
         <figcaption>Song quality and text alignment on WildSongBench. Bubble area shows AudioBox PQ; black outlines mark Pareto optima on the two plotted axes. Bo8 = best-of-8. <a href="#evaluation-protocol">How to read the indices</a>.</figcaption>
       </figure>
 
       <figure class="paper-figure" id="paper-architecture">
-        <div class="paper-figure-heading"><div><p class="eyebrow">Model architecture</p><h3>Composing in symbols, performing in audio.</h3></div><a href="static/figures/yue2-overview.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
-        <a class="paper-figure-image" href="static/figures/yue2-overview.pdf" target="_blank" rel="noopener" aria-label="Open the model architecture as a zoomable PDF"><img src="static/figures/yue2-overview.svg" alt="YuE2 architecture: an AR–NAR Mixture-of-Transformers turns an editable symbolic score into semantic tokens, acoustic latents, and full-song audio. The same generator supports creation, covering, and editing." width="2352" height="1191" loading="lazy" decoding="async" fetchpriority="low"></a>
+        <div class="paper-figure-heading"><div><p class="eyebrow">Model architecture</p><h3>Composing in symbols, performing in audio.</h3></div><a href="static/figures/yue2-overview.pdf?v=20260912-paper" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+        <a class="paper-figure-image" href="static/figures/yue2-overview.pdf?v=20260912-paper" target="_blank" rel="noopener" aria-label="Open the model architecture as a zoomable PDF"><img src="static/figures/yue2-overview.svg?v=20260912-paper" alt="YuE2 architecture: an AR–NAR Mixture-of-Transformers turns an editable symbolic score into semantic tokens, acoustic latents, and full-song audio. The same generator supports creation, covering, and editing." width="2352" height="1191" loading="lazy" decoding="async" fetchpriority="low"></a>
         <figcaption>An editable score becomes semantic music tokens, acoustic latents, and full-song audio. The model has approximately 3.59B parameters and 28 layers, and supports creation, covering, and editing. The AR and NAR experts share an attention computation while using separate normalization, projections, and MLPs.</figcaption>
       </figure>
 
       <details class="benchmark-details full-comparison" id="benchmarkDetails">
-        <summary>Explore benchmark scores <span>WildSongBench · 15 settings · 7 metrics</span></summary>
+        <summary>Explore benchmark scores <span>WildSongBench · 17 settings · 9 metrics</span></summary>
         <div class="benchmark-detail-content">
           <div class="benchmark-controls"><div class="benchmark-dataset"><strong>WildSongBench</strong><span>192 prompts</span></div><label class="metric-select"><span>Compare by</span><select id="benchmarkMetric" aria-label="Evaluation metric"><option value="songbench_global_avg">SongBench</option></select></label></div>
           <p id="benchmarkStatus" class="benchmark-status" role="status"></p>
           <div class="comparison-scroll"><table><caption id="comparisonCaption">WildSongBench · SongBench</caption><thead><tr><th scope="col">Rank</th><th scope="col">System / setting</th><th scope="col">Prompts</th><th scope="col" id="comparisonMetric">SongBench ↑</th></tr></thead><tbody id="comparisonRows"></tbody></table></div>
-          <div class="benchmark-bottom"><p>September 5, 2026 evaluation · rankings vary by metric.</p><a href="data/benchmark-results.csv?v=20260908-wsb6" download>Download results <span aria-hidden="true">↓</span></a></div>
+          <div class="benchmark-bottom"><p>Updated September 12, 2026 · rankings vary by metric.</p><a href="data/benchmark-results.csv?v=20260912-suno-v6" download>Download results <span aria-hidden="true">↓</span></a></div>
         </div>
       </details>
       <details class="evaluation-protocol" id="evaluation-protocol"><summary>How to read these results</summary><div class="protocol-copy">
-            <p><strong>WildSongBench.</strong> 192 prompts and 15 system settings. The table reports automatic evaluation scores. Best-of-8 selects one of eight generations by musicality, prompt control, and lyric accuracy.</p>
-            <p><strong>Figure 1.</strong> Song quality combines SongBench and SongEval; text alignment combines MuLan, AllMusicCaps, and prompt control. Both axes show normalized comparison indices. Bubble area represents AudioBox production quality.</p>
+            <p><strong>WildSongBench.</strong> 192 prompts, 17 system settings, and the paper’s nine automatic metrics. SongBench averages all seven dimensions; SongEval averages all five. Musicality is also reported separately for each evaluator. Both YuE2 settings use melody-and-chord symbolic planning.</p>
+            <p><strong>Selection.</strong> YuE2, the public baselines, and Suno v6 and v6 Wild use two candidates and four ASR repeats per candidate, followed by lower-PER selection. Earlier proprietary outputs retain their delivered-candidate protocols. YuE2 best-of-8 selects from eight generations using SongBench Musicality, then Q3O Control, then PER. The comparison therefore retains different selection budgets.</p>
+            <p><strong>Metric differences.</strong> YuE2 leads SongBench with best-of-8; Suno v6 has higher SongEval scores than either YuE2 setting, and both v6 variants have lower PER and higher AllMusicCaps scores. HeartMuLa uses SongEval and AudioBox in post-training, so its SongEval scores involve evaluator reuse. Ranks order the displayed means.</p>
+            <p><strong>Figure 1.</strong> Song quality combines standardized SongBench and SongEval global averages with 2:1 weights. Text alignment averages standardized MuLan, AllMusicCaps, and Q3O Control scores equally. All 15 external baselines define the standardization reference; observed extrema across all 17 settings map to 10 and 90. These are comparison indices. Bubble area separately shows AudioBox production quality.</p>
           </div></details>
       <!-- BEGIN COMPONENT RESULTS -->
       <section class="paper-component" id="mert2" aria-labelledby="mert2Title">
         <figure class="paper-figure" id="paper-mert2-architecture">
-          <div class="paper-figure-heading"><div><p class="eyebrow">MERT2 · Music representations</p><h3 id="mert2Title">Learning the structure behind the sound.</h3></div><a href="static/figures/mert2-ssl.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
-          <a class="paper-figure-image" href="static/figures/mert2-ssl.pdf" target="_blank" rel="noopener" aria-label="Open the MERT2 architecture as a zoomable PDF"><img src="static/figures/mert2-ssl.svg" alt="MERT2 architecture: offline target synthesis combines MuQ and Qwen2-Audio features into four code streams. A ConvNeXt frontend and 24-layer Conformer learn by masked prediction, then branch into full-song representations for SheetSage2 and a causal tokenizer curriculum for YuE2." width="3960" height="1908" loading="lazy" decoding="async" fetchpriority="low"></a>
+          <div class="paper-figure-heading"><div><p class="eyebrow">MERT2 · Music representations</p><h3 id="mert2Title">Learning the structure behind the sound.</h3></div><a href="static/figures/mert2-ssl.pdf?v=20260912-paper" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+          <a class="paper-figure-image" href="static/figures/mert2-ssl.pdf?v=20260912-paper" target="_blank" rel="noopener" aria-label="Open the MERT2 architecture as a zoomable PDF"><img src="static/figures/mert2-ssl.svg?v=20260912-paper" alt="MERT2 architecture: offline target synthesis combines MuQ and Qwen2-Audio features into four code streams. A ConvNeXt frontend and 24-layer Conformer learn by masked prediction, then branch into full-song representations for SheetSage2 and a causal tokenizer curriculum for YuE2." width="3960" height="1908" loading="lazy" decoding="async" fetchpriority="low"></a>
           <figcaption>MERT2 provides the music representations behind both analysis and generation. A ConvNeXt frontend and 24-layer Conformer learn to predict masked codes built from complementary MuQ and Qwen2-Audio features. Full-song adaptation supplies SheetSage2 with musical context; a separate causal branch becomes YuE2’s 25-Hz semantic tokenizer.</figcaption>
         </figure>
 
@@ -306,8 +308,8 @@
 
       <section class="paper-component" id="sheetsage2" aria-labelledby="sheetsage2Title">
         <figure class="paper-figure" id="paper-sheetsage2-architecture">
-          <div class="paper-figure-heading"><div><p class="eyebrow">SheetSage2 · Audio to score</p><h3 id="sheetsage2Title">Hear a song. Read its composition.</h3></div><a href="static/figures/sheetsage2-overview.pdf" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
-          <a class="paper-figure-image" href="static/figures/sheetsage2-overview.pdf" target="_blank" rel="noopener" aria-label="Open the SheetSage2 architecture as a zoomable PDF"><img src="static/figures/sheetsage2-overview.svg" alt="SheetSage2 architecture: a full-song MERT2-FS encoder with trainable adapters feeds a six-layer autoregressive decoder. Task prompts select beat, section, key, chord, and melody events, which share a timeline and become ABC notation and a lead sheet." width="4070" height="2268" loading="lazy" decoding="async" fetchpriority="low"></a>
+          <div class="paper-figure-heading"><div><p class="eyebrow">SheetSage2 · Audio to score</p><h3 id="sheetsage2Title">Hear a song. Read its composition.</h3></div><a href="static/figures/sheetsage2-overview.pdf?v=20260912-paper" target="_blank" rel="noopener">Vector PDF <span aria-hidden="true">↗</span></a></div>
+          <a class="paper-figure-image" href="static/figures/sheetsage2-overview.pdf?v=20260912-paper" target="_blank" rel="noopener" aria-label="Open the SheetSage2 architecture as a zoomable PDF"><img src="static/figures/sheetsage2-overview.svg?v=20260912-paper" alt="SheetSage2 architecture: a full-song MERT2-FS encoder with trainable adapters feeds a six-layer autoregressive decoder. Task prompts select beat, section, key, chord, and melody events, which share a timeline and become ABC notation and a lead sheet." width="4070" height="2268" loading="lazy" decoding="async" fetchpriority="low"></a>
           <figcaption>SheetSage2 turns a recording into an editable lead sheet. A full-song MERT2-FS encoder, adapted with LoRA, feeds a six-layer autoregressive decoder. Task prompts select beats, sections, keys, chords, and melodies; a shared event timeline becomes ABC notation with vocal and instrumental melody voices. These scores supply symbolic training targets for YuE2.</figcaption>
         </figure>
 
@@ -395,9 +397,9 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script defer src="data/cases.js?v=20260909-pineapple32"></script>
-  <script defer src="data/benchmarks.js?v=20260908-wsb6"></script>
+  <script defer src="data/benchmarks.js?v=20260912-suno-v6"></script>
   <script defer src="data/agentic-editing.js?v=20260910-final-choice"></script>
-  <script defer src="static/overview.js?v=20260908-paper7"></script>
+  <script defer src="static/overview.js?v=20260912-suno-v6"></script>
   <script defer src="static/audio-player.js?v=20260909-player28"></script>
   <script defer src="static/listening-player.js?v=20260910-editing1"></script>
   <script defer src="static/score-player.js?v=20260909-linked29"></script>
