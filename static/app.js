@@ -507,6 +507,8 @@
 
   function coverCard(row, index) {
     const card = element("article", "cover-card");
+    const audioOnly = !row.abc && !row.tags && !row.lyrics;
+    if (audioOnly) card.classList.add("cover-card--audio-only");
     card.id = `cover-${row.id}`;
     card.dataset.trackId = `cover:${row.id}`;
     const header = element("header");
@@ -539,12 +541,26 @@
       const arrow = element("span", "", " ↗");
       arrow.setAttribute("aria-hidden", "true");
       link.append(arrow);
-      source.append("Adapted from ", link);
+      source.append(audioOnly ? "Original · " : "Adapted from ", link);
     } else source.textContent = row.source;
     title.append(source);
     header.append(element("span", "track-number", String(index + 1).padStart(2, "0")), title);
-    card.append(header, element("span", "style-badge", row.genre), element("p", "edit-label", row.editType), audioPlayer(row.audio, `${row.title}, cover and editing example`, "covers"));
-    card.append(textDetails(row.tags, row.lyrics));
+    card.append(header);
+    if (audioOnly) {
+      const meta = element("div", "cover-audio-meta");
+      meta.append(element("span", "style-badge", row.genre));
+      if (Number.isFinite(row.duration) && row.duration > 0) {
+        const seconds = Math.round(row.duration);
+        const duration = element("span", "cover-duration", `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`);
+        duration.setAttribute("aria-label", `Duration: ${Math.floor(seconds / 60)} minutes ${seconds % 60} seconds`);
+        meta.append(duration);
+      }
+      card.append(meta);
+    } else card.append(element("span", "style-badge", row.genre));
+    if (row.editType) card.append(element("p", "edit-label", row.editType));
+    card.append(audioPlayer(row.audio, `${row.title}, cover and editing example`, "covers"));
+    if (row.tags || row.lyrics) card.append(textDetails(row.tags, row.lyrics));
+    if (!row.abc) return card;
     const details = element("details", "content-details");
     details.dataset.view = "score";
     details.append(element("summary", "", "ABC score & playback"));
