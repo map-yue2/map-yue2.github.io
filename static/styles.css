@@ -46,10 +46,9 @@ summary { cursor: pointer; line-height: 1.6; }
 .brand-mark { width: 36px; height: 36px; }
 .brand strong { font-family: var(--display); font-size: 1.75rem; font-weight: 600; letter-spacing: -.08em; }
 .brand strong span { color: var(--accent); font-size: .7em; display: inline-block; transform: translateY(-5px); margin-left: 3px; }
-.top-nav { display: flex; align-items: center; gap: 24px; font-size: .8125rem; }
-.source-link { color: #695346; padding-block: 12px; white-space: nowrap; }
+.top-nav { display: flex; align-items: center; gap: 32px; font-size: .8125rem; }
+.source-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: #695346; white-space: nowrap; }
 .source-link:hover { color: var(--accent); }
-.source-link span { padding-left: 4px; }
 .eyebrow { margin: 0 0 10px; font-size: .6875rem; line-height: 1.6; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
 h1 span { color: var(--accent); font-style: italic; }
 .hero { max-width: 844px; padding-block: 34px 24px; }
@@ -58,10 +57,10 @@ h1 { margin: 0; font-family: var(--editorial); font-size: clamp(2.15rem, 4.8vw, 
 .hero-subtitle { max-width: 720px; color: #695749; font-size: 1.0625rem; line-height: 1.85; margin: 18px 0 0; }
 .hero-subtitle a { color: var(--accent); text-decoration: underline; text-decoration-color: #d7b29c; text-underline-offset: 4px; }
 .hero-subtitle a:hover { text-decoration-color: currentColor; }
-.online-demo { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
-.online-demo-link { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 11px 18px; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fffaf4; font-size: .875rem; font-weight: 600; line-height: 1.5; white-space: nowrap; }
-.online-demo-link:hover { background: #8d3824; border-color: #8d3824; color: #fffaf4; }
-.online-demo-host { color: var(--muted); font-size: .6875rem; line-height: 1.4; }
+.online-demo { position: relative; display: flex; align-items: center; }
+.online-demo-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--ink); font-size: .8125rem; font-weight: 500; line-height: 1.5; white-space: nowrap; text-decoration: underline; text-decoration-color: #cbbbab; text-decoration-thickness: 1px; text-underline-offset: 5px; transition: color .15s, text-decoration-color .15s; }
+.online-demo-link:hover { color: var(--accent); text-decoration-color: currentColor; }
+.online-demo-host { position: absolute; top: calc(100% - 6px); right: 0; color: var(--muted); font-size: .625rem; line-height: 1.4; white-space: nowrap; }
 /* Public releases sit beside the introduction, before the listening demos. */
 .release-links { margin-top: 25px; padding: 16px 20px 12px; border: 1px solid #deccba; border-radius: 10px; background: #fffaf4; }
 .release-caption { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: 0 0 13px; color: #695749; font-size: .6875rem; font-weight: 600; line-height: 1.6; }
@@ -343,12 +342,7 @@ audio { display: block; width: 100%; height: 46px; }
 }
 @media (max-width: 520px) {
   .site-header, .hero, main, .site-footer { padding-inline: 18px; }
-  .site-header { height: auto; min-height: 96px; display: grid; grid-template-columns: 1fr auto; column-gap: 12px; row-gap: 0; padding-block: 10px; }
-  .brand { grid-column: 1; grid-row: 1; }
-  .top-nav { display: contents; }
-  .source-link { grid-column: 1; grid-row: 2; justify-self: start; }
-  .online-demo { grid-column: 2; grid-row: 1 / 3; align-self: start; }
-  .online-demo-link { gap: 8px; padding-inline: 12px; font-size: .8125rem; }
+  .site-header { height: 76px; gap: 12px; }
   .hero { padding-block: 20px; }
   h1 { font-size: clamp(2.15rem, 8.5vw, 2.65rem); }
   .hero-subtitle { font-size: 1rem; margin-top: 16px; }
