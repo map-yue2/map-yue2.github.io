@@ -58,6 +58,10 @@ h1 { margin: 0; font-family: var(--editorial); font-size: clamp(2.15rem, 4.8vw, 
 .hero-subtitle { max-width: 720px; color: #695749; font-size: 1.0625rem; line-height: 1.85; margin: 18px 0 0; }
 .hero-subtitle a { color: var(--accent); text-decoration: underline; text-decoration-color: #d7b29c; text-underline-offset: 4px; }
 .hero-subtitle a:hover { text-decoration-color: currentColor; }
+.online-demo { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin-top: 20px; }
+.online-demo-link { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 11px 18px; border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: #fffaf4; font-size: .875rem; font-weight: 600; line-height: 1.5; }
+.online-demo-link:hover { background: #8d3824; border-color: #8d3824; color: #fffaf4; }
+.online-demo-host { color: var(--muted); font-size: .8125rem; line-height: 1.6; }
 /* Public releases sit beside the introduction, before the listening demos. */
 .release-links { margin-top: 25px; padding: 16px 20px 12px; border: 1px solid #deccba; border-radius: 10px; background: #fffaf4; }
 .release-caption { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: 0 0 13px; color: #695749; font-size: .6875rem; font-weight: 600; line-height: 1.6; }
