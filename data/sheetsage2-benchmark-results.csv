@@ -1,14 +1,16 @@
-Task,Benchmark,Metric (x100),SheetSage1,Madmom,Specialist,Specialist score,SheetSage2,Comparison notes
-Beat,GTZAN,F1,85.79,85.79,Beat This!,88.75,85.65,SheetSage1 uses the same Madmom rhythm outputs
-Beat,osu2017,F1,91.55,91.55,Beat This!,88.18,92.29,SheetSage1 uses the same Madmom rhythm outputs
-Downbeat,GTZAN,F1,64.33,64.33,Beat This!,78.28,79.51,SheetSage1 uses the same Madmom rhythm outputs
-Downbeat,osu2017,F1,83.22,83.22,Beat This!,84.99,91.97,SheetSage1 uses the same Madmom rhythm outputs
+Task,Benchmark,Metric (x100),SheetSage1,Madmom,Specialist,Specialist score,SheetSage2-AR,Comparison notes
+Beat,GTZAN,F1,86.07,86.07,Beat This!,89.01,86.27,SheetSage1 uses the same Madmom rhythm outputs; Beat This! scores average three released training seeds
+Beat,osu2017,F1,91.80,91.80,Beat This!,89.19,93.01,SheetSage1 uses the same Madmom rhythm outputs; Beat This! scores average three released training seeds
+Downbeat,GTZAN,F1,64.65,64.65,Beat This!,78.28,80.45,SheetSage1 uses the same Madmom rhythm outputs; Beat This! scores average three released training seeds
+Downbeat,osu2017,F1,83.47,83.47,Beat This!,85.90,92.90,SheetSage1 uses the same Madmom rhythm outputs; Beat This! scores average three released training seeds
 Key,GiantSteps,Weighted score,43.89,74.62,S-KEY,72.09,77.73,
 Key,GTZAN,Weighted score,54.56,72.05,S-KEY,74.43,75.77,
-Chord,osu2017,Maj/min,79.82,77.42,Jiang et al. 2019,84.59,90.08,
-Chord,Chords1217,Maj/min,72.98,83.52,ChordFormer,84.09,83.81,Madmom training includes Chords1217; ChordFormer uses five-fold cross-validation; SheetSage1 and SheetSage2 each use one fixed model on all 1217 tracks
+Chord,osu2017,Maj/min,79.82,77.42,ChordFormer,86.55,90.08,
+Chord,Chords1217,Maj/min,72.98,83.52,ChordFormer,83.94,83.81,"Madmom training includes Chords1217; ChordFormer uses one held-out fold model per track, rescored as reference-span-weighted per-track recall; SheetSage1 and SheetSage2-AR each use one fixed model on all 1217 tracks"
+Chord,JAAH,Maj/min,39.77,51.24,ChordFormer,59.45,64.50,All 113 recordings; reference spans intersected with audio; reference-span-weighted per-track recall; ChordFormer uses the five-model probability ensemble and HMM without dataset tuning
 Structure,HarmonixSet,Accuracy,,,SongFormer,80.03,80.51,
 Structure,HarmonixSet,Boundary F1 · 0.5 s,,,SongFormer,70.63,67.96,
 Structure,HarmonixSet,Boundary F1 · 3 s,,,SongFormer,79.50,82.86,
-Melody,RWC-Pop,Vocal pitch-class F1,62.71,,SheetSage1,62.71,82.51,Note F1 uses pitch classes; the specialist is SheetSage1
-Melody,RWC-Pop,Full pitch-class F1,64.02,,SheetSage1,64.02,75.29,Note F1 uses pitch classes; the specialist is SheetSage1
+Melody,RWC-Pop,Vocal pitch-class F1,62.71,,SheetSage1,62.71,82.51,"Note F1 uses pitch classes and a 50-ms onset tolerance, without offset matching; the specialist is SheetSage1"
+Melody,RWC-Pop,Full pitch-class F1,64.02,,SheetSage1,64.02,75.29,"Note F1 uses pitch classes and a 50-ms onset tolerance, without offset matching; the specialist is SheetSage1"
+Melody,Rock Corpus,Vocal pitch-class F1,49.19,,SheetSage1,49.19,67.08,"Note F1 uses pitch classes and a 50-ms onset tolerance, without offset matching; the specialist is SheetSage1; Macro average over all 200 recordings, including six empty references scored as zero; no time alignment or annotation correction"

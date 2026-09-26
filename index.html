@@ -272,10 +272,10 @@
 
         <div class="component-results">
           <h4>State of the art on MARBLE</h4>
-          <p>MERT2-30s and MERT2-FS (full-song) achieve <strong>SOTA on 14 of 15 MARBLE metrics</strong>, leading across tagging, key, genre, and emotion recognition.</p>
+          <p>MERT2-30s achieves <strong>SOTA on 14 of 15 MARBLE metrics</strong> against the listed external baselines. MERT2-FS (full-song) exceeds those baselines on <strong>13 of 15 metrics</strong>.</p>
           <dl class="component-highlights" aria-label="MERT2 benchmark highlights">
-            <div><dt>SOTA metrics<small>MERT2-30s &amp; MERT2-FS</small></dt><dd>14<span> / 15</span></dd></div>
-            <div><dt>Genre accuracy · GTZAN<small>MERT2-30s · score × 100</small></dt><dd>91.72</dd></div>
+            <div><dt>Leading metrics<small>MERT2-30s · versus external baselines</small></dt><dd>14<span> / 15</span></dd></div>
+            <div><dt>Leading metrics<small>MERT2-FS · versus external baselines</small></dt><dd>13<span> / 15</span></dd></div>
             <div><dt>Key refined accuracy · GiantSteps<small>MERT2-FS · score × 100</small></dt><dd>67.05</dd></div>
           </dl>
         </div>
@@ -302,8 +302,9 @@
                 <tr><th scope="row">MTG-Jamendo · Top 50<small>Average precision</small></th><td class="score-value">31.10<small>AudioMAE++</small></td><td class="score-value model-value"><strong>32.17</strong></td><td class="score-value model-value">31.62</td></tr>
               </tbody></table>
             </div>
-            <p class="component-protocol">SOTA counts use the best score across the two MERT2 encoders against the nine published baselines in this comparison. Both encoders have 632M parameters. MERT2-30s uses a 30-second training context; MERT2-FS uses 300 seconds. These are full-context representation benchmarks. MERT2 reports the best observed results across representations selected using test scores; each ROC-AUC / AP pair uses the same representation.</p>
-            <div class="benchmark-bottom"><p><a href="https://arxiv.org/html/2606.25713v2" target="_blank" rel="noopener">Published baseline comparison ↗</a></p><a href="data/mert2-marble-results.csv?v=20260909-fs21" download>Download all 11 models <span aria-hidden="true">↓</span></a></div>
+            <p class="component-protocol">Counts compare each MERT2 encoder separately against the strongest of the nine external baselines for each metric; the two MERT2 encoders are not counted as baselines for each other. Both encoders have 632M parameters. MERT2-30s uses 30-second training clips; MERT2-FS continues pretraining on complete recordings lasting 30–360 seconds. These benchmarks evaluate bidirectional representations, not the causal tokenizer. MERT2 reports the best observed results across representations selected using test scores; each ROC-AUC / AP pair uses the same representation.</p>
+            <p class="component-protocol">Baseline scores follow Tables III and V of the published comparison. Naming note: the authors renamed PupuJEPA to PupuM2D after the paper’s initial release; we retain PupuJEPA.</p>
+            <div class="benchmark-bottom"><p><a href="https://arxiv.org/html/2606.25713v2" target="_blank" rel="noopener">Published baseline comparison ↗</a></p><a href="data/mert2-marble-results.csv?v=20260926" download>Download all 11 models <span aria-hidden="true">↓</span></a></div>
           </div>
         </details>
       </section>
@@ -317,36 +318,39 @@
 
         <div class="component-results">
           <h4>Six transcription tasks, one model</h4>
-          <p>SheetSage2 achieves <strong>SOTA on 10 of 13 benchmark metrics</strong> with one model for beat, downbeat, key, chord, structure, and melody transcription.</p>
+          <p>SheetSage2 achieves <strong>SOTA on 12 of 15 benchmark metrics</strong> in the displayed comparison, with one autoregressive model (SheetSage2-AR) for beat, downbeat, key, chord, structure, and melody transcription.</p>
           <dl class="component-highlights" aria-label="SheetSage2 benchmark highlights">
-            <div><dt>SOTA metrics<small>One model · six transcription tasks</small></dt><dd>10<span> / 13</span></dd></div>
+            <div><dt>SOTA metrics<small>One model · six transcription tasks</small></dt><dd>12<span> / 15</span></dd></div>
             <div><dt>Vocal melody · RWC-Pop<small>Pitch-class note F1 · score × 100</small></dt><dd>82.51</dd></div>
             <div><dt>Chord recognition · osu2017<small>Maj/min · score × 100</small></dt><dd>90.08</dd></div>
           </dl>
         </div>
 
         <details class="benchmark-details full-comparison component-comparison" id="sheetsage2Results">
-          <summary>Explore SheetSage2 benchmark scores <span>6 tasks · 13 metrics</span></summary>
+          <summary>Explore SheetSage2 benchmark scores <span>6 tasks · 15 metrics</span></summary>
           <div class="benchmark-detail-content">
             <div class="comparison-scroll" tabindex="0" role="region" aria-label="SheetSage2 benchmark comparison; scroll horizontally on small screens">
-              <table><caption>Scores × 100 · higher is better · bold marks the highest displayed score.</caption><thead><tr><th scope="col">Benchmark / task</th><th scope="col">Metric</th><th scope="col">Best comparison</th><th scope="col" class="model-value">SheetSage2</th></tr></thead><tbody>
-                <tr><th scope="row">GTZAN<small>Beat</small></th><td>F1</td><td class="score-value"><strong>88.75</strong><small>Beat This!</small></td><td class="score-value model-value">85.65</td></tr>
-                <tr><th scope="row">osu2017<small>Beat</small></th><td>F1</td><td class="score-value">91.55<small>Madmom</small></td><td class="score-value model-value"><strong>92.29</strong></td></tr>
-                <tr><th scope="row">GTZAN<small>Downbeat</small></th><td>F1</td><td class="score-value">78.28<small>Beat This!</small></td><td class="score-value model-value"><strong>79.51</strong></td></tr>
-                <tr><th scope="row">osu2017<small>Downbeat</small></th><td>F1</td><td class="score-value">84.99<small>Beat This!</small></td><td class="score-value model-value"><strong>91.97</strong></td></tr>
+              <table><caption>Scores × 100 · higher is better · bold marks the highest displayed score.</caption><thead><tr><th scope="col">Benchmark / task</th><th scope="col">Metric</th><th scope="col">Best comparison</th><th scope="col" class="model-value">SheetSage2-AR</th></tr></thead><tbody>
+                <tr><th scope="row">GTZAN<small>Beat</small></th><td>F1</td><td class="score-value"><strong>89.01</strong><small>Beat This!</small></td><td class="score-value model-value">86.27</td></tr>
+                <tr><th scope="row">osu2017<small>Beat</small></th><td>F1</td><td class="score-value">91.80<small>Madmom</small></td><td class="score-value model-value"><strong>93.01</strong></td></tr>
+                <tr><th scope="row">GTZAN<small>Downbeat</small></th><td>F1</td><td class="score-value">78.28<small>Beat This!</small></td><td class="score-value model-value"><strong>80.45</strong></td></tr>
+                <tr><th scope="row">osu2017<small>Downbeat</small></th><td>F1</td><td class="score-value">85.90<small>Beat This!</small></td><td class="score-value model-value"><strong>92.90</strong></td></tr>
                 <tr><th scope="row">GiantSteps<small>Key</small></th><td>Weighted score</td><td class="score-value">74.62<small>Madmom</small></td><td class="score-value model-value"><strong>77.73</strong></td></tr>
                 <tr><th scope="row">GTZAN<small>Key</small></th><td>Weighted score</td><td class="score-value">74.43<small>S-KEY</small></td><td class="score-value model-value"><strong>75.77</strong></td></tr>
-                <tr><th scope="row">osu2017<small>Chord</small></th><td>Maj/min</td><td class="score-value">84.59<small>Jiang et al. 2019</small></td><td class="score-value model-value"><strong>90.08</strong></td></tr>
-                <tr><th scope="row">Chords1217<small>Chord</small></th><td>Maj/min</td><td class="score-value"><strong>84.09</strong><small>ChordFormer</small></td><td class="score-value model-value">83.81</td></tr>
+                <tr><th scope="row">osu2017<small>Chord</small></th><td>Maj/min</td><td class="score-value">86.55<small>ChordFormer</small></td><td class="score-value model-value"><strong>90.08</strong></td></tr>
+                <tr><th scope="row">Chords1217<small>Chord</small></th><td>Maj/min</td><td class="score-value"><strong>83.94</strong><small>ChordFormer</small></td><td class="score-value model-value">83.81</td></tr>
+                <tr><th scope="row">JAAH<small>Chord</small></th><td>Maj/min</td><td class="score-value">59.45<small>ChordFormer</small></td><td class="score-value model-value"><strong>64.50</strong></td></tr>
                 <tr><th scope="row">HarmonixSet<small>Structure</small></th><td>Accuracy</td><td class="score-value">80.03<small>SongFormer</small></td><td class="score-value model-value"><strong>80.51</strong></td></tr>
                 <tr><th scope="row">HarmonixSet<small>Structure</small></th><td>Boundary F1 · 0.5 s</td><td class="score-value"><strong>70.63</strong><small>SongFormer</small></td><td class="score-value model-value">67.96</td></tr>
                 <tr><th scope="row">HarmonixSet<small>Structure</small></th><td>Boundary F1 · 3 s</td><td class="score-value">79.50<small>SongFormer</small></td><td class="score-value model-value"><strong>82.86</strong></td></tr>
                 <tr><th scope="row">RWC-Pop<small>Melody</small></th><td>Vocal pitch-class F1</td><td class="score-value">62.71<small>SheetSage1</small></td><td class="score-value model-value"><strong>82.51</strong></td></tr>
                 <tr><th scope="row">RWC-Pop<small>Melody</small></th><td>Full pitch-class F1</td><td class="score-value">64.02<small>SheetSage1</small></td><td class="score-value model-value"><strong>75.29</strong></td></tr>
+                <tr><th scope="row">Rock Corpus<small>Melody</small></th><td>Vocal pitch-class F1</td><td class="score-value">49.19<small>SheetSage1</small></td><td class="score-value model-value"><strong>67.08</strong></td></tr>
               </tbody></table>
             </div>
-            <p class="component-protocol">SOTA counts refer to the leading scores against SheetSage1, Madmom, and the task-specific systems in this comparison. Results use one model selected by validation loss. Melody F1 measures pitch-class notes; structure F1 measures section boundaries at the stated tolerance. On Chords1217, ChordFormer uses five-fold cross-validation, while SheetSage2 evaluates one fixed model on all 1,217 tracks.</p>
-            <div class="benchmark-bottom"><p>Full comparison includes SheetSage1, Madmom, and task-specific systems.</p><a href="data/sheetsage2-benchmark-results.csv" download>Download all results <span aria-hidden="true">↓</span></a></div>
+            <p class="component-protocol">SOTA counts refer to the leading scores against SheetSage1, Madmom, and the task-specific systems in this comparison. SheetSage2-AR uses one model selected by validation loss. Beat This! scores average three released training seeds. Melody F1 measures pitch-class notes with a 50-ms onset tolerance and no offset matching; structure F1 measures section boundaries at the stated tolerance.</p>
+            <p class="component-protocol">On Chords1217, ChordFormer uses one held-out fold model per track; its per-track recall is weighted by reference span to match the other models’ scoring protocol. SheetSage1 and SheetSage2-AR each evaluate one fixed model on all 1,217 tracks. Madmom’s chord training data include Chords1217. JAAH includes all 113 recordings, with references intersected with each audio span. Rock Corpus reports the mean over all 200 recordings, including six empty references scored as zero.</p>
+            <div class="benchmark-bottom"><p>Full comparison includes SheetSage1, Madmom, and task-specific systems.</p><a href="data/sheetsage2-benchmark-results.csv?v=20260926" download>Download all results <span aria-hidden="true">↓</span></a></div>
           </div>
         </details>
       </section>
