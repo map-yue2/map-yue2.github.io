@@ -591,5 +591,6 @@ audio { display: block; width: 100%; height: 46px; }
 .paper-citation .content-details { margin-top: 20px; }
 .paper-citation pre { max-height: 420px; overflow: auto; padding: 20px; background: #faf6ef; }
 @media (max-width: 600px) {
+  .site-header { height: auto; min-height: 76px; flex-wrap: wrap; row-gap: 4px; padding-block: 12px; }
   .top-nav { gap: 14px; }
 }
