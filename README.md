@@ -8,3 +8,5 @@ YuE2 unifies symbolic and audio music generation through symbolic planning. It w
 - **Cover & Editing** — Reimagine melody, lyrics, and arrangement.
 - **Genre Explorer** — Browse music by genre and language.
 - **Model & Results** — Figure 1, the model architecture, and benchmark scores from the paper.
+
+[Paper on arXiv](https://arxiv.org/abs/2609.33757) · [Citation](https://map-yue2.github.io/#citation)
