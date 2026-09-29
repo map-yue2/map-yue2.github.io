@@ -9,4 +9,4 @@ YuE2 unifies symbolic and audio music generation through symbolic planning. It w
 - **Genre Explorer** — Browse music by genre and language.
 - **Model & Results** — Figure 1, the model architecture, and benchmark scores from the paper.
 
-[Paper on arXiv](https://arxiv.org/abs/2609.33757) · [Citation](https://map-yue2.github.io/#citation)
+[Paper on arXiv](https://arxiv.org/abs/2609.33757) · [PDF](https://github.com/multimodal-art-projection/YuE/blob/main/docs/technical_report.pdf) · [Citation](https://map-yue2.github.io/#citation)
